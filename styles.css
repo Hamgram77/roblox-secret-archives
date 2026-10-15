@@ -112,6 +112,9 @@ h1 em { color: var(--red); font-family: var(--serif); font-weight: 600; }
 footer { display: grid; grid-template-columns: 1fr 1fr auto; align-items: end; gap: 3rem; padding: 3.5rem clamp(1.25rem, 7vw, 7rem); color: #b7bdc5; background: var(--ink); border-top: 1px solid #262b33; }
 footer p { margin: 0; font: .58rem/1.8 var(--mono); text-transform: uppercase; }
 footer > a:last-child { font: .62rem var(--mono); text-decoration: none; text-transform: uppercase; }
+.footer-meta { display: grid; gap: 1rem; }
+.visitor-counter { display: flex; align-items: center; gap: .75rem; color: #7f8791; font: .56rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.visitor-counter img { display: block; width: auto; height: 28px; }
 
 @media (max-width: 900px) {
   .site-header { min-height: 70px; }
