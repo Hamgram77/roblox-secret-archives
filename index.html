@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="professional.css" />
     <script src="app.js" defer></script>
+    <script src="discussion.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#archive">Skip to archive</a>
@@ -30,6 +31,7 @@
         <a href="#archive">Archive</a>
         <a href="#about">About</a>
         <a href="#methodology">Methodology</a>
+        <a href="#discussion">Discussion</a>
         <a class="nav-cta" href="#archive">Browse records</a>
       </nav>
     </header>
@@ -135,6 +137,91 @@
           <li><span>02</span><div><h3>Describe</h3><p>Concise catalog summaries help readers understand each record without changing its contents.</p></div></li>
           <li><span>03</span><div><h3>Connect</h3><p>Every entry links back to the original shared Google Doc for provenance and comparison.</p></div></li>
         </ol>
+      </section>
+
+      <section class="discussion-section" id="discussion" aria-labelledby="discussion-heading">
+        <div class="discussion-shell">
+          <div class="discussion-heading">
+            <div>
+              <p class="section-number">04 / Community preview</p>
+              <h2 id="discussion-heading">Developer discussion</h2>
+            </div>
+            <p>A privacy-first space for keeping personal discussion notes in this browser before a moderated public forum is available.</p>
+          </div>
+
+          <div class="discussion-safety" role="note">
+            <span aria-hidden="true">●</span>
+            <div>
+              <strong>Saved only on this device</strong>
+              <p>Posts are stored in this browser, never uploaded to this website, and remain after refresh until they are cleared.</p>
+            </div>
+          </div>
+
+          <div class="discussion-grid">
+            <form class="discussion-form" id="discussion-form" novalidate>
+              <div class="form-intro">
+                <span>New local post</span>
+                <p>Use a nickname only. Never include your real name, age, school, location, email, phone number, password, or account details.</p>
+              </div>
+
+              <label for="developer-tag">Developer Tag <small>Pseudonym only</small></label>
+              <input
+                id="developer-tag"
+                name="developer-tag"
+                type="text"
+                minlength="2"
+                maxlength="24"
+                pattern="[A-Za-z0-9_-]{2,24}"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Example: BrickBuilder_27"
+                required
+              />
+
+              <div class="message-label">
+                <label for="discussion-message">Message</label>
+                <span id="message-count">0 / 600</span>
+              </div>
+              <textarea
+                id="discussion-message"
+                name="discussion-message"
+                rows="7"
+                maxlength="600"
+                autocomplete="off"
+                placeholder="Share a constructive thought about the archive. Links, Discord identifiers, contact details, and inappropriate language are blocked."
+                required
+              ></textarea>
+
+              <label class="storage-acknowledgement" for="storage-acknowledgement">
+                <input id="storage-acknowledgement" type="checkbox" required />
+                <span>I understand that this post will be saved only in this browser. I have not included personal information.</span>
+              </label>
+              <p class="form-help">Posts are rendered as plain text. This browser keeps up to 20 posts until you use “Clear saved posts.”</p>
+              <button class="discussion-submit" type="submit">Post to this screen <span aria-hidden="true">→</span></button>
+              <p class="discussion-status" id="discussion-status" role="status" aria-live="polite"></p>
+            </form>
+
+            <section class="discussion-feed" aria-labelledby="local-posts-heading">
+              <div class="feed-heading">
+                <div>
+                  <span>Local preview</span>
+                  <h3 id="local-posts-heading">Posts in this tab</h3>
+                </div>
+                <span class="privacy-chip">Device only</span>
+              </div>
+              <div class="discussion-list" id="discussion-list" aria-live="polite"></div>
+              <div class="discussion-empty" id="discussion-empty">
+                <span aria-hidden="true">//</span>
+                <p>No local test posts yet.</p>
+              </div>
+              <button class="clear-local-posts" id="clear-local-posts" type="button" hidden>Clear saved posts</button>
+            </section>
+          </div>
+
+          <p class="discussion-disclaimer">
+            This feature creates no account and does not transmit posts to a server. Browser storage is local to this device. A genuinely public forum would require server-side moderation, reporting, deletion controls, a privacy policy, age-appropriate safeguards, and legal review before launch.
+          </p>
+        </div>
       </section>
     </main>
 
