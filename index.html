@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="An independent, searchable archive documenting Roblox platform, moderation, publishing, and creator-economy concerns."
+    />
+    <meta name="theme-color" content="#0a0d12" />
+    <title>Roblox Developer Archives</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#archive">Skip to archive</a>
+
+    <header class="site-header" id="top">
+      <a class="brand" href="#top" aria-label="Roblox Developer Archives home">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span><strong>Developer Archives</strong><small>Independent research library</small></span>
+      </a>
+
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span><span class="sr-only">Open navigation</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="#archive">Archive</a>
+        <a href="#about">About</a>
+        <a href="#methodology">Methodology</a>
+        <a class="nav-cta" href="#archive">Browse records</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-grid"></div>
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> Public-interest developer research</p>
+          <h1 id="hero-title">The record should be<br /><em>easy to find.</em></h1>
+          <p class="hero-intro">
+            A focused archive of creator-authored documents examining platform publishing,
+            moderation, appeals, and economic systems.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#archive">Explore the archive <span aria-hidden="true">→</span></a>
+            <a class="button button-quiet" href="#about">Read our purpose</a>
+          </div>
+        </div>
+
+        <aside class="hero-index" aria-label="Archive summary">
+          <div class="status-line"><span></span> Archive online</div>
+          <dl>
+            <div><dt>Records</dt><dd id="record-count">03</dd></div>
+            <div><dt>Topics</dt><dd>04</dd></div>
+            <div><dt>Updated</dt><dd>Oct 2026</dd></div>
+          </dl>
+          <p>Original documents are retained as local PDF copies and linked to their Google Drive sources.</p>
+        </aside>
+      </section>
+
+      <section class="archive-section" id="archive" aria-labelledby="archive-heading">
+        <div class="section-heading">
+          <div>
+            <p class="section-number">01 / Archive index</p>
+            <h2 id="archive-heading">Research records</h2>
+          </div>
+          <p>Search the full catalog by title, topic, or description.</p>
+        </div>
+
+        <div class="archive-toolbar" role="search">
+          <label class="search-box" for="archive-search">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z" /></svg>
+            <span class="sr-only">Search archive</span>
+            <input id="archive-search" type="search" placeholder="Search the archive…" autocomplete="off" />
+            <kbd>⌘ K</kbd>
+          </label>
+          <div class="filters" aria-label="Filter archive by topic">
+            <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">All records</button>
+            <button class="filter" type="button" data-filter="publishing" aria-pressed="false">Publishing</button>
+            <button class="filter" type="button" data-filter="moderation" aria-pressed="false">Moderation</button>
+            <button class="filter" type="button" data-filter="economy" aria-pressed="false">Creator economy</button>
+          </div>
+        </div>
+
+        <div class="result-meta" aria-live="polite">
+          <span id="result-count">Showing 3 records</span>
+          <span>Sorted by document number</span>
+        </div>
+
+        <div class="archive-list" id="archive-list"></div>
+        <div class="empty-state" id="empty-state" hidden>
+          <span>0 results</span>
+          <h3>No records match that search.</h3>
+          <p>Try a broader term or clear the current filter.</p>
+          <button class="button button-primary" id="clear-search" type="button">Clear search</button>
+        </div>
+      </section>
+
+      <section class="about-section" id="about" aria-labelledby="about-heading">
+        <div class="section-heading light">
+          <div>
+            <p class="section-number">02 / About</p>
+            <h2 id="about-heading">An independent record.</h2>
+          </div>
+        </div>
+        <div class="about-grid">
+          <p class="about-lead">Preserving creator perspectives on the systems that shape development, discovery, and participation.</p>
+          <div class="about-copy">
+            <p>Roblox Developer Archives is an independent collection created by Hamgram77. It is not affiliated with, endorsed by, or sponsored by Roblox Corporation.</p>
+            <p>The documents in this collection represent the author’s research and assertions. They are preserved as submitted so readers can inspect the source material directly.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="method-section" id="methodology" aria-labelledby="method-heading">
+        <div class="section-heading">
+          <div>
+            <p class="section-number">03 / Methodology</p>
+            <h2 id="method-heading">Built for traceability</h2>
+          </div>
+        </div>
+        <ol class="method-list">
+          <li><span>01</span><div><h3>Preserve</h3><p>Local PDF copies retain the source documents in a stable, downloadable format.</p></div></li>
+          <li><span>02</span><div><h3>Describe</h3><p>Concise catalog summaries help readers understand each record without changing its contents.</p></div></li>
+          <li><span>03</span><div><h3>Connect</h3><p>Every entry links back to the original shared Google Doc for provenance and comparison.</p></div></li>
+        </ol>
+      </section>
+    </main>
+
+    <footer>
+      <a class="brand footer-brand" href="#top">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span><strong>Developer Archives</strong><small>Independent research library</small></span>
+      </a>
+      <p>© 2026 Roblox Secret Archives · Created by @Hamgram77<br />Roblox is a trademark of Roblox Corporation. This site is independent and unaffiliated.</p>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+  </body>
+</html>
