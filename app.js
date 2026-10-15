@@ -96,7 +96,7 @@ function recordTemplate(record) {
         <div class="record-tags">${record.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
       </div>
       <div class="record-actions">
-        <a href="${record.pdf}" target="_blank" rel="noopener">View PDF <span aria-hidden="true">↗</span></a>
+        <a class="action-primary" href="${record.pdf}" target="_blank" rel="noopener">View PDF <span aria-hidden="true">↗</span></a>
         <a href="${record.pdf}" download>Download <span aria-hidden="true">↓</span></a>
         <a href="${record.source}" target="_blank" rel="noopener noreferrer">Google source <span aria-hidden="true">↗</span></a>
       </div>
