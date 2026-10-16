@@ -6,6 +6,10 @@
 
   const categorySelect = document.querySelector("#support-category");
   const reasonSelect = document.querySelector("#support-reason");
+  const groupTabs = document.querySelector("#support-group-tabs");
+  const categoryPanel = document.querySelector("#support-category-panel");
+  const categoryGrid = document.querySelector("#support-category-grid");
+  const reasonOptions = document.querySelector("#support-reason-options");
   const keywordsInput = document.querySelector("#support-keywords");
   const characterCount = document.querySelector("#support-character-count");
   const status = document.querySelector("#support-simulator-status");
@@ -39,6 +43,16 @@
     ["social", "Social media, events & merchandise", 26, [["event", "Roblox event question"], ["merchandise", "Physical merchandise"], ["social", "Official social-media question"], ["toy", "Toy or retail-product question"]]],
     ["other", "Other or how-to question", 30, [["how-to", "General how-to question"], ["feature", "Feature information"], ["feedback", "Feedback or suggestion"], ["other", "Something else"]]]
   ].map(([value, label, base, reasons]) => ({ value, label, base, reasons }));
+
+  const topicGroups = [
+    { value: "account", label: "Account", topics: ["account", "age-parental"] },
+    { value: "payments", label: "Payments", topics: ["billing", "gift"] },
+    { value: "safety", label: "Safety", topics: ["moderation", "safety"] },
+    { value: "technical", label: "Technical", topics: ["technical", "bug", "playing"] },
+    { value: "creator", label: "Creator", topics: ["creating", "avatar", "devex"] },
+    { value: "other", label: "Other", topics: ["privacy", "legal", "social", "other"] }
+  ];
+  let activeGroup = topicGroups[0].value;
 
   const humanSignals = [
     [/unauthori[sz]ed|unrecognized charge|card charge|fraud(?:ulent)? charge/, 25, "Possible unauthorized payment"],
@@ -89,6 +103,67 @@
     return topics.find((topic) => topic.value === categorySelect.value);
   }
 
+  function topicByValue(value) {
+    return topics.find((topic) => topic.value === value);
+  }
+
+  function renderGroupTabs() {
+    groupTabs.replaceChildren();
+    topicGroups.forEach((group) => {
+      const button = document.createElement("button");
+      const isActive = group.value === activeGroup;
+      button.type = "button";
+      button.className = "support-group-tab";
+      button.id = `support-tab-${group.value}`;
+      button.dataset.group = group.value;
+      button.setAttribute("role", "tab");
+      button.setAttribute("aria-selected", String(isActive));
+      button.setAttribute("aria-controls", "support-category-panel");
+      button.tabIndex = isActive ? 0 : -1;
+      button.textContent = group.label;
+      groupTabs.append(button);
+    });
+    categoryPanel.setAttribute("aria-labelledby", `support-tab-${activeGroup}`);
+  }
+
+  function renderCategories() {
+    categoryGrid.replaceChildren();
+    const group = topicGroups.find((item) => item.value === activeGroup);
+    group.topics.map(topicByValue).filter(Boolean).forEach((topic) => {
+      const button = document.createElement("button");
+      const selected = topic.value === categorySelect.value;
+      button.type = "button";
+      button.className = "support-category-button";
+      button.dataset.topic = topic.value;
+      button.setAttribute("aria-pressed", String(selected));
+      button.innerHTML = `<span>${topic.label}</span><small>${topic.reasons.length} reasons</small>`;
+      categoryGrid.append(button);
+    });
+  }
+
+  function renderReasons() {
+    reasonOptions.replaceChildren();
+    const topic = selectedTopic();
+    if (!topic) {
+      const hint = document.createElement("p");
+      hint.className = "support-reason-placeholder";
+      hint.textContent = "Choose a category above to see its reasons.";
+      reasonOptions.append(hint);
+      return;
+    }
+
+    topic.reasons.forEach(([value, label]) => {
+      const button = document.createElement("button");
+      const selected = value === reasonSelect.value;
+      button.type = "button";
+      button.className = "support-reason-button";
+      button.dataset.reason = value;
+      button.setAttribute("aria-pressed", String(selected));
+      button.textContent = label;
+      reasonOptions.append(button);
+    });
+  }
+
   function updateReasons() {
     reasonSelect.replaceChildren();
     const topic = selectedTopic();
@@ -101,6 +176,23 @@
     appendOption(reasonSelect, "", "Choose a reason");
     topic.reasons.forEach(([value, label]) => appendOption(reasonSelect, value, label));
     reasonSelect.disabled = false;
+    renderReasons();
+  }
+
+  function selectTopic(value) {
+    categorySelect.value = value;
+    updateReasons();
+    renderCategories();
+    status.textContent = "";
+  }
+
+  function selectGroup(value, focusTab = false) {
+    const group = topicGroups.find((item) => item.value === value);
+    if (!group) return;
+    activeGroup = value;
+    renderGroupTabs();
+    selectTopic(group.topics[0]);
+    if (focusTab) document.querySelector(`[data-group="${value}"]`)?.focus();
   }
 
   function updateCount() {
@@ -183,6 +275,37 @@
 
   categorySelect.addEventListener("change", () => {
     updateReasons();
+    renderCategories();
+    status.textContent = "";
+  });
+
+  groupTabs.addEventListener("click", (event) => {
+    const tab = event.target.closest("[data-group]");
+    if (tab) selectGroup(tab.dataset.group);
+  });
+
+  groupTabs.addEventListener("keydown", (event) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const currentIndex = topicGroups.findIndex((group) => group.value === activeGroup);
+    let nextIndex = currentIndex;
+    if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % topicGroups.length;
+    if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + topicGroups.length) % topicGroups.length;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = topicGroups.length - 1;
+    selectGroup(topicGroups[nextIndex].value, true);
+  });
+
+  categoryGrid.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-topic]");
+    if (button) selectTopic(button.dataset.topic);
+  });
+
+  reasonOptions.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-reason]");
+    if (!button) return;
+    reasonSelect.value = button.dataset.reason;
+    renderReasons();
     status.textContent = "";
   });
   keywordsInput.addEventListener("input", updateCount);
@@ -206,12 +329,12 @@
 
     if (!topic) {
       status.textContent = "Choose a support topic.";
-      categorySelect.focus();
+      groupTabs.querySelector("[role='tab']")?.focus();
       return;
     }
     if (!reason) {
       status.textContent = "Choose a reason for the sample request.";
-      reasonSelect.focus();
+      reasonOptions.querySelector("button")?.focus();
       return;
     }
     if (!text) {
@@ -229,6 +352,7 @@
     status.textContent = "Analysis completed locally. Nothing was submitted, uploaded, or saved.";
   });
 
-  updateReasons();
+  renderGroupTabs();
+  selectTopic(topicGroups[0].topics[0]);
   updateCount();
 })();

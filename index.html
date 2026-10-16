@@ -9,6 +9,7 @@
     />
     <meta name="theme-color" content="#0a0d12" />
     <title>Roblox Developer Archives</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23b91c1c%22/><path d=%22M18 14h28l4 28-28 8-8-28zm11 12-2 13 10-3 2-10z%22 fill=%22white%22/></svg>" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="professional.css" />
     <script src="app.js" defer></script>
@@ -164,13 +165,24 @@
                 <p>Select a topic and enter only general keywords or a fictional summary. The simulator never contacts Roblox.</p>
               </div>
 
-              <label for="support-category">Support topic <small>Required</small></label>
-              <select id="support-category" name="support-category" required>
+              <fieldset class="support-topic-browser">
+                <legend>Support topic <small>Required</small></legend>
+                <div class="support-group-tabs" id="support-group-tabs" role="tablist" aria-label="Support topic groups"></div>
+                <div class="support-category-panel" id="support-category-panel" role="tabpanel" tabindex="0">
+                  <p class="support-browser-label">Choose a category</p>
+                  <div class="support-category-grid" id="support-category-grid"></div>
+                  <p class="support-browser-label support-reason-label">Choose a reason</p>
+                  <div class="support-reason-options" id="support-reason-options" role="group" aria-label="Support reasons"></div>
+                </div>
+              </fieldset>
+
+              <label class="sr-only" for="support-category">Selected support topic</label>
+              <select class="sr-only" id="support-category" name="support-category" tabindex="-1" aria-hidden="true">
                 <option value="">Choose a topic</option>
               </select>
 
-              <label for="support-reason">Reason <small>Based on selected topic</small></label>
-              <select id="support-reason" name="support-reason" disabled required>
+              <label class="sr-only" for="support-reason">Selected reason</label>
+              <select class="sr-only" id="support-reason" name="support-reason" tabindex="-1" aria-hidden="true" disabled>
                 <option value="">Choose a topic first</option>
               </select>
 
