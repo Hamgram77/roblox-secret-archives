@@ -80,6 +80,7 @@ const emptyState = document.querySelector("#empty-state");
 const clearSearch = document.querySelector("#clear-search");
 const filters = [...document.querySelectorAll(".filter")];
 const menuButton = document.querySelector(".menu-button");
+const menuLabel = menuButton.querySelector(".sr-only");
 const siteNav = document.querySelector("#site-nav");
 let activeFilter = "publishing";
 
@@ -175,13 +176,30 @@ document.addEventListener("keydown", (event) => {
 menuButton.addEventListener("click", () => {
   const isOpen = menuButton.getAttribute("aria-expanded") === "true";
   menuButton.setAttribute("aria-expanded", String(!isOpen));
+  menuLabel.textContent = isOpen ? "Open navigation" : "Close navigation";
   siteNav.classList.toggle("is-open", !isOpen);
 });
 
+function closeNavigation() {
+  siteNav.classList.remove("is-open");
+  menuButton.setAttribute("aria-expanded", "false");
+  menuLabel.textContent = "Open navigation";
+}
+
 siteNav.addEventListener("click", (event) => {
   if (event.target.matches("a")) {
-    siteNav.classList.remove("is-open");
-    menuButton.setAttribute("aria-expanded", "false");
+    closeNavigation();
+  }
+});
+
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".site-header")) closeNavigation();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && siteNav.classList.contains("is-open")) {
+    closeNavigation();
+    menuButton.focus();
   }
 });
 
