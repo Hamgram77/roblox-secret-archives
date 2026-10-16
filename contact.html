@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Contact the Roblox Developer Archives using a developer pseudonym." />
+    <meta name="theme-color" content="#0f172a" />
+    <title>Contact · Roblox Developer Archives</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23b91c1c%22/><path d=%22M18 14h28l4 28-28 8-8-28zm11 12-2 13 10-3 2-10z%22 fill=%22white%22/></svg>" />
+    <link rel="stylesheet" href="styles.css?v=20261015-contact" />
+    <link rel="stylesheet" href="professional.css?v=20261015-contact" />
+  </head>
+  <body class="contact-body">
+    <header class="site-header contact-header">
+      <a class="brand" href="index.html#home" aria-label="Roblox Developer Archives home">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span><strong>Developer Archives</strong><small>Independent research library</small></span>
+      </a>
+      <a class="contact-back" href="index.html#archive">Back to archive <span aria-hidden="true">→</span></a>
+    </header>
+
+    <main class="contact-page">
+      <section class="contact-layout" aria-labelledby="contact-heading">
+        <div class="contact-intro">
+          <p class="contact-eyebrow"><span></span> Secure archive contact</p>
+          <h1 id="contact-heading">Submit a record<br /><em>for review.</em></h1>
+          <p>Use a developer pseudonym and describe the record without including private account or contact information.</p>
+          <ul>
+            <li>No real names, email addresses, passwords, receipts, or account identifiers.</li>
+            <li>Submissions are delivered through FormSubmit.co to the archive relay inbox.</li>
+            <li>Submitting does not guarantee publication or a response.</li>
+          </ul>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-card-heading">
+            <span>Record intake</span>
+            <span class="privacy-chip">Encrypted route</span>
+          </div>
+
+          <div class="contact-success" id="contact-success" role="status" hidden>
+            <strong>Submission received.</strong>
+            <p>Your record was routed to the archive inbox.</p>
+          </div>
+
+          <form
+            class="contact-form"
+            action="https://formsubmit.co/tandem-arrears3t@icloud.com"
+            method="POST"
+            accept-charset="UTF-8"
+          >
+            <input type="hidden" name="_subject" value="New Roblox Developer Archives record" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_next" value="https://hamgram77.github.io/roblox-secret-archives/contact.html?submitted=true" />
+
+            <div class="form-honeypot" aria-hidden="true">
+              <label for="contact-website">Leave this field empty</label>
+              <input id="contact-website" type="text" name="_honey" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <label for="developer-pseudonym">
+              Developer pseudonym
+              <small>Do not enter your real name</small>
+            </label>
+            <input
+              id="developer-pseudonym"
+              name="Developer Pseudonym"
+              type="text"
+              minlength="2"
+              maxlength="40"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Example: BrickBuilder_27"
+              required
+            />
+
+            <label for="record-description">
+              Record description
+              <small>20–5,000 characters</small>
+            </label>
+            <textarea
+              id="record-description"
+              name="Record Description"
+              rows="10"
+              minlength="20"
+              maxlength="5000"
+              placeholder="Describe the record, why it matters, and any non-sensitive context that would help review it."
+              required
+            ></textarea>
+
+            <label class="contact-age-check" for="age-confirmation">
+              <input id="age-confirmation" name="Age Confirmation" type="checkbox" value="Confirmed 13 or older" required />
+              <span>I confirm that I am 13 years of age or older. <strong>Required</strong></span>
+            </label>
+
+            <button class="contact-submit" type="submit">
+              Send record securely <span aria-hidden="true">→</span>
+            </button>
+            <p class="contact-form-note">FormSubmit may display a CAPTCHA before delivery. The archive website does not save a local copy of this form.</p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      if (new URLSearchParams(window.location.search).get("submitted") === "true") {
+        document.querySelector("#contact-success").hidden = false;
+      }
+    </script>
+  </body>
+</html>
