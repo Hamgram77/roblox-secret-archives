@@ -228,6 +228,12 @@ document.addEventListener("click", (event) => {
   event.preventDefault();
   showSitePanel(panelId, true);
   closeNavigation();
+  if (link.hasAttribute("data-home-contact")) {
+    window.setTimeout(() => {
+      const contactSection = document.querySelector("#home-contact");
+      if (contactSection) window.scrollTo({ top: contactSection.getBoundingClientRect().top + window.scrollY - 76, behavior: "smooth" });
+    }, 80);
+  }
 });
 
 window.addEventListener("hashchange", () => showSitePanel(panelFromHash()));
@@ -245,3 +251,7 @@ document.addEventListener("keydown", (event) => {
 
 renderRecords();
 showSitePanel(panelFromHash());
+if (new URLSearchParams(window.location.search).get("contact") === "submitted") {
+  document.querySelector("#home-contact-success").hidden = false;
+  window.requestAnimationFrame(() => document.querySelector("#home-contact")?.scrollIntoView({ block: "start" }));
+}
