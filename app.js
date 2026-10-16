@@ -149,12 +149,12 @@ filters.forEach((filter) => {
 });
 
 document.querySelector(".filters").addEventListener("keydown", (event) => {
-  if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+  if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
   event.preventDefault();
   const currentIndex = filters.findIndex((filter) => filter.dataset.filter === activeFilter);
   let nextIndex = currentIndex;
-  if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % filters.length;
-  if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + filters.length) % filters.length;
+  if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (currentIndex + 1) % filters.length;
+  if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (currentIndex - 1 + filters.length) % filters.length;
   if (event.key === "Home") nextIndex = 0;
   if (event.key === "End") nextIndex = filters.length - 1;
   selectFilter(filters[nextIndex], true);

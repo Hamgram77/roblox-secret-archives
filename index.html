@@ -88,26 +88,37 @@
             <input id="archive-search" type="search" placeholder="Search the archive…" autocomplete="off" />
             <kbd>⌘ K</kbd>
           </label>
-          <div class="filters" role="tablist" aria-label="Browse archive by topic">
-            <button class="filter is-active" id="archive-tab-publishing" type="button" role="tab" data-filter="publishing" aria-selected="true" aria-controls="archive-list" tabindex="0">Publishing <span>3</span></button>
-            <button class="filter" id="archive-tab-moderation" type="button" role="tab" data-filter="moderation" aria-selected="false" aria-controls="archive-list" tabindex="-1">Moderation <span>4</span></button>
-            <button class="filter" id="archive-tab-economy" type="button" role="tab" data-filter="economy" aria-selected="false" aria-controls="archive-list" tabindex="-1">Creator economy <span>3</span></button>
-            <button class="filter" id="archive-tab-technical" type="button" role="tab" data-filter="technical" aria-selected="false" aria-controls="archive-list" tabindex="-1">Technical <span>1</span></button>
-            <button class="filter" id="archive-tab-all" type="button" role="tab" data-filter="all" aria-selected="false" aria-controls="archive-list" tabindex="-1">All documents <span>8</span></button>
+        </div>
+
+        <div class="archive-browser">
+          <aside class="archive-tab-panel" aria-label="Archive collections">
+            <div class="archive-tab-heading">
+              <span>Collections</span>
+              <p>Choose a topic to view its documents.</p>
+            </div>
+            <div class="filters" role="tablist" aria-label="Browse archive by topic" aria-orientation="vertical">
+              <button class="filter is-active" id="archive-tab-publishing" type="button" role="tab" data-filter="publishing" aria-selected="true" aria-controls="archive-list" tabindex="0">Publishing <span>3</span></button>
+              <button class="filter" id="archive-tab-moderation" type="button" role="tab" data-filter="moderation" aria-selected="false" aria-controls="archive-list" tabindex="-1">Moderation <span>4</span></button>
+              <button class="filter" id="archive-tab-economy" type="button" role="tab" data-filter="economy" aria-selected="false" aria-controls="archive-list" tabindex="-1">Creator economy <span>3</span></button>
+              <button class="filter" id="archive-tab-technical" type="button" role="tab" data-filter="technical" aria-selected="false" aria-controls="archive-list" tabindex="-1">Technical <span>1</span></button>
+              <button class="filter" id="archive-tab-all" type="button" role="tab" data-filter="all" aria-selected="false" aria-controls="archive-list" tabindex="-1">All documents <span>8</span></button>
+            </div>
+          </aside>
+
+          <div class="archive-results">
+            <div class="result-meta" aria-live="polite">
+              <span id="result-count">Showing 3 publishing records</span>
+              <span>Sorted by document number</span>
+            </div>
+
+            <div class="archive-list" id="archive-list" role="tabpanel" aria-labelledby="archive-tab-publishing" tabindex="0"></div>
+            <div class="empty-state" id="empty-state" hidden>
+              <span>0 results</span>
+              <h3>No records match that search.</h3>
+              <p>Try a broader term or clear the current filter.</p>
+              <button class="button button-primary" id="clear-search" type="button">Clear search</button>
+            </div>
           </div>
-        </div>
-
-        <div class="result-meta" aria-live="polite">
-          <span id="result-count">Showing 3 publishing records</span>
-          <span>Sorted by document number</span>
-        </div>
-
-        <div class="archive-list" id="archive-list" role="tabpanel" aria-labelledby="archive-tab-publishing" tabindex="0"></div>
-        <div class="empty-state" id="empty-state" hidden>
-          <span>0 results</span>
-          <h3>No records match that search.</h3>
-          <p>Try a broader term or clear the current filter.</p>
-          <button class="button button-primary" id="clear-search" type="button">Clear search</button>
         </div>
       </section>
 
