@@ -10,16 +10,16 @@
     <meta name="theme-color" content="#0a0d12" />
     <title>Roblox Developer Archives</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23b91c1c%22/><path d=%22M18 14h28l4 28-28 8-8-28zm11 12-2 13 10-3 2-10z%22 fill=%22white%22/></svg>" />
-    <link rel="stylesheet" href="styles.css?v=20261015-archive-tabs" />
-    <link rel="stylesheet" href="professional.css?v=20261015-archive-tabs" />
-    <script src="app.js?v=20261015-archive-tabs" defer></script>
-    <script src="support-simulator.js?v=20261015-archive-tabs" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261015-panel-tabs" />
+    <link rel="stylesheet" href="professional.css?v=20261015-panel-tabs" />
+    <script src="app.js?v=20261015-panel-tabs" defer></script>
+    <script src="support-simulator.js?v=20261015-panel-tabs" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#archive">Skip to archive</a>
 
     <header class="site-header" id="top">
-      <a class="brand" href="#top" aria-label="Roblox Developer Archives home">
+      <a class="brand" href="#home" aria-label="Roblox Developer Archives home">
         <span class="brand-mark" aria-hidden="true"><span></span></span>
         <span><strong>Developer Archives</strong><small>Independent research library</small></span>
       </a>
@@ -29,16 +29,19 @@
       </button>
 
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="#archive">Archive</a>
-        <a href="#about">About</a>
-        <a href="#methodology">Methodology</a>
-        <a href="#support-lab">Support lab</a>
+        <div class="site-tab-list" role="tablist" aria-label="Site sections">
+          <a href="#home" role="tab" data-site-tab aria-selected="false" aria-controls="home">Home</a>
+          <a href="#archive" role="tab" data-site-tab aria-selected="false" aria-controls="archive">Archive</a>
+          <a href="#about" role="tab" data-site-tab aria-selected="false" aria-controls="about">About</a>
+          <a href="#methodology" role="tab" data-site-tab aria-selected="false" aria-controls="methodology">Methodology</a>
+          <a href="#support-lab" role="tab" data-site-tab aria-selected="false" aria-controls="support-lab">Support lab</a>
+        </div>
         <a class="nav-cta" href="#archive">Browse records</a>
       </nav>
     </header>
 
     <main>
-      <section class="hero" aria-labelledby="hero-title">
+      <section class="hero site-panel" id="home" data-site-panel aria-labelledby="hero-title">
         <div class="hero-grid"></div>
         <div class="hero-copy">
           <p class="eyebrow"><span></span> Public-interest developer research</p>
@@ -72,7 +75,7 @@
         </aside>
       </section>
 
-      <section class="archive-section" id="archive" aria-labelledby="archive-heading">
+      <section class="archive-section site-panel" id="archive" data-site-panel aria-labelledby="archive-heading" hidden>
         <div class="section-heading">
           <div>
             <p class="section-number">01 / Archive index</p>
@@ -122,7 +125,7 @@
         </div>
       </section>
 
-      <section class="about-section" id="about" aria-labelledby="about-heading">
+      <section class="about-section site-panel" id="about" data-site-panel aria-labelledby="about-heading" hidden>
         <div class="section-heading light">
           <div>
             <p class="section-number">02 / About</p>
@@ -138,7 +141,7 @@
         </div>
       </section>
 
-      <section class="method-section" id="methodology" aria-labelledby="method-heading">
+      <section class="method-section site-panel" id="methodology" data-site-panel aria-labelledby="method-heading" hidden>
         <div class="section-heading">
           <div>
             <p class="section-number">03 / Methodology</p>
@@ -152,7 +155,7 @@
         </ol>
       </section>
 
-      <section class="discussion-section support-lab" id="support-lab" aria-labelledby="support-lab-heading">
+      <section class="discussion-section support-lab site-panel" id="support-lab" data-site-panel aria-labelledby="support-lab-heading" hidden>
         <div class="discussion-shell">
           <div class="discussion-heading">
             <div>
@@ -356,12 +359,12 @@
     </main>
 
     <footer>
-      <a class="brand footer-brand" href="#top">
+      <a class="brand footer-brand" href="#home">
         <span class="brand-mark" aria-hidden="true"><span></span></span>
         <span><strong>Developer Archives</strong><small>Independent research library</small></span>
       </a>
       <p>© 2026 Roblox Secret Archives · Created by @Hamgram77<br />Roblox is a trademark of Roblox Corporation. This site is independent and unaffiliated.</p>
-      <a href="#top">Back to top ↑</a>
+      <a href="#home">Back to home ↑</a>
     </footer>
   </body>
 </html>

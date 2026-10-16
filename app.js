@@ -82,6 +82,9 @@ const filters = [...document.querySelectorAll(".filter")];
 const menuButton = document.querySelector(".menu-button");
 const menuLabel = menuButton.querySelector(".sr-only");
 const siteNav = document.querySelector("#site-nav");
+const sitePanels = [...document.querySelectorAll("[data-site-panel]")];
+const siteTabs = [...document.querySelectorAll("[data-site-tab]")];
+const sitePanelIds = new Set(sitePanels.map((panel) => panel.id));
 let activeFilter = "publishing";
 
 const filterLabels = {
@@ -141,6 +144,30 @@ function selectFilter(filter, focus = false) {
   if (focus) filter.focus();
 }
 
+function panelFromHash() {
+  const requested = window.location.hash.slice(1);
+  return sitePanelIds.has(requested) ? requested : "home";
+}
+
+function showSitePanel(panelId, updateHistory = false) {
+  const targetId = sitePanelIds.has(panelId) ? panelId : "home";
+  sitePanels.forEach((panel) => {
+    const selected = panel.id === targetId;
+    panel.hidden = !selected;
+    panel.classList.toggle("is-active", selected);
+  });
+  siteTabs.forEach((tab) => {
+    const selected = tab.getAttribute("href") === `#${targetId}`;
+    tab.setAttribute("aria-selected", String(selected));
+    if (selected) tab.setAttribute("aria-current", "page");
+    else tab.removeAttribute("aria-current");
+  });
+  if (updateHistory && window.location.hash !== `#${targetId}`) {
+    window.history.pushState(null, "", `#${targetId}`);
+  }
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+
 searchInput.addEventListener("input", renderRecords);
 filters.forEach((filter) => {
   filter.addEventListener("click", () => {
@@ -169,6 +196,7 @@ clearSearch.addEventListener("click", () => {
 document.addEventListener("keydown", (event) => {
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
     event.preventDefault();
+    showSitePanel("archive", true);
     searchInput.focus();
   }
 });
@@ -193,6 +221,18 @@ siteNav.addEventListener("click", (event) => {
 });
 
 document.addEventListener("click", (event) => {
+  const link = event.target.closest('a[href^="#"]');
+  if (!link) return;
+  const panelId = link.getAttribute("href").slice(1);
+  if (!sitePanelIds.has(panelId)) return;
+  event.preventDefault();
+  showSitePanel(panelId, true);
+  closeNavigation();
+});
+
+window.addEventListener("hashchange", () => showSitePanel(panelFromHash()));
+
+document.addEventListener("click", (event) => {
   if (!event.target.closest(".site-header")) closeNavigation();
 });
 
@@ -204,3 +244,4 @@ document.addEventListener("keydown", (event) => {
 });
 
 renderRecords();
+showSitePanel(panelFromHash());
