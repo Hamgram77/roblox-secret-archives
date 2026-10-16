@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="professional.css" />
     <script src="app.js" defer></script>
-    <script src="discussion.js" defer></script>
+    <script src="support-simulator.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#archive">Skip to archive</a>
@@ -31,7 +31,7 @@
         <a href="#archive">Archive</a>
         <a href="#about">About</a>
         <a href="#methodology">Methodology</a>
-        <a href="#discussion">Discussion</a>
+        <a href="#support-lab">Support lab</a>
         <a class="nav-cta" href="#archive">Browse records</a>
       </nav>
     </header>
@@ -139,7 +139,113 @@
         </ol>
       </section>
 
-      <section class="discussion-section" id="discussion" aria-labelledby="discussion-heading">
+      <section class="discussion-section support-lab" id="support-lab" aria-labelledby="support-lab-heading">
+        <div class="discussion-shell">
+          <div class="discussion-heading">
+            <div>
+              <p class="section-number">04 / Support routing lab</p>
+              <h2 id="support-lab-heading">Test a support request</h2>
+            </div>
+            <p>Explore whether a sample request might receive automated guidance first or appear to need human review.</p>
+          </div>
+
+          <div class="discussion-safety" role="note">
+            <span aria-hidden="true">●</span>
+            <div>
+              <strong>Private simulation — nothing is submitted</strong>
+              <p>Analysis runs entirely in your browser. Do not enter a real username, email, receipt, password, age, address, case number, or other personal information.</p>
+            </div>
+          </div>
+
+          <div class="discussion-grid support-grid">
+            <form class="discussion-form support-form" id="support-simulator-form" novalidate>
+              <div class="form-intro">
+                <span>Sample ticket</span>
+                <p>Select a topic and enter only general keywords or a fictional summary. The simulator never contacts Roblox.</p>
+              </div>
+
+              <label for="support-category">Support topic <small>Required</small></label>
+              <select id="support-category" name="support-category" required>
+                <option value="">Choose a topic</option>
+              </select>
+
+              <label for="support-reason">Reason <small>Based on selected topic</small></label>
+              <select id="support-reason" name="support-reason" disabled required>
+                <option value="">Choose a topic first</option>
+              </select>
+
+              <div class="message-label">
+                <label for="support-keywords">Keywords or fictional summary</label>
+                <span id="support-character-count">0 / 600</span>
+              </div>
+              <textarea
+                id="support-keywords"
+                name="support-keywords"
+                rows="7"
+                maxlength="600"
+                autocomplete="off"
+                spellcheck="true"
+                placeholder="Example: account locked after password reset; recovery steps did not work"
+                required
+              ></textarea>
+
+              <div class="keyword-examples" aria-label="Example keyword groups">
+                <span>Try an example:</span>
+                <button type="button" data-example="error 277 disconnects every few minutes after reinstalling">Connection error</button>
+                <button type="button" data-example="account moderation appeal; decision may be incorrect; first review requested">Moderation appeal</button>
+                <button type="button" data-example="unrecognized card charge; purchase was not authorized">Unauthorized charge</button>
+              </div>
+
+              <p class="form-help">This is an educational rules-based model, not Roblox software and not a prediction guarantee.</p>
+              <button class="discussion-submit" type="submit">Analyze sample <span aria-hidden="true">→</span></button>
+              <p class="discussion-status" id="support-simulator-status" role="status" aria-live="polite"></p>
+            </form>
+
+            <section class="discussion-feed support-result-panel" aria-labelledby="support-result-heading">
+              <div class="feed-heading">
+                <div>
+                  <span>Estimated routing</span>
+                  <h3 id="support-result-heading">Simulation result</h3>
+                </div>
+                <span class="privacy-chip">Local only</span>
+              </div>
+
+              <div class="support-result-empty" id="support-result-empty">
+                <span aria-hidden="true">//</span>
+                <p>Select a reason and analyze a fictional sample to see the estimated route.</p>
+              </div>
+
+              <article class="support-result" id="support-result" hidden aria-live="polite">
+                <div class="result-route-row">
+                  <span class="result-route-icon" id="result-route-icon" aria-hidden="true">A</span>
+                  <div>
+                    <span class="result-eyebrow">Estimated outcome</span>
+                    <h3 id="result-route">Likely automated response first</h3>
+                  </div>
+                </div>
+                <p class="result-summary" id="result-summary"></p>
+
+                <div class="result-meter" aria-label="Estimated review score">
+                  <span id="result-meter-label">Review score</span>
+                  <div><span id="result-meter-fill"></span></div>
+                  <strong id="result-score">0 / 100</strong>
+                </div>
+
+                <div class="result-columns">
+                  <div><h4>Signals found</h4><ul id="result-signals"></ul></div>
+                  <div><h4>What may happen next</h4><ul id="result-next-steps"></ul></div>
+                </div>
+              </article>
+            </section>
+          </div>
+
+          <p class="discussion-disclaimer">
+            Unofficial educational simulator. It does not reproduce, access, or know Roblox’s private support or moderation systems. Results are based only on visible rules in this page and public support guidance. No text is uploaded, saved, or sent to Roblox.
+          </p>
+        </div>
+      </section>
+
+      <section class="discussion-section" id="discussion" aria-labelledby="discussion-heading" hidden>
         <div class="discussion-shell">
           <div class="discussion-heading">
             <div>
