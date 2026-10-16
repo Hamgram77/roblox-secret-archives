@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#0f172a" />
     <title>Contact · Roblox Developer Archives</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23b91c1c%22/><path d=%22M18 14h28l4 28-28 8-8-28zm11 12-2 13 10-3 2-10z%22 fill=%22white%22/></svg>" />
-    <link rel="stylesheet" href="styles.css?v=20261015-contact" />
-    <link rel="stylesheet" href="professional.css?v=20261015-contact" />
+    <link rel="stylesheet" href="styles.css?v=20261015-contact-email" />
+    <link rel="stylesheet" href="professional.css?v=20261015-contact-email" />
   </head>
   <body class="contact-body">
     <header class="site-header contact-header">
@@ -26,7 +26,7 @@
           <h1 id="contact-heading">Submit a record<br /><em>for review.</em></h1>
           <p>Use a developer pseudonym and describe the record without including private account or contact information.</p>
           <ul>
-            <li>No real names, email addresses, passwords, receipts, or account identifiers.</li>
+            <li>No real names, passwords, receipts, or account identifiers. Use the optional reply field only if you want a direct response.</li>
             <li>Submissions are delivered through FormSubmit.co to the archive relay inbox.</li>
             <li>Submitting does not guarantee publication or a response.</li>
           </ul>
@@ -73,6 +73,20 @@
               placeholder="Example: BrickBuilder_27"
               required
             />
+
+            <label for="reply-email">
+              Reply email
+              <small>Optional</small>
+            </label>
+            <input
+              class="contact-reply-email"
+              id="reply-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="developer@example.com"
+            />
+            <p class="contact-field-note"><em>(Optional — Only enter your email if you require a direct reply to a question. Leave blank to remain fully anonymous.)</em></p>
 
             <label for="record-description">
               Record description
