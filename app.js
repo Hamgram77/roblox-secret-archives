@@ -81,7 +81,15 @@ const clearSearch = document.querySelector("#clear-search");
 const filters = [...document.querySelectorAll(".filter")];
 const menuButton = document.querySelector(".menu-button");
 const siteNav = document.querySelector("#site-nav");
-let activeFilter = "all";
+let activeFilter = "publishing";
+
+const filterLabels = {
+  all: "all",
+  publishing: "publishing",
+  moderation: "moderation",
+  economy: "creator economy",
+  technical: "technical",
+};
 
 function recordTemplate(record) {
   return `
@@ -91,7 +99,7 @@ function recordTemplate(record) {
         <h3>${record.title}</h3>
         <time datetime="2026-10-14">Added ${record.date}</time>
       </div>
-      <div>
+      <div class="record-copy">
         <p class="record-description">${record.description}</p>
         <div class="record-tags">${record.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
       </div>
@@ -113,32 +121,47 @@ function renderRecords() {
   });
 
   archiveList.innerHTML = filtered.map(recordTemplate).join("");
-  resultCount.textContent = `Showing ${filtered.length} ${filtered.length === 1 ? "record" : "records"}`;
+  const topicLabel = filterLabels[activeFilter];
+  const topicText = activeFilter === "all" ? "" : `${topicLabel} `;
+  resultCount.textContent = `Showing ${filtered.length} ${topicText}${filtered.length === 1 ? "record" : "records"}`;
   emptyState.hidden = filtered.length !== 0;
+}
+
+function selectFilter(filter, focus = false) {
+  activeFilter = filter.dataset.filter;
+  filters.forEach((item) => {
+    const selected = item === filter;
+    item.classList.toggle("is-active", selected);
+    item.setAttribute("aria-selected", String(selected));
+    item.tabIndex = selected ? 0 : -1;
+  });
+  archiveList.setAttribute("aria-labelledby", filter.id);
+  renderRecords();
+  if (focus) filter.focus();
 }
 
 searchInput.addEventListener("input", renderRecords);
 filters.forEach((filter) => {
   filter.addEventListener("click", () => {
-    activeFilter = filter.dataset.filter;
-    filters.forEach((item) => {
-      const selected = item === filter;
-      item.classList.toggle("is-active", selected);
-      item.setAttribute("aria-pressed", String(selected));
-    });
-    renderRecords();
+    selectFilter(filter);
   });
+});
+
+document.querySelector(".filters").addEventListener("keydown", (event) => {
+  if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+  event.preventDefault();
+  const currentIndex = filters.findIndex((filter) => filter.dataset.filter === activeFilter);
+  let nextIndex = currentIndex;
+  if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % filters.length;
+  if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + filters.length) % filters.length;
+  if (event.key === "Home") nextIndex = 0;
+  if (event.key === "End") nextIndex = filters.length - 1;
+  selectFilter(filters[nextIndex], true);
 });
 
 clearSearch.addEventListener("click", () => {
   searchInput.value = "";
-  activeFilter = "all";
-  filters.forEach((item) => {
-    const selected = item.dataset.filter === "all";
-    item.classList.toggle("is-active", selected);
-    item.setAttribute("aria-pressed", String(selected));
-  });
-  renderRecords();
+  selectFilter(filters.find((item) => item.dataset.filter === "publishing"));
   searchInput.focus();
 });
 

@@ -9,7 +9,6 @@
     />
     <meta name="theme-color" content="#0a0d12" />
     <title>Roblox Developer Archives</title>
-    <meta name="google-site-verification" content="qNuObu2RHrX6sKwxbCZ5j013WckDOmJqqZO2w8SiCCM" />D
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23b91c1c%22/><path d=%22M18 14h28l4 28-28 8-8-28zm11 12-2 13 10-3 2-10z%22 fill=%22white%22/></svg>" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="professional.css" />
@@ -89,20 +88,21 @@
             <input id="archive-search" type="search" placeholder="Search the archive…" autocomplete="off" />
             <kbd>⌘ K</kbd>
           </label>
-          <div class="filters" aria-label="Filter archive by topic">
-            <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">All records</button>
-            <button class="filter" type="button" data-filter="publishing" aria-pressed="false">Publishing</button>
-            <button class="filter" type="button" data-filter="moderation" aria-pressed="false">Moderation</button>
-            <button class="filter" type="button" data-filter="economy" aria-pressed="false">Creator economy</button>
+          <div class="filters" role="tablist" aria-label="Browse archive by topic">
+            <button class="filter is-active" id="archive-tab-publishing" type="button" role="tab" data-filter="publishing" aria-selected="true" aria-controls="archive-list" tabindex="0">Publishing <span>3</span></button>
+            <button class="filter" id="archive-tab-moderation" type="button" role="tab" data-filter="moderation" aria-selected="false" aria-controls="archive-list" tabindex="-1">Moderation <span>4</span></button>
+            <button class="filter" id="archive-tab-economy" type="button" role="tab" data-filter="economy" aria-selected="false" aria-controls="archive-list" tabindex="-1">Creator economy <span>3</span></button>
+            <button class="filter" id="archive-tab-technical" type="button" role="tab" data-filter="technical" aria-selected="false" aria-controls="archive-list" tabindex="-1">Technical <span>1</span></button>
+            <button class="filter" id="archive-tab-all" type="button" role="tab" data-filter="all" aria-selected="false" aria-controls="archive-list" tabindex="-1">All documents <span>8</span></button>
           </div>
         </div>
 
         <div class="result-meta" aria-live="polite">
-          <span id="result-count">Showing 8 records</span>
+          <span id="result-count">Showing 3 publishing records</span>
           <span>Sorted by document number</span>
         </div>
 
-        <div class="archive-list" id="archive-list"></div>
+        <div class="archive-list" id="archive-list" role="tabpanel" aria-labelledby="archive-tab-publishing" tabindex="0"></div>
         <div class="empty-state" id="empty-state" hidden>
           <span>0 results</span>
           <h3>No records match that search.</h3>
