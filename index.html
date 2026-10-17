@@ -10,8 +10,8 @@
     <meta name="theme-color" content="#0a0d12" />
     <title>Roblox Developer Archives</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23b91c1c%22/><path d=%22M18 14h28l4 28-28 8-8-28zm11 12-2 13 10-3 2-10z%22 fill=%22white%22/></svg>" />
-    <link rel="stylesheet" href="styles.css?v=20261015-contact-email" />
-    <link rel="stylesheet" href="professional.css?v=20261015-contact-email" />
+    <link rel="stylesheet" href="styles.css?v=20261016-policy-consent" />
+    <link rel="stylesheet" href="professional.css?v=20261016-policy-consent" />
     <script src="app.js?v=20261015-contact-email" defer></script>
     <script src="support-simulator.js?v=20261015-contact-email" defer></script>
   </head>
@@ -87,12 +87,12 @@
         <article class="home-policy-card">
           <div class="home-policy-file" aria-hidden="true">PDF</div>
           <div class="home-policy-details">
-            <p class="home-policy-meta">Official policy · 3 pages · Updated October 15, 2026</p>
+            <p class="home-policy-meta">Official policy · 11 pages · Updated October 16, 2026</p>
             <h3>Terms of Service and Privacy Policy</h3>
             <p>A preserved PDF export of the archive’s policy document.</p>
             <div class="home-policy-actions">
-              <a class="button button-primary" href="archive/terms-of-service-and-privacy-policy.pdf" target="_blank" rel="noopener">View PDF <span aria-hidden="true">↗</span></a>
-              <a class="button button-quiet" href="archive/terms-of-service-and-privacy-policy.pdf" download>Download PDF</a>
+              <a class="button button-primary" href="archive/terms-of-service-and-privacy-policy.pdf?v=20261016" target="_blank" rel="noopener">View PDF <span aria-hidden="true">↗</span></a>
+              <a class="button button-quiet" href="archive/terms-of-service-and-privacy-policy.pdf?v=20261016" download>Download PDF</a>
               <a class="home-policy-source" href="https://docs.google.com/document/d/14wsUDE9RqY-HC-9zTDeBm6pqBIMc_TUkLecAbQ7pjyw/edit?usp=sharing" target="_blank" rel="noopener">Google Docs source</a>
             </div>
           </div>
@@ -106,7 +106,7 @@
             <h2 id="home-contact-heading">Submit a record<br /><em>for review.</em></h2>
             <p>Use a developer pseudonym and describe the record without including private account or contact information.</p>
             <ul>
-              <li>No real names, passwords, receipts, or account identifiers. Use the optional reply field only if you want a direct response.</li>
+              <li>Do not put contact details in the description. Use the optional reply field only if you want a response.</li>
               <li>Submissions are delivered through FormSubmit.co to the archive relay inbox.</li>
               <li>Submitting does not guarantee publication or a response.</li>
             </ul>
@@ -146,6 +146,11 @@
               <label class="contact-age-check" for="home-age-confirmation">
                 <input id="home-age-confirmation" name="Age Confirmation" type="checkbox" value="Confirmed 13 or older" required />
                 <span>I confirm that I am 13 years of age or older. <strong>Required</strong></span>
+              </label>
+
+              <label class="contact-age-check contact-policy-check" for="home-policy-confirmation">
+                <input id="home-policy-confirmation" name="Terms Agreement" type="checkbox" value="Agreed to Terms of Service and Privacy Policy" required />
+                <span>I have read and agree to the <a href="archive/terms-of-service-and-privacy-policy.pdf?v=20261016" target="_blank" rel="noopener">Terms of Service and Privacy Policy</a>. If I am under 18, my parent or legal guardian has reviewed and approved my submission on my behalf. <strong>Required</strong></span>
               </label>
 
               <button class="contact-submit" type="submit">Send record securely <span aria-hidden="true">→</span></button>
@@ -445,7 +450,10 @@
         <span><strong>Developer Archives</strong><small>Independent research library</small></span>
       </a>
       <p>© 2026 Roblox Secret Archives · Created by @Hamgram77<br />Roblox is a trademark of Roblox Corporation. This site is independent and unaffiliated.</p>
-      <a href="#home">Back to home ↑</a>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="archive/terms-of-service-and-privacy-policy.pdf?v=20261016" target="_blank" rel="noopener">Terms of Service &amp; Privacy Policy</a>
+        <a href="#home">Back to home ↑</a>
+      </nav>
     </footer>
   </body>
 </html>

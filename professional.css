@@ -339,8 +339,9 @@ h1 { max-width: 880px; font-size: clamp(3.4rem, 7.4vw, 7.2rem); }
 
 footer { padding-inline: clamp(1.25rem, 7vw, 7.5rem); background: #070b12; border-top-color: #202837; }
 footer p { color: #858f9c; letter-spacing: .025em; }
-footer > a:last-child { letter-spacing: .06em; transition: color .2s ease; }
-footer > a:last-child:hover { color: white; }
+.footer-links { display: grid; justify-items: end; gap: .7rem; }
+.footer-links a { color: #b7bdc5; font: .62rem var(--mono); letter-spacing: .06em; text-decoration: none; text-transform: uppercase; transition: color .2s ease; }
+.footer-links a:hover { color: white; }
 
 /* Standalone contact page */
 .contact-body { min-height: 100vh; color: #e5e7eb; background: #0f172a; }
@@ -381,6 +382,9 @@ footer > a:last-child:hover { color: white; }
 .contact-age-check { display: flex; align-items: flex-start; gap: .8rem; margin: .1rem 0 1.4rem; padding: 1rem; color: #aab6c6; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.025); font-size: .7rem; line-height: 1.55; cursor: pointer; }
 .contact-age-check input { flex: 0 0 auto; width: 18px; height: 18px; margin: .05rem 0 0; accent-color: var(--red); }
 .contact-age-check strong { color: #fca5a5; font: .52rem var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.contact-policy-check { margin-top: -.65rem; }
+.contact-policy-check a { color: #fca5a5; font-weight: 800; text-underline-offset: .2rem; }
+.contact-policy-check a:hover { color: #fecaca; }
 .contact-submit { min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0 1.2rem; color: white; border: 1px solid #ef5a54; background: linear-gradient(135deg, #df3e38, #a92521); box-shadow: 0 14px 34px rgba(223,62,56,.2); font-size: .68rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, filter .2s ease; }
 .contact-submit:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 18px 40px rgba(223,62,56,.3); }
 .contact-form-note { margin: .9rem 0 0; color: #65748a; font: .55rem/1.65 var(--mono); }
@@ -405,6 +409,7 @@ footer > a:last-child:hover { color: white; }
   .home-policy-file { width: 56px; height: 68px; }
   .contact-layout { grid-template-columns: 1fr; }
   .contact-intro { position: static; }
+  .footer-links { justify-items: start; }
 }
 
 @media (max-width: 560px) {
