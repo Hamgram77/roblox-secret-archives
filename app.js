@@ -85,6 +85,8 @@ const siteNav = document.querySelector("#site-nav");
 const sitePanels = [...document.querySelectorAll("[data-site-panel]")];
 const siteTabs = [...document.querySelectorAll("[data-site-tab]")];
 const sitePanelIds = new Set(sitePanels.map((panel) => panel.id));
+const templateTabs = [...document.querySelectorAll("[data-template-tab]")];
+const templatePanels = [...document.querySelectorAll("[data-template-panel]")];
 let activeFilter = "publishing";
 
 const filterLabels = {
@@ -247,6 +249,69 @@ document.addEventListener("keydown", (event) => {
     closeNavigation();
     menuButton.focus();
   }
+});
+
+function selectTemplateTab(tab, focus = false) {
+  const templateId = tab.dataset.templateTab;
+  templateTabs.forEach((item) => {
+    const selected = item === tab;
+    item.classList.toggle("is-active", selected);
+    item.setAttribute("aria-selected", String(selected));
+    item.tabIndex = selected ? 0 : -1;
+  });
+  templatePanels.forEach((panel) => {
+    panel.hidden = panel.dataset.templatePanel !== templateId;
+  });
+  if (focus) tab.focus();
+}
+
+templateTabs.forEach((tab) => {
+  tab.addEventListener("click", () => selectTemplateTab(tab));
+});
+
+document.querySelector(".template-tab-list")?.addEventListener("keydown", (event) => {
+  if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+  event.preventDefault();
+  const currentIndex = templateTabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true");
+  let nextIndex = currentIndex;
+  if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (currentIndex + 1) % templateTabs.length;
+  if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (currentIndex - 1 + templateTabs.length) % templateTabs.length;
+  if (event.key === "Home") nextIndex = 0;
+  if (event.key === "End") nextIndex = templateTabs.length - 1;
+  selectTemplateTab(templateTabs[nextIndex], true);
+});
+
+async function copyAppealTemplate(button) {
+  const target = document.getElementById(button.dataset.copyTarget);
+  const status = button.parentElement.querySelector(".template-copy-status");
+  if (!target) return;
+
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(target.value);
+    } else {
+      target.focus();
+      target.select();
+      document.execCommand("copy");
+      window.getSelection()?.removeAllRanges();
+    }
+    button.classList.add("is-copied");
+    button.firstChild.textContent = "Copied ";
+    status.textContent = "Ready to paste.";
+    window.setTimeout(() => {
+      button.classList.remove("is-copied");
+      button.firstChild.textContent = "Copy template ";
+      status.textContent = "";
+    }, 1800);
+  } catch {
+    target.focus();
+    target.select();
+    status.textContent = "Copy was blocked. Press Ctrl+C or Command+C.";
+  }
+}
+
+document.querySelectorAll("[data-copy-target]").forEach((button) => {
+  button.addEventListener("click", () => copyAppealTemplate(button));
 });
 
 renderRecords();

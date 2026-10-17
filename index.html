@@ -10,9 +10,9 @@
     <meta name="theme-color" content="#0a0d12" />
     <title>Roblox Developer Archives</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23b91c1c%22/><path d=%22M18 14h28l4 28-28 8-8-28zm11 12-2 13 10-3 2-10z%22 fill=%22white%22/></svg>" />
-    <link rel="stylesheet" href="styles.css?v=20261016-contact-scope" />
-    <link rel="stylesheet" href="professional.css?v=20261016-contact-scope" />
-    <script src="app.js?v=20261015-contact-email" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261016-appeal-templates" />
+    <link rel="stylesheet" href="professional.css?v=20261016-appeal-templates" />
+    <script src="app.js?v=20261016-appeal-templates" defer></script>
     <script src="support-simulator.js?v=20261015-contact-email" defer></script>
   </head>
   <body>
@@ -34,6 +34,7 @@
           <a href="#archive" role="tab" data-site-tab aria-selected="false" aria-controls="archive">Archive</a>
           <a href="#about" role="tab" data-site-tab aria-selected="false" aria-controls="about">About</a>
           <a href="#methodology" role="tab" data-site-tab aria-selected="false" aria-controls="methodology">Methodology</a>
+          <a href="#appeal-templates" role="tab" data-site-tab aria-selected="false" aria-controls="appeal-templates">Appeal templates</a>
           <a href="#support-lab" role="tab" data-site-tab aria-selected="false" aria-controls="support-lab">Support lab</a>
         </div>
         <a class="contact-nav-link" href="#home" data-home-contact>Contact</a>
@@ -248,11 +249,143 @@
         </ol>
       </section>
 
+      <section class="appeal-template-section site-panel" id="appeal-templates" data-site-panel aria-labelledby="appeal-templates-heading" hidden>
+        <div class="appeal-template-shell">
+          <div class="appeal-template-heading">
+            <div>
+              <p class="section-number">04 / Appeal templates</p>
+              <h2 id="appeal-templates-heading">Start with a clear record.</h2>
+            </div>
+            <p>Choose a situation, replace every bracketed placeholder, and copy the finished text into the appropriate official support form.</p>
+          </div>
+
+          <div class="appeal-template-notice" role="note">
+            <span aria-hidden="true">!</span>
+            <p><strong>Use accurate information only.</strong> Delete lines that do not apply, and do not claim a prior ticket, transaction, parental review, security event, or other fact unless it is true. These are unofficial starting points, not Roblox forms or legal advice.</p>
+          </div>
+
+          <div class="template-browser">
+            <div class="template-tab-list" role="tablist" aria-label="Appeal template types">
+              <button class="template-tab is-active" id="template-tab-moderation" type="button" role="tab" data-template-tab="moderation" aria-selected="true" aria-controls="template-panel-moderation" tabindex="0"><span>01</span> Moderation</button>
+              <button class="template-tab" id="template-tab-billing" type="button" role="tab" data-template-tab="billing" aria-selected="false" aria-controls="template-panel-billing" tabindex="-1"><span>02</span> Billing</button>
+              <button class="template-tab" id="template-tab-technical" type="button" role="tab" data-template-tab="technical" aria-selected="false" aria-controls="template-panel-technical" tabindex="-1"><span>03</span> Technical</button>
+              <button class="template-tab" id="template-tab-security" type="button" role="tab" data-template-tab="security" aria-selected="false" aria-controls="template-panel-security" tabindex="-1"><span>04</span> Security</button>
+            </div>
+
+            <article class="template-panel" id="template-panel-moderation" role="tabpanel" data-template-panel="moderation" aria-labelledby="template-tab-moderation" tabindex="0">
+              <div class="template-panel-header">
+                <div>
+                  <p class="template-kicker">Content or game bans</p>
+                  <h3>Moderation appeals</h3>
+                  <p>Use this when a bot flags your game, assets, or account, and your initial attempts to resolve it are ignored.</p>
+                </div>
+                <dl class="template-routing">
+                  <div><dt>Category</dt><dd>Account Moderation</dd></div>
+                  <div><dt>Sub-category</dt><dd>Appeal Account or Content</dd></div>
+                </dl>
+              </div>
+              <label class="template-text-label" for="appeal-template-moderation">Template text <span>Replace all bracketed text before use</span></label>
+              <textarea class="appeal-template-text" id="appeal-template-moderation" readonly rows="16">Reference Prior Ticket: #[Insert Old Ticket Number if you have one, otherwise delete this line]
+
+To the Roblox Appeals Management Team,
+
+This is a formal escalation regarding an unreviewed automated policy action on the asset/experience "[Insert Game/Asset Name]" (Account: [Insert Username]).
+
+A verified parental review request was initiated, but the account remains locked in an unreviewed status. The current restriction prevents the deployment of corrective asset updates to ensure full platform alignment. Per standard compliance procedures, please assign this file to an Appeals Supervisor to review the asset logs, sync the parental verification, and restore standard platform access.
+
+Respectfully,
+[Your Parent's Name]</textarea>
+              <div class="template-actions"><button class="template-copy" type="button" data-copy-target="appeal-template-moderation">Copy template <span aria-hidden="true">⧉</span></button><span class="template-copy-status" aria-live="polite"></span></div>
+            </article>
+
+            <article class="template-panel" id="template-panel-billing" role="tabpanel" data-template-panel="billing" aria-labelledby="template-tab-billing" tabindex="0" hidden>
+              <div class="template-panel-header">
+                <div>
+                  <p class="template-kicker">Held Robux or paid fees</p>
+                  <h3>Billing &amp; currency disputes</h3>
+                  <p>Use this when Roblox pockets your publishing fees, transaction balances, or real money without providing a service or a final policy ruling.</p>
+                </div>
+                <dl class="template-routing">
+                  <div><dt>Category</dt><dd>Billing &amp; Payments</dd></div>
+                  <div><dt>Sub-category</dt><dd>Robux / Financial Transactions</dd></div>
+                </dl>
+              </div>
+              <label class="template-text-label" for="appeal-template-billing">Template text <span>Replace all bracketed text before use</span></label>
+              <textarea class="appeal-template-text" id="appeal-template-billing" readonly rows="16">Reference Transaction ID: [Insert Date or Transaction Log Number]
+
+To the Roblox Financial Compliance Team,
+
+This is a formal billing dispute regarding a withheld transaction balance of [Insert Amount, e.g., 1,000] Robux for the asset/experience "[Insert Game Name]" (Account: [Insert Username]).
+
+The corresponding publishing fee was successfully processed on [Insert Date], but the transaction has been frozen due to an unfinalized automated system flag. Per published platform documentation, financial asset forfeiture is strictly restricted to finalized major compliance actions. As no definitive policy ruling or account restriction has been finalized here, withholding these funds directly contradicts published platform terms. Please route this ledger entry to an Accounts Supervisor to process the transaction reconciliation.
+
+Respectfully,
+[Your Parent's Name]</textarea>
+              <div class="template-actions"><button class="template-copy" type="button" data-copy-target="appeal-template-billing">Copy template <span aria-hidden="true">⧉</span></button><span class="template-copy-status" aria-live="polite"></span></div>
+            </article>
+
+            <article class="template-panel" id="template-panel-technical" role="tabpanel" data-template-panel="technical" aria-labelledby="template-tab-technical" tabindex="0" hidden>
+              <div class="template-panel-header">
+                <div>
+                  <p class="template-kicker">Dashboard and “ghost” errors</p>
+                  <h3>Technical glitches</h3>
+                  <p>Use this when your dashboard breaks, links lead to blank pages, or buttons like “View Violation” do not display any information.</p>
+                </div>
+                <dl class="template-routing">
+                  <div><dt>Category</dt><dd>Technical Support</dd></div>
+                  <div><dt>Sub-category</dt><dd>Website or Developer Dashboard Error</dd></div>
+                </dl>
+              </div>
+              <label class="template-text-label" for="appeal-template-technical">Template text <span>Replace all bracketed text before use</span></label>
+              <textarea class="appeal-template-text" id="appeal-template-technical" readonly rows="16">Device / Browser: Google Chrome (Incognito Mode Verified)
+
+To the Roblox Developer Systems Team,
+
+This is a report regarding a critical dashboard execution failure impacting the account [Insert Username].
+
+The creator interface indicates an active platform restriction on the experience "[Insert Game Name]" and displays a command prompting the user to "View Violation." However, navigating to the official Violations &amp; Appeals database reveals a completely desynced log with zero active violation records present. This backend failure creates a technical loop that blocks standard dashboard utility and prevents user due process. Please route this system bug to a Senior Web Operations Analyst to manually force-sync the account dashboard history.
+
+Respectfully,
+[Your Parent's Name]</textarea>
+              <div class="template-actions"><button class="template-copy" type="button" data-copy-target="appeal-template-technical">Copy template <span aria-hidden="true">⧉</span></button><span class="template-copy-status" aria-live="polite"></span></div>
+            </article>
+
+            <article class="template-panel" id="template-panel-security" role="tabpanel" data-template-panel="security" aria-labelledby="template-tab-security" tabindex="0" hidden>
+              <div class="template-panel-header">
+                <div>
+                  <p class="template-kicker">Compromised accounts</p>
+                  <h3>Account security &amp; hacking</h3>
+                  <p>Use this if a hacker breaks into your linked Microsoft or Epic Games account and steals your Roblox profile data.</p>
+                </div>
+                <dl class="template-routing">
+                  <div><dt>Category</dt><dd>Account Login</dd></div>
+                  <div><dt>Sub-category</dt><dd>Account Hacked / Compromised</dd></div>
+                </dl>
+              </div>
+              <label class="template-text-label" for="appeal-template-security">Template text <span>Replace all bracketed text before use</span></label>
+              <textarea class="appeal-template-text" id="appeal-template-security" readonly rows="16">Linked Platform Impacted: Microsoft / Xbox Live Account
+
+To the Roblox Account Integrity Team,
+
+This is an urgent escalation regarding a third-party security breach impacting the account [Insert Username].
+
+Unauthorized actors gained access to this profile via a compromise of a linked external platform session. Although device-level security (passkeys/2FA) remains active on our end, an unauthorized third-party authentication token bypass occurred. The account possesses critical developer assets, publishing history, and active currency balances that require immediate preservation. Please assign this file to an Account Security Supervisor to terminate all active browser sessions, freeze current currency logs, and initiate identity verification protocols.
+
+Respectfully,
+[Your Parent's Name]</textarea>
+              <div class="template-actions"><button class="template-copy" type="button" data-copy-target="appeal-template-security">Copy template <span aria-hidden="true">⧉</span></button><span class="template-copy-status" aria-live="polite"></span></div>
+            </article>
+          </div>
+
+          <p class="template-footer-note">Roblox Developer Archives is independent and unaffiliated with Roblox Corporation. Confirm the current category names and requirements on the official support site before submitting.</p>
+        </div>
+      </section>
+
       <section class="discussion-section support-lab site-panel" id="support-lab" data-site-panel aria-labelledby="support-lab-heading" hidden>
         <div class="discussion-shell">
           <div class="discussion-heading">
             <div>
-              <p class="section-number">04 / Support routing lab</p>
+              <p class="section-number">05 / Support routing lab</p>
               <h2 id="support-lab-heading">Test a support request</h2>
             </div>
             <p>Explore whether a sample request might receive automated guidance first or appear to need human review.</p>
@@ -369,7 +502,7 @@
         <div class="discussion-shell">
           <div class="discussion-heading">
             <div>
-              <p class="section-number">04 / Community preview</p>
+              <p class="section-number">06 / Community preview</p>
               <h2 id="discussion-heading">Developer discussion</h2>
             </div>
             <p>A privacy-first space for keeping personal discussion notes in this browser before a moderated public forum is available.</p>
