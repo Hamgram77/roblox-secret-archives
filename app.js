@@ -116,7 +116,12 @@ const templateTabs = [...document.querySelectorAll("[data-template-tab]")];
 const templatePanels = [...document.querySelectorAll("[data-template-panel]")];
 const contactForm = document.querySelector(".contact-form");
 const contactPrivacyBlock = document.querySelector("#home-contact-privacy-block");
+const contactPdfInput = document.querySelector("#home-pdf-attachment");
+const contactPdfStatus = document.querySelector("#home-pdf-status");
+const contactSubmitButton = contactForm?.querySelector('[type="submit"]');
 let activeFilter = "publishing";
+let pdfJsModulePromise;
+let contactPdfScanInProgress = false;
 
 const filterLabels = {
   all: "all",
@@ -140,6 +145,11 @@ const contactPrivacyPatterns = [
   /\b(?:passport|driver['’]?s?\s+licen[cs]e|government\s+id|social\s+security)\s*(?:number|no\.?|#)?\s*(?:is|:|=)\s*[A-Z0-9-]{5,}\b/i,
 ];
 
+const CONTACT_TEXT_BLOCK_MESSAGE = "Submission Blocked: To protect your privacy and remain compliant with COPPA, do not include real names, email addresses, phone numbers, exact ages, or personal identifiers in your record description.";
+const CONTACT_PDF_BLOCK_MESSAGE = "Submission Blocked: The selected PDF appears to contain personal information. Remove real names, email addresses, phone numbers, exact ages, home addresses, or personal identifiers before submitting it.";
+const CONTACT_PDF_UNREADABLE_MESSAGE = "Submission Blocked: The selected PDF could not be safely scanned. Upload a text-based, unencrypted PDF without embedded attachments.";
+const PDF_MAX_BYTES = 10 * 1024 * 1024;
+
 function hasLikelyPhoneNumber(value) {
   const candidatePattern = /(?:(?:\+?\d)|(?:\(\d))[\d\s().-]{5,}\d/g;
   const identifierContextPattern = /\b(?:ticket|case|report|record|asset|universe|place|log|error|code|transaction|reference|ref|id)\s*[:#=-]?\s*$/i;
@@ -162,13 +172,111 @@ function hasLikelyPhoneNumber(value) {
 }
 
 function containsPersonalInformation(value) {
-  const normalized = value.normalize("NFKC");
+  const normalized = String(value || "").normalize("NFKC");
   return contactPrivacyPatterns.some((pattern) => pattern.test(normalized)) || hasLikelyPhoneNumber(normalized);
 }
 
 function contactFormContainsPersonalInformation(form) {
-  const editableTextFields = form.querySelectorAll('input:not([type="hidden"]):not([type="checkbox"]):not([type="submit"]):not([name="_honey"]), textarea');
+  const editableTextFields = form.querySelectorAll('input:not([type="hidden"]):not([type="checkbox"]):not([type="submit"]):not([type="file"]):not([name="_honey"]), textarea');
   return [...editableTextFields].some((field) => containsPersonalInformation(field.value));
+}
+
+function showContactBlock(message) {
+  contactPrivacyBlock.textContent = message;
+  contactPrivacyBlock.hidden = false;
+  contactPrivacyBlock.focus({ preventScroll: true });
+  contactPrivacyBlock.scrollIntoView({ block: "nearest", behavior: "smooth" });
+}
+
+function clearContactBlock() {
+  contactPrivacyBlock.hidden = true;
+}
+
+function setPdfStatus(message, state = "") {
+  if (!contactPdfStatus) return;
+  contactPdfStatus.textContent = message;
+  contactPdfStatus.classList.remove("is-scanning", "is-approved", "is-error");
+  if (state) contactPdfStatus.classList.add(`is-${state}`);
+}
+
+function pdfTextContainsPersonalInformation(value) {
+  const text = String(value || "");
+  const punctuationJoined = text
+    .replace(/([A-Z0-9._%+-])\s*@\s*([A-Z0-9])/gi, "$1@$2")
+    .replace(/([A-Z0-9])\s*\.\s*([A-Z]{2,63})\b/gi, "$1.$2");
+  return containsPersonalInformation(text) || containsPersonalInformation(punctuationJoined);
+}
+
+async function loadPdfJs() {
+  if (!pdfJsModulePromise) {
+    pdfJsModulePromise = import("./vendor/pdfjs/pdf.min.mjs").then((pdfjs) => {
+      pdfjs.GlobalWorkerOptions.workerSrc = new URL("vendor/pdfjs/pdf.worker.min.mjs", document.baseURI).href;
+      return pdfjs;
+    });
+  }
+  return pdfJsModulePromise;
+}
+
+async function scanPdfAttachment(file) {
+  const lowerName = file.name.toLowerCase();
+  if (!lowerName.endsWith(".pdf") || (file.type && file.type !== "application/pdf")) {
+    return { approved: false, message: "Submission Blocked: Only PDF document attachments are accepted. Photos, videos, and other file types are not allowed." };
+  }
+  if (!file.size || file.size > PDF_MAX_BYTES) {
+    return { approved: false, message: "Submission Blocked: The PDF must be larger than 0 bytes and no more than 10 MB." };
+  }
+  if (pdfTextContainsPersonalInformation(file.name)) {
+    return { approved: false, message: CONTACT_PDF_BLOCK_MESSAGE };
+  }
+
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const signature = new TextDecoder("ascii").decode(bytes.slice(0, 5));
+  if (signature !== "%PDF-") {
+    return { approved: false, message: "Submission Blocked: The selected file does not contain a valid PDF signature." };
+  }
+
+  const pdfjs = await loadPdfJs();
+  const loadingTask = pdfjs.getDocument({ data: bytes, isEvalSupported: false, stopAtErrors: true });
+  let pdfDocument;
+
+  try {
+    pdfDocument = await loadingTask.promise;
+    const attachments = await pdfDocument.getAttachments();
+    if (attachments && Object.keys(attachments).length) {
+      return { approved: false, message: CONTACT_PDF_UNREADABLE_MESSAGE };
+    }
+
+    const metadata = await pdfDocument.getMetadata().catch(() => null);
+    const metadataText = Object.values(metadata?.info || {}).filter((value) => typeof value === "string").join(" ");
+    if (pdfTextContainsPersonalInformation(metadataText)) {
+      return { approved: false, message: CONTACT_PDF_BLOCK_MESSAGE };
+    }
+
+    let extractableCharacters = 0;
+    for (let pageNumber = 1; pageNumber <= pdfDocument.numPages; pageNumber += 1) {
+      setPdfStatus(`Scanning PDF page ${pageNumber} of ${pdfDocument.numPages} locally…`, "scanning");
+      const page = await pdfDocument.getPage(pageNumber);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items
+        .filter((item) => typeof item.str === "string")
+        .map((item) => `${item.str}${item.hasEOL ? "\n" : " "}`)
+        .join("");
+      extractableCharacters += (pageText.match(/[\p{L}\p{N}]/gu) || []).length;
+      page.cleanup();
+      if (pdfTextContainsPersonalInformation(pageText)) {
+        return { approved: false, message: CONTACT_PDF_BLOCK_MESSAGE };
+      }
+    }
+
+    if (extractableCharacters < 20) {
+      return { approved: false, message: CONTACT_PDF_UNREADABLE_MESSAGE };
+    }
+    return { approved: true };
+  } catch {
+    return { approved: false, message: CONTACT_PDF_UNREADABLE_MESSAGE };
+  } finally {
+    await loadingTask.destroy();
+  }
 }
 
 function recordTemplate(record) {
@@ -389,16 +497,63 @@ document.querySelectorAll("[data-copy-target]").forEach((button) => {
 });
 
 if (contactForm && contactPrivacyBlock) {
-  contactForm.addEventListener("submit", (event) => {
-    if (!contactFormContainsPersonalInformation(contactForm)) {
-      contactPrivacyBlock.hidden = true;
+  contactPdfInput?.addEventListener("change", () => {
+    clearContactBlock();
+    const file = contactPdfInput.files?.[0];
+    if (!file) {
+      setPdfStatus("No PDF selected. Files are scanned locally before upload.");
+      return;
+    }
+    setPdfStatus(`${file.name} selected. Privacy scan will run before submission.`);
+  });
+
+  contactForm.addEventListener("submit", async (event) => {
+    if (contactFormContainsPersonalInformation(contactForm)) {
+      event.preventDefault();
+      showContactBlock(CONTACT_TEXT_BLOCK_MESSAGE);
+      return;
+    }
+
+    const file = contactPdfInput?.files?.[0];
+    if (!file) {
+      clearContactBlock();
       return;
     }
 
     event.preventDefault();
-    contactPrivacyBlock.hidden = false;
-    contactPrivacyBlock.focus({ preventScroll: true });
-    contactPrivacyBlock.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    if (contactPdfScanInProgress) return;
+    contactPdfScanInProgress = true;
+    contactSubmitButton.disabled = true;
+    contactSubmitButton.setAttribute("aria-busy", "true");
+    setPdfStatus("Checking PDF type and content locally…", "scanning");
+
+    try {
+      const result = await scanPdfAttachment(file).catch(() => ({ approved: false, message: CONTACT_PDF_UNREADABLE_MESSAGE }));
+      if (!result.approved) {
+        setPdfStatus("PDF rejected. Nothing was submitted.", "error");
+        showContactBlock(result.message);
+        return;
+      }
+
+      if (contactPdfInput.files?.[0] !== file) {
+        setPdfStatus("PDF selection changed during scanning. Nothing was submitted.", "error");
+        showContactBlock("Submission Blocked: The selected PDF changed during the privacy scan. Please submit again so the current file can be checked.");
+        return;
+      }
+      if (contactFormContainsPersonalInformation(contactForm)) {
+        setPdfStatus("Form text changed during scanning. Nothing was submitted.", "error");
+        showContactBlock(CONTACT_TEXT_BLOCK_MESSAGE);
+        return;
+      }
+
+      clearContactBlock();
+      setPdfStatus("PDF scan passed. Submitting through the existing secure route…", "approved");
+      HTMLFormElement.prototype.submit.call(contactForm);
+    } finally {
+      contactPdfScanInProgress = false;
+      contactSubmitButton.disabled = false;
+      contactSubmitButton.removeAttribute("aria-busy");
+    }
   });
 }
 

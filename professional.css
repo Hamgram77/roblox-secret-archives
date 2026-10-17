@@ -354,7 +354,7 @@ footer p { color: #858f9c; letter-spacing: .025em; }
 .appeal-template-notice p { margin: 0; color: #b7c2d1; font-size: .69rem; line-height: 1.7; }
 .appeal-template-notice strong { color: #fde68a; }
 .template-browser { overflow: hidden; border: 1px solid rgba(255,255,255,.12); background: #0f1726; box-shadow: 0 32px 90px rgba(0,0,0,.28); }
-.template-tab-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid rgba(255,255,255,.12); background: #09101c; }
+.template-tab-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid rgba(255,255,255,.12); background: #09101c; }
 .template-tab { min-height: 70px; display: flex; align-items: center; justify-content: center; gap: .7rem; padding: 1rem; color: #8290a5; border: 0; border-right: 1px solid rgba(255,255,255,.1); background: transparent; font: 800 .63rem var(--mono); letter-spacing: .065em; text-transform: uppercase; cursor: pointer; transition: color .2s ease, background .2s ease, box-shadow .2s ease; }
 .template-tab:last-child { border-right: 0; }
 .template-tab span { color: #56647a; font-size: .55rem; }
@@ -425,6 +425,12 @@ footer p { color: #858f9c; letter-spacing: .025em; }
 .contact-form > input[type="text"], .contact-form > input[type="email"] { min-height: 52px; }
 .contact-form > input.contact-reply-email { margin-bottom: .45rem; }
 .contact-field-note { margin: 0 0 1.4rem; color: #65748a; font: .56rem/1.65 var(--mono); }
+.contact-file-input { width: 100%; margin-bottom: .55rem; padding: .75rem; color: #aab6c6; border: 1px dashed rgba(255,255,255,.22); background: #080f1e; font: .62rem/1.5 var(--mono); cursor: pointer; }
+.contact-file-input::file-selector-button { margin-right: .8rem; padding: .65rem .8rem; color: #f8fafc; border: 1px solid rgba(248,113,113,.45); background: rgba(185,28,28,.2); font: 800 .56rem var(--mono); letter-spacing: .05em; text-transform: uppercase; cursor: pointer; }
+.contact-file-status { min-height: 1.25rem; margin: 0 0 1.4rem; color: #718096; font: .56rem/1.65 var(--mono); }
+.contact-file-status.is-scanning { color: #fbbf24; }
+.contact-file-status.is-approved { color: #6ee7b7; }
+.contact-file-status.is-error { color: #fca5a5; }
 .contact-form textarea { min-height: 220px; resize: vertical; }
 .contact-form input::placeholder, .contact-form textarea::placeholder { color: #536278; }
 .contact-form input:focus, .contact-form textarea:focus { border-color: #f87171; box-shadow: 0 0 0 3px rgba(248,113,113,.1); }
@@ -437,6 +443,7 @@ footer p { color: #858f9c; letter-spacing: .025em; }
 .contact-policy-check a:hover { color: #fecaca; }
 .contact-submit { min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0 1.2rem; color: white; border: 1px solid #ef5a54; background: linear-gradient(135deg, #df3e38, #a92521); box-shadow: 0 14px 34px rgba(223,62,56,.2); font-size: .68rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, filter .2s ease; }
 .contact-submit:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 18px 40px rgba(223,62,56,.3); }
+.contact-submit:disabled { cursor: wait; opacity: .68; transform: none; filter: grayscale(.2); }
 .contact-form-note { margin: .9rem 0 0; color: #65748a; font: .55rem/1.65 var(--mono); }
 .home-contact { min-height: auto; border-top: 1px solid rgba(255,255,255,.09); }
 .home-contact .contact-intro { top: 7rem; }
@@ -509,8 +516,8 @@ footer p { color: #858f9c; letter-spacing: .025em; }
   .appeal-template-section { padding-top: 3.25rem; }
   .template-tab-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .template-tab { min-height: 58px; border-bottom: 1px solid rgba(255,255,255,.1); }
-  .template-tab:nth-child(2) { border-right: 0; }
-  .template-tab:nth-child(n+3) { border-bottom: 0; }
+  .template-tab:nth-child(even) { border-right: 0; }
+  .template-tab:nth-last-child(-n+2) { border-bottom: 0; }
   .template-panel { padding: 1rem; }
   .template-panel-header { gap: 1.4rem; }
   .template-text-label { align-items: flex-start; flex-direction: column; gap: .35rem; }
