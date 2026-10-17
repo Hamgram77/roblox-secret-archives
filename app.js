@@ -71,6 +71,33 @@ const records = [
     pdf: "archive/documents/08-textchatservice-compliance.pdf",
     source: "https://docs.google.com/document/d/1NlWPsZ2KjcSQWL2jXr2XvZaNO-Cdx13JEyh0P4TU7U8/edit",
   },
+  {
+    number: "09",
+    title: "The Black Box of the DevEx Compliance Pipeline",
+    date: "October 17, 2026",
+    isoDate: "2026-10-17",
+    description: "Examines transparency gaps between DevEx eligibility, compliance review, settlement, and support escalation, with evidence standards and proposed financial-review reforms.",
+    tags: ["economy", "devex", "financial compliance"],
+    pdf: "archive/documents/09-devex-compliance-pipeline.pdf",
+  },
+  {
+    number: "10",
+    title: "The Desynced Marketplace Appeals Loop",
+    date: "October 17, 2026",
+    isoDate: "2026-10-17",
+    description: "Analyzes post-appeal state mismatches across moderation, creator dashboards, catalog visibility, commerce, support, and fee reconciliation.",
+    tags: ["publishing", "moderation", "technical", "ugc"],
+    pdf: "archive/documents/10-desynced-marketplace-appeals-loop.pdf",
+  },
+  {
+    number: "11",
+    title: "Systemic DataStore Corruption & Infrastructure Compliance",
+    date: "October 17, 2026",
+    isoDate: "2026-10-17",
+    description: "Models DataStore and Cloud API incident triage, separates creator-code faults from platform-wide failures, and proposes evidence, recovery, and status controls.",
+    tags: ["technical", "datastore", "infrastructure"],
+    pdf: "archive/documents/11-datastore-corruption-infrastructure-compliance.pdf",
+  },
 ];
 
 const archiveList = document.querySelector("#archive-list");
@@ -103,7 +130,7 @@ function recordTemplate(record) {
       <span class="record-number">DOC—${record.number}</span>
       <div class="record-title">
         <h3>${record.title}</h3>
-        <time datetime="2026-10-14">Added ${record.date}</time>
+        <time datetime="${record.isoDate || "2026-10-14"}">Added ${record.date}</time>
       </div>
       <div class="record-copy">
         <p class="record-description">${record.description}</p>
@@ -112,7 +139,7 @@ function recordTemplate(record) {
       <div class="record-actions">
         <a class="action-primary" href="${record.pdf}" target="_blank" rel="noopener">View PDF <span aria-hidden="true">↗</span></a>
         <a href="${record.pdf}" download>Download <span aria-hidden="true">↓</span></a>
-        <a href="${record.source}" target="_blank" rel="noopener noreferrer">Google source <span aria-hidden="true">↗</span></a>
+        ${record.source ? `<a href="${record.source}" target="_blank" rel="noopener noreferrer">Google source <span aria-hidden="true">↗</span></a>` : ""}
       </div>
     </article>`;
 }
