@@ -17,6 +17,7 @@
   const result = document.querySelector("#support-result");
   const route = document.querySelector("#result-route");
   const routeIcon = document.querySelector("#result-route-icon");
+  const tierText = document.querySelector("#result-tier");
   const summary = document.querySelector("#result-summary");
   const meterFill = document.querySelector("#result-meter-fill");
   const scoreText = document.querySelector("#result-score");
@@ -89,6 +90,20 @@
     /https?:\/\/|www\./i,
     /\b(?:password|passcode|pin)\s*[:=]\s*\S+/i
   ];
+
+  const specialistOverrideTerms = [
+    ["TextChatService", /\bTextChatService\b/i],
+    ["DataStore", /\bDataStore\b/i],
+    ["HttpService", /\bHttpService\b/i],
+    ["OpenCloud", /\bOpenCloud\b/i],
+    ["UniverseId", /\bUniverse\s*Id\b/i],
+    ["DMCA Counter-Notice", /\bDMCA\s+Counter[-\s]?Notice\b/i],
+    ["Appeals Supervisor", /\bAppeals\s+Supervisor\b/i],
+    ["Formal ledger dispute", /\bFormal\s+ledger\s+dispute\b/i]
+  ];
+
+  const botTrapPattern = /\b(?:unban\s+me|plz|i\s+did\s+nothing|vc\s+ban|fix\s+this)\b/i;
+  const commonTypoPattern = /\b(?:teh|recieve|recieved|recieving|occured|definately|seperate|cant|wont|doesnt|didnt|transation|trasaction|billng|techincal|erro)\b/i;
 
   function appendOption(select, value, label) {
     const option = document.createElement("option");
@@ -218,6 +233,18 @@
     };
   }
 
+  function detectWritingIssues(text) {
+    const issues = [];
+    if (commonTypoPattern.test(text)) issues.push("Common spelling or apostrophe error detected");
+    if (/\b[a-z]*([a-z])\1{2,}[a-z]*\b/i.test(text)) issues.push("Repeated-letter typo detected");
+    return issues;
+  }
+
+  function hasStructuredLayout(text, dataEvidence) {
+    const labeledField = /(?:^|\n)\s*(?:date|amount|device|browser|platform|transaction\s+id|receipt\s+number|error\s+code|log|steps|expected|actual)\s*[:=-]/im;
+    return dataEvidence.hasEvidence || labeledField.test(text) || /\b(?:steps to reproduce|expected result|actual result)\b/i.test(text);
+  }
+
   function analyze(text, topic, reason) {
     const normalized = text.toLowerCase();
     const characterCount = text.trim().length;
@@ -226,8 +253,34 @@
     const isBillingOrTechnical = topic.value === "billing" || topic.value === "technical" || /billing\s*&\s*payments|technical support/.test(topicLabel);
     const dataEvidence = extractDataEvidence(text);
     const conciseDataReport = isBillingOrTechnical && characterCount < 40 && dataEvidence.hasEvidence;
+    const specialistOverride = specialistOverrideTerms.find(([, pattern]) => pattern.test(text));
+
+    if (specialistOverride) {
+      return {
+        tier: "tier-1", tierLabel: "Tier 1 · Specialist Fast-Track",
+        kind: "human", score: 92, icon: "T1",
+        title: "Potential human or specialist review",
+        summary: `The specialist term “${specialistOverride[0]}” triggered the developer override. Length, writing, and structure penalties were bypassed for this simulation.`,
+        signals: [`Tier 1 override: ${specialistOverride[0]}`, `Topic selected: ${topic.label}`],
+        nextSteps: ["A real support system may still require automated identity or ownership checks.", "Include only accurate, non-sensitive technical context in an official request.", "This educational estimate does not guarantee specialist routing."]
+      };
+    }
+
+    const botTrapMatch = text.match(botTrapPattern);
+    if (botTrapMatch) {
+      const botTrapScore = Math.min(25, Math.max(5, topic.base + (reasonAdjustments[reason] || 0)));
+      return {
+        tier: "tier-3", tierLabel: "Tier 3 · Bot Trap",
+        kind: "automated", score: botTrapScore, icon: "T3",
+        title: "Likely Automated Response First",
+        summary: "The sample contains low-effort request language without a specialist override term, so the score is capped at 25.",
+        signals: [`Tier 3 bot-trap phrase: “${botTrapMatch[0]}”`, `Topic selected: ${topic.label}`],
+        nextSteps: ["Replace demands with a clear description of what happened.", "Add accurate, non-sensitive context or structured diagnostic details.", "Do not add technical terms that do not genuinely apply."]
+      };
+    }
+
     let score = topic.base + (reasonAdjustments[reason] || 0);
-    const signals = [`Topic baseline: ${topic.label}`];
+    const signals = ["Tier 2 standard evaluation", `Topic baseline: ${topic.label}`];
 
     humanSignals.forEach(([pattern, weight, label]) => {
       if (pattern.test(normalized)) {
@@ -259,11 +312,24 @@
       signals.push("Numeric or structural data supplied");
     }
 
+    if (isBillingOrTechnical) {
+      const writingIssues = detectWritingIssues(text);
+      if (writingIssues.length) {
+        score -= 20;
+        signals.push(...writingIssues.map((issue) => `Writing penalty: ${issue}`));
+      }
+      if (!hasStructuredLayout(text, dataEvidence)) {
+        score -= 30;
+        signals.push("Structure penalty: no numeric value, tracking token, or labeled data field");
+      }
+    }
+
     score = Math.max(5, Math.min(95, score));
     const wordCount = normalized.trim().split(/\s+/).filter(Boolean).length;
 
     if (isModerationOrAppeal && characterCount < 100) {
       return {
+        tier: "tier-2", tierLabel: "Tier 2 · Standard Evaluation",
         kind: "automated", score: Math.min(score, 15), icon: "A",
         title: "Likely automated rejection: low-effort appeal",
         summary: "Moderation and appeal requests under 100 characters usually lack enough context for a meaningful review estimate.",
@@ -274,6 +340,7 @@
 
     if (isBillingOrTechnical && characterCount < 40 && !dataEvidence.hasEvidence) {
       return {
+        tier: "tier-2", tierLabel: "Tier 2 · Standard Evaluation",
         kind: "insufficient", score: Math.min(score, 25), icon: "?",
         title: "Likely automated request for more information",
         summary: "This short billing or technical report has no numeric value or structural tracking token, so it may not provide enough diagnostic context for review.",
@@ -284,6 +351,7 @@
 
     if (wordCount < 4 && !conciseDataReport) {
       return {
+        tier: "tier-2", tierLabel: "Tier 2 · Standard Evaluation",
         kind: "insufficient", score: Math.min(score, 35), icon: "?",
         title: "Likely automated request for more information",
         summary: "The sample is too short for a meaningful routing estimate. A standard response would likely ask for clearer details before review.",
@@ -294,6 +362,7 @@
 
     if (score >= 65) {
       return {
+        tier: "tier-2", tierLabel: "Tier 2 · Standard Evaluation",
         kind: "human", score, icon: "H", title: "Potential human or specialist review",
         summary: "The selected reason and matched language suggest that policy judgment, ownership checks, payment review, safety triage, or specialist handling may be needed.",
         signals,
@@ -302,6 +371,7 @@
     }
 
     return {
+      tier: "tier-2", tierLabel: "Tier 2 · Standard Evaluation",
       kind: score <= 35 ? "automated" : "triage", score, icon: "A",
       title: score <= 35 ? "Likely automated response first" : "Likely automated triage before review",
       summary: score <= 35
@@ -314,6 +384,8 @@
 
   function renderAnalysis(analysis) {
     result.dataset.route = analysis.kind;
+    result.dataset.tier = analysis.tier;
+    tierText.textContent = analysis.tierLabel;
     route.textContent = analysis.title;
     routeIcon.textContent = analysis.icon;
     summary.textContent = analysis.summary;
