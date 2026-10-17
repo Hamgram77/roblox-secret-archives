@@ -1,0 +1,21 @@
+{
+  "name": "Roblox Developer Archives",
+  "short_name": "Developer Archives",
+  "description": "An independent research library documenting Roblox platform, moderation, publishing, and creator-economy concerns.",
+  "start_url": "/roblox-secret-archives/#home",
+  "display": "standalone",
+  "background_color": "#0b111b",
+  "theme_color": "#0b111b",
+  "icons": [
+    {
+      "src": "/roblox-secret-archives/favicon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/roblox-secret-archives/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
