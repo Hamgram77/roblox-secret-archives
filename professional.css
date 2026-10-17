@@ -361,6 +361,11 @@ footer p { color: #858f9c; letter-spacing: .025em; }
 .contact-intro ul { display: grid; gap: .8rem; margin: 2rem 0 0; padding: 0; list-style: none; }
 .contact-intro li { position: relative; padding-left: 1.2rem; color: #7f8da1; font: .64rem/1.65 var(--mono); }
 .contact-intro li::before { position: absolute; left: 0; color: #f87171; content: "//"; }
+.contact-not-support { margin-top: 1.5rem; padding: 1rem 1.1rem; border: 1px solid rgba(248,113,113,.38); border-left: 3px solid #f87171; background: rgba(127,29,29,.16); }
+.contact-not-support strong { display: block; color: #fecaca; font: 800 .68rem var(--mono); letter-spacing: .055em; text-transform: uppercase; }
+.contact-not-support p { margin: .6rem 0 .75rem; color: #aab6c6; font-size: .7rem; line-height: 1.65; }
+.contact-not-support a { color: #fca5a5; font: 800 .58rem var(--mono); letter-spacing: .045em; text-underline-offset: .22rem; text-transform: uppercase; }
+.contact-not-support a:hover { color: #fff; }
 .contact-card { padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid rgba(255,255,255,.13); background: rgba(11,19,35,.88); box-shadow: 0 30px 80px rgba(0,0,0,.28); }
 .contact-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.6rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,.1); }
 .contact-card-heading > span:first-child { color: #f8fafc; font: 700 .64rem var(--mono); letter-spacing: .09em; text-transform: uppercase; }
