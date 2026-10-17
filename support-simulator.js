@@ -208,8 +208,24 @@
     });
   }
 
+  function extractDataEvidence(text) {
+    const numericValues = text.match(/\b\d+(?:[./:-]\d+)*\b/g) || [];
+    const structuralTokens = text.match(/\b(?:id|log|error\s*code|timestamp|(?:transaction|receipt|invoice|reference|case|ticket)\s*(?:id|number|#))\b/gi) || [];
+    return {
+      numericValues,
+      structuralTokens,
+      hasEvidence: numericValues.length > 0 || structuralTokens.length > 0
+    };
+  }
+
   function analyze(text, topic, reason) {
     const normalized = text.toLowerCase();
+    const characterCount = text.trim().length;
+    const topicLabel = topic.label.toLowerCase();
+    const isModerationOrAppeal = topic.value === "moderation" || /account moderation|appeals?/.test(topicLabel);
+    const isBillingOrTechnical = topic.value === "billing" || topic.value === "technical" || /billing\s*&\s*payments|technical support/.test(topicLabel);
+    const dataEvidence = extractDataEvidence(text);
+    const conciseDataReport = isBillingOrTechnical && characterCount < 40 && dataEvidence.hasEvidence;
     let score = topic.base + (reasonAdjustments[reason] || 0);
     const signals = [`Topic baseline: ${topic.label}`];
 
@@ -222,15 +238,51 @@
 
     automationSignals.forEach(([pattern, weight, label]) => {
       if (pattern.test(normalized)) {
-        score += weight;
-        signals.push(label);
+        const isGenericTroubleshootingPenalty = label === "Common troubleshooting pattern";
+        if (conciseDataReport && isGenericTroubleshootingPenalty) {
+          signals.push("Structured report overrides the generic troubleshooting penalty");
+        } else {
+          score += weight;
+          signals.push(label);
+        }
       }
     });
+
+    if (conciseDataReport) {
+      score += 45;
+      const evidenceTypes = [];
+      if (dataEvidence.numericValues.length) evidenceTypes.push("numeric value");
+      if (dataEvidence.structuralTokens.length) evidenceTypes.push("tracking or diagnostic token");
+      signals.push(`Direct concise report: ${evidenceTypes.join(" and ")} supplied`);
+    } else if (dataEvidence.hasEvidence) {
+      score += 8;
+      signals.push("Numeric or structural data supplied");
+    }
 
     score = Math.max(5, Math.min(95, score));
     const wordCount = normalized.trim().split(/\s+/).filter(Boolean).length;
 
-    if (wordCount < 4) {
+    if (isModerationOrAppeal && characterCount < 100) {
+      return {
+        kind: "automated", score: Math.min(score, 15), icon: "A",
+        title: "Likely automated rejection: low-effort appeal",
+        summary: "Moderation and appeal requests under 100 characters usually lack enough context for a meaningful review estimate.",
+        signals: [...signals, `Low-Effort Appeal (${characterCount} of 100 required characters)`],
+        nextSteps: ["Explain what was moderated and why the decision may be incorrect.", "Add relevant non-sensitive context and prior troubleshooting or appeal steps.", "Do not invent identifiers, evidence, or parental authorization."]
+      };
+    }
+
+    if (isBillingOrTechnical && characterCount < 40 && !dataEvidence.hasEvidence) {
+      return {
+        kind: "insufficient", score: Math.min(score, 25), icon: "?",
+        title: "Likely automated request for more information",
+        summary: "This short billing or technical report has no numeric value or structural tracking token, so it may not provide enough diagnostic context for review.",
+        signals: [...signals, `Short report (${characterCount} of 40 characters) with no data token`],
+        nextSteps: ["Add a non-sensitive date, amount, or error number if one genuinely applies.", "Name the relevant log, transaction, receipt, or error code.", "Do not include passwords, contact details, or real account identifiers."]
+      };
+    }
+
+    if (wordCount < 4 && !conciseDataReport) {
       return {
         kind: "insufficient", score: Math.min(score, 35), icon: "?",
         title: "Likely automated request for more information",
