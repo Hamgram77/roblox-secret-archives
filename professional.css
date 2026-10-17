@@ -415,6 +415,9 @@ footer p { color: #858f9c; letter-spacing: .025em; }
 .contact-success[hidden] { display: none; }
 .contact-success strong { font-size: .78rem; }
 .contact-success p { margin: .35rem 0 0; color: #9bd7c2; font-size: .68rem; }
+.contact-privacy-block { margin-bottom: 1.2rem; padding: 1rem; color: #fee2e2; border: 1px solid rgba(248,113,113,.42); background: rgba(127,29,29,.3); font-size: .7rem; font-weight: 700; line-height: 1.65; }
+.contact-privacy-block[hidden] { display: none; }
+.contact-privacy-block:focus { outline: 2px solid #f87171; outline-offset: 3px; }
 .contact-form { display: grid; }
 .contact-form > label:not(.contact-age-check) { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: .55rem; color: #cbd5e1; font-size: .66rem; font-weight: 800; letter-spacing: .055em; text-transform: uppercase; }
 .contact-form label small { color: #64748b; font: .52rem var(--mono); letter-spacing: 0; text-transform: none; }

@@ -114,6 +114,8 @@ const siteTabs = [...document.querySelectorAll("[data-site-tab]")];
 const sitePanelIds = new Set(sitePanels.map((panel) => panel.id));
 const templateTabs = [...document.querySelectorAll("[data-template-tab]")];
 const templatePanels = [...document.querySelectorAll("[data-template-panel]")];
+const contactForm = document.querySelector(".contact-form");
+const contactPrivacyBlock = document.querySelector("#home-contact-privacy-block");
 let activeFilter = "publishing";
 
 const filterLabels = {
@@ -123,6 +125,51 @@ const filterLabels = {
   economy: "creator economy",
   technical: "technical",
 };
+
+const contactPrivacyPatterns = [
+  /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}\b/i,
+  /\b(?:i\s+am|i['’]?m|im)\s+(?:aged?\s+)?\d{1,2}(?:\s*(?:years?\s*old|y\/?o))?\b/i,
+  /\bage\s*(?:is|:|=)\s*\d{1,2}\b/i,
+  /\b\d{1,2}\s*(?:years?\s*old|y\/?o)\b/i,
+  /\bmy\s+(?:(?:real|full|legal)\s+)?name\s*(?:is|:)\s*\S+/i,
+  /\b(?:real|full|legal)\s+name\s*(?:is|:)\s*\S+/i,
+  /\b\d{3}[-\s]\d{2}[-\s]\d{4}\b/,
+  /\b(?:my|our)\s+(?:(?:home|street|mailing|residential)\s+)?address\s*(?:is|:|=)\s*\d{1,6}\s+[A-Z0-9.'-]+(?:\s+[A-Z0-9.'-]+){0,5}\s+(?:street|st|road|rd|avenue|ave|boulevard|blvd|lane|ln|drive|dr|court|ct|circle|cir|way|parkway|pkwy)\b/i,
+  /\b(?:i|we)\s+live\s+at\s+\d{1,6}\s+[A-Z0-9.'-]+(?:\s+[A-Z0-9.'-]+){0,5}\s+(?:street|st|road|rd|avenue|ave|boulevard|blvd|lane|ln|drive|dr|court|ct|circle|cir|way|parkway|pkwy)\b/i,
+  /\bP\.?\s*O\.?\s+Box\s+\d+\b/i,
+  /\b(?:passport|driver['’]?s?\s+licen[cs]e|government\s+id|social\s+security)\s*(?:number|no\.?|#)?\s*(?:is|:|=)\s*[A-Z0-9-]{5,}\b/i,
+];
+
+function hasLikelyPhoneNumber(value) {
+  const candidatePattern = /(?:(?:\+?\d)|(?:\(\d))[\d\s().-]{5,}\d/g;
+  const identifierContextPattern = /\b(?:ticket|case|report|record|asset|universe|place|log|error|code|transaction|reference|ref|id)\s*[:#=-]?\s*$/i;
+  const phoneContextPattern = /\b(?:phone|telephone|mobile|cell|call|text(?:\s+me)?|contact\s+number|number\s+is)\b/i;
+  const strongPhoneFormatPattern = /(?:\(\d{3}\)\s*\d{3}[-.\s]\d{4}|\b\d{3}[-.\s]\d{3}[-.\s]\d{4}\b|\b\d{3}[-.\s]\d{4}\b|\+\d{1,3}[-.\s](?:\d{2,4}[-.\s]){1,3}\d{3,4})/;
+
+  for (const match of value.matchAll(candidatePattern)) {
+    const digits = match[0].replace(/\D/g, "");
+    if (digits.length < 7 || digits.length > 11) continue;
+
+    const start = match.index || 0;
+    const before = value.slice(Math.max(0, start - 32), start);
+    const context = value.slice(Math.max(0, start - 32), start + match[0].length + 32);
+    const hasPhoneContext = phoneContextPattern.test(context);
+    if (identifierContextPattern.test(before) && !hasPhoneContext) continue;
+    if (hasPhoneContext || strongPhoneFormatPattern.test(match[0])) return true;
+  }
+
+  return false;
+}
+
+function containsPersonalInformation(value) {
+  const normalized = value.normalize("NFKC");
+  return contactPrivacyPatterns.some((pattern) => pattern.test(normalized)) || hasLikelyPhoneNumber(normalized);
+}
+
+function contactFormContainsPersonalInformation(form) {
+  const editableTextFields = form.querySelectorAll('input:not([type="hidden"]):not([type="checkbox"]):not([type="submit"]):not([name="_honey"]), textarea');
+  return [...editableTextFields].some((field) => containsPersonalInformation(field.value));
+}
 
 function recordTemplate(record) {
   return `
@@ -340,6 +387,20 @@ async function copyAppealTemplate(button) {
 document.querySelectorAll("[data-copy-target]").forEach((button) => {
   button.addEventListener("click", () => copyAppealTemplate(button));
 });
+
+if (contactForm && contactPrivacyBlock) {
+  contactForm.addEventListener("submit", (event) => {
+    if (!contactFormContainsPersonalInformation(contactForm)) {
+      contactPrivacyBlock.hidden = true;
+      return;
+    }
+
+    event.preventDefault();
+    contactPrivacyBlock.hidden = false;
+    contactPrivacyBlock.focus({ preventScroll: true });
+    contactPrivacyBlock.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  });
+}
 
 renderRecords();
 showSitePanel(panelFromHash());

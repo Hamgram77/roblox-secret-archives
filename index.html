@@ -22,8 +22,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
     <link rel="stylesheet" href="styles.css?v=20261016-appeal-templates" />
-    <link rel="stylesheet" href="professional.css?v=20261016-appeal-templates" />
-    <script src="app.js?v=20261017-records-09-11" defer></script>
+    <link rel="stylesheet" href="professional.css?v=20261017-contact-privacy" />
+    <script src="app.js?v=20261017-contact-privacy" defer></script>
     <script src="support-simulator.js?v=20261017-tiered-scoring" defer></script>
   </head>
   <body>
@@ -141,6 +141,10 @@
               <p>Your record was routed to the archive inbox.</p>
             </div>
 
+            <div class="contact-privacy-block" id="home-contact-privacy-block" role="alert" aria-live="assertive" tabindex="-1" hidden>
+              Submission Blocked: To protect your privacy and remain compliant with COPPA, do not include real names, email addresses, phone numbers, exact ages, or personal identifiers in your record description.
+            </div>
+
             <form class="contact-form" action="https://formsubmit.co/tandem-arrears3t@icloud.com" method="POST" accept-charset="UTF-8">
               <input type="hidden" name="_subject" value="New Roblox Developer Archives record" />
               <input type="hidden" name="_template" value="table" />
@@ -172,7 +176,7 @@
               </label>
 
               <button class="contact-submit" type="submit">Send record securely <span aria-hidden="true">→</span></button>
-              <p class="contact-form-note">FormSubmit may display a CAPTCHA before delivery. The archive website does not save a local copy of this form.</p>
+              <p class="contact-form-note">A local privacy screen checks common personal-information patterns before delivery. Automated detection is limited and does not by itself establish legal compliance. FormSubmit may display a CAPTCHA. The archive website does not save a local copy of this form.</p>
             </form>
           </div>
         </div>
