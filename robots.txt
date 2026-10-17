@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hamgram77.github.io/roblox-secret-archives/sitemap.xml

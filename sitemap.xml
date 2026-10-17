@@ -1,30 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://sitemaps.org">
-    <!-- Main Archive Homepage Links -->
-    <url>
-        <loc>https://github.io</loc>
-        <lastmod>2026-10-15</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>https://github.ioindex.html</loc>
-        <lastmod>2026-10-15</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.80</priority>
-    </url>
-
-    <!-- Project Document Pages -->
-    <url>
-        <loc>https://github.iocontact.html</loc>
-        <lastmod>2026-10-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.50</priority>
-    </url>
-    <url>
-        <loc>https://github.iotos.html</loc>
-        <lastmod>2026-10-15</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.30</priority>
-    </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/records/01-roblox-publishing-system-flaws.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/records/02-roblox-appeals-creator-economic-flaws.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/records/03-roblox-automated-reporting-flaws.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/records/04-devex-conversion-disparity-economic-corrosion.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/records/05-algorithmic-obfuscation-ab-testing.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/records/06-retroactive-moderation-audio-sunset.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/records/07-weaponized-dmca-pipeline-extortion.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/records/08-textchatservice-compliance.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/records/09-devex-compliance-pipeline.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/records/10-desynced-marketplace-appeals-loop.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://hamgram77.github.io/roblox-secret-archives/records/11-datastore-corruption-infrastructure-compliance.html</loc><lastmod>2026-10-17</lastmod></url>
 </urlset>

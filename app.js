@@ -1,4 +1,4 @@
-const records = [
+const legacyRecords = [
   {
     number: "01",
     title: "Roblox Publishing System & Creator Economic Flaws",
@@ -100,11 +100,18 @@ const records = [
   },
 ];
 
+const records = window.archiveRecords || legacyRecords;
+records.forEach((record) => {
+  record.slug ||= record.pdf.split("/").pop().replace(/\.pdf$/i, "");
+  record.isoDate ||= "2026-10-14";
+});
 const archiveList = document.querySelector("#archive-list");
 const searchInput = document.querySelector("#archive-search");
 const resultCount = document.querySelector("#result-count");
 const emptyState = document.querySelector("#empty-state");
 const clearSearch = document.querySelector("#clear-search");
+const sortSelect = document.querySelector("#archive-sort");
+const sortSummary = document.querySelector("#sort-summary");
 const filters = [...document.querySelectorAll(".filter")];
 const menuButton = document.querySelector(".menu-button");
 const menuLabel = menuButton.querySelector(".sr-only");
@@ -116,10 +123,15 @@ const templateTabs = [...document.querySelectorAll("[data-template-tab]")];
 const templatePanels = [...document.querySelectorAll("[data-template-panel]")];
 const contactForm = document.querySelector(".contact-form");
 const contactPrivacyBlock = document.querySelector("#home-contact-privacy-block");
+const contactReplyEmail = document.querySelector("#home-reply-email");
 const contactPdfInput = document.querySelector("#home-pdf-attachment");
 const contactPdfStatus = document.querySelector("#home-pdf-status");
+const contactPdfRemove = document.querySelector("#home-pdf-remove");
+const contactPdfPermissionWrap = document.querySelector("#home-pdf-permission-wrap");
+const contactPdfPermission = document.querySelector("#home-pdf-permission");
 const contactSubmitButton = contactForm?.querySelector('[type="submit"]');
 let activeFilter = "publishing";
+let activeSort = new URLSearchParams(window.location.search).get("sort") || "number-asc";
 let pdfJsModulePromise;
 let contactPdfScanInProgress = false;
 
@@ -130,6 +142,17 @@ const filterLabels = {
   economy: "creator economy",
   technical: "technical",
 };
+
+const sortLabels = {
+  "number-asc": "record number · ascending",
+  "number-desc": "record number · descending",
+  newest: "newest added",
+  oldest: "oldest added",
+  title: "title · A–Z",
+  topic: "topic",
+};
+if (!sortLabels[activeSort]) activeSort = "number-asc";
+sortSelect.value = activeSort;
 
 const contactPrivacyPatterns = [
   /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}\b/i,
@@ -178,7 +201,21 @@ function containsPersonalInformation(value) {
 
 function contactFormContainsPersonalInformation(form) {
   const editableTextFields = form.querySelectorAll('input:not([type="hidden"]):not([type="checkbox"]):not([type="submit"]):not([type="file"]):not([name="_honey"]), textarea');
-  return [...editableTextFields].some((field) => containsPersonalInformation(field.value));
+  return [...editableTextFields].some((field) => field !== contactReplyEmail && containsPersonalInformation(field.value));
+}
+
+function syncPdfPermission() {
+  const hasPdf = Boolean(contactPdfInput?.files?.length);
+  contactPdfPermissionWrap.hidden = !hasPdf;
+  contactPdfPermission.required = hasPdf;
+  contactPdfRemove.hidden = !hasPdf;
+  if (!hasPdf) contactPdfPermission.checked = false;
+}
+
+function formatFileSize(bytes) {
+  if (bytes < 1024) return `${bytes} bytes`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 function showContactBlock(message) {
@@ -292,7 +329,8 @@ function recordTemplate(record) {
         <div class="record-tags">${record.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
       </div>
       <div class="record-actions">
-        <a class="action-primary" href="${record.pdf}" target="_blank" rel="noopener">View PDF <span aria-hidden="true">↗</span></a>
+        <a class="action-primary" href="records/${record.slug}.html">Record page <span aria-hidden="true">→</span></a>
+        <a href="${record.pdf}" target="_blank" rel="noopener">View PDF <span aria-hidden="true">↗</span></a>
         <a href="${record.pdf}" download>Download <span aria-hidden="true">↓</span></a>
         ${record.source ? `<a href="${record.source}" target="_blank" rel="noopener noreferrer">Google source <span aria-hidden="true">↗</span></a>` : ""}
       </div>
@@ -306,12 +344,20 @@ function renderRecords() {
     const matchesQuery = !query || searchable.includes(query);
     const matchesFilter = activeFilter === "all" || record.tags.includes(activeFilter);
     return matchesQuery && matchesFilter;
+  }).sort((a, b) => {
+    if (activeSort === "number-desc") return Number(b.number) - Number(a.number);
+    if (activeSort === "newest") return b.isoDate.localeCompare(a.isoDate) || Number(b.number) - Number(a.number);
+    if (activeSort === "oldest") return a.isoDate.localeCompare(b.isoDate) || Number(a.number) - Number(b.number);
+    if (activeSort === "title") return a.title.localeCompare(b.title);
+    if (activeSort === "topic") return a.tags[0].localeCompare(b.tags[0]) || Number(a.number) - Number(b.number);
+    return Number(a.number) - Number(b.number);
   });
 
   archiveList.innerHTML = filtered.map(recordTemplate).join("");
   const topicLabel = filterLabels[activeFilter];
   const topicText = activeFilter === "all" ? "" : `${topicLabel} `;
   resultCount.textContent = `Showing ${filtered.length} ${topicText}${filtered.length === 1 ? "record" : "records"}`;
+  sortSummary.textContent = `Sorted by ${sortLabels[activeSort]}`;
   emptyState.hidden = filtered.length !== 0;
 }
 
@@ -353,6 +399,14 @@ function showSitePanel(panelId, updateHistory = false) {
 }
 
 searchInput.addEventListener("input", renderRecords);
+sortSelect.addEventListener("change", () => {
+  activeSort = sortSelect.value;
+  const url = new URL(window.location.href);
+  if (activeSort === "number-asc") url.searchParams.delete("sort");
+  else url.searchParams.set("sort", activeSort);
+  window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  renderRecords();
+});
 filters.forEach((filter) => {
   filter.addEventListener("click", () => {
     selectFilter(filter);
@@ -500,12 +554,24 @@ if (contactForm && contactPrivacyBlock) {
   contactPdfInput?.addEventListener("change", () => {
     clearContactBlock();
     const file = contactPdfInput.files?.[0];
+    syncPdfPermission();
     if (!file) {
       setPdfStatus("No PDF selected. Files are scanned locally before upload.");
       return;
     }
-    setPdfStatus(`${file.name} selected. Privacy scan will run before submission.`);
+    setPdfStatus(`${file.name} · ${formatFileSize(file.size)} · Privacy scan will run before submission.`);
   });
+
+  contactPdfRemove?.addEventListener("click", () => {
+    if (contactPdfScanInProgress) return;
+    contactPdfInput.value = "";
+    syncPdfPermission();
+    clearContactBlock();
+    setPdfStatus("No PDF selected. Files are scanned locally before upload.");
+    contactPdfInput.focus();
+  });
+
+  syncPdfPermission();
 
   contactForm.addEventListener("submit", async (event) => {
     if (contactFormContainsPersonalInformation(contactForm)) {
@@ -524,6 +590,7 @@ if (contactForm && contactPrivacyBlock) {
     if (contactPdfScanInProgress) return;
     contactPdfScanInProgress = true;
     contactSubmitButton.disabled = true;
+    contactPdfRemove.disabled = true;
     contactSubmitButton.setAttribute("aria-busy", "true");
     setPdfStatus("Checking PDF type and content locally…", "scanning");
 
@@ -552,6 +619,7 @@ if (contactForm && contactPrivacyBlock) {
     } finally {
       contactPdfScanInProgress = false;
       contactSubmitButton.disabled = false;
+      contactPdfRemove.disabled = false;
       contactSubmitButton.removeAttribute("aria-busy");
     }
   });
