@@ -24,9 +24,12 @@ if (uniqueNumbers.size !== records.length) failures.push("Record numbers are not
 if (uniqueSlugs.size !== records.length) failures.push("Record slugs are not unique.");
 
 const index = fs.readFileSync("index.html", "utf8");
-for (const id of ["archive-sort", "sort-summary", "home-pdf-permission-wrap", "home-pdf-permission", "home-pdf-remove", "changelog"]) {
+for (const id of ["archive-sort", "sort-summary", "home-pdf-permission-wrap", "home-pdf-permission", "home-pdf-remove", "changelog", "contact"]) {
   if (!index.includes(`id="${id}"`)) failures.push(`Missing required element #${id}.`);
 }
+
+if (!index.includes('href="#contact" role="tab" data-site-tab')) failures.push("Contact is not configured as a site subtab.");
+if ((index.match(/https:\/\/www\.youtube\.com\/@Hamgram773/g) || []).length < 3) failures.push("Expected YouTube links on Home, About, and in the shared footer.");
 
 const ids = [...index.matchAll(/id="([^"]+)"/g)].map((match) => match[1]);
 const duplicateIds = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
