@@ -111,6 +111,14 @@ h1 { max-width: 880px; font-size: clamp(3.4rem, 7.4vw, 7.2rem); }
 .button { min-height: 50px; font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; transition: transform .2s ease, background .2s ease; }
 .button:hover { transform: translateY(-2px); }
 .button-primary { box-shadow: 0 10px 26px rgba(223,62,56,.22); }
+.home-youtube-card { display: flex; align-items: center; gap: 1.15rem; width: min(100%, 520px); margin-top: 1.35rem; padding: 1rem 1.2rem; border: 1px solid rgba(255,255,255,.18); color: white; background: linear-gradient(110deg, rgba(255,255,255,.08), rgba(223,62,56,.08)); text-decoration: none; box-shadow: 0 16px 36px rgba(0,0,0,.18); transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+.home-youtube-card img { flex: 0 0 78px; width: 78px; height: 78px; border: 2px solid rgba(255,255,255,.22); border-radius: 50%; object-fit: cover; box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+.home-youtube-copy { display: grid; min-width: 0; gap: .3rem; }
+.home-youtube-copy small { color: #f87171; font: 800 .54rem var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.home-youtube-copy strong { overflow: hidden; font-size: clamp(1.05rem, 2vw, 1.35rem); line-height: 1.15; text-overflow: ellipsis; white-space: nowrap; }
+.home-youtube-copy > span { color: #aeb8c6; font: 600 .62rem var(--mono); letter-spacing: .025em; }
+.home-youtube-card:hover { border-color: rgba(248,113,113,.75); background: linear-gradient(110deg, rgba(255,255,255,.1), rgba(223,62,56,.15)); transform: translateY(-3px); }
+.home-youtube-card:focus-visible { outline-color: #f87171; }
 .hero-index {
   padding: 1.5rem;
   border: 1px solid rgba(255,255,255,.17);
@@ -546,6 +554,10 @@ footer p { color: #858f9c; letter-spacing: .025em; }
 
 @media (max-width: 680px) {
   h1 { font-size: clamp(2.6rem, 13vw, 4rem); }
+  .home-youtube-card { padding: .85rem; }
+  .home-youtube-card img { flex-basis: 64px; width: 64px; height: 64px; }
+  .home-youtube-copy strong { font-size: 1rem; }
+  .home-youtube-copy > span { font-size: .56rem; }
   .archive-card { grid-template-columns: 1fr; gap: .85rem; padding: 1.4rem; }
   .archive-card:hover { padding-inline: 1.4rem; }
   .record-number, .record-title, .record-description, .record-actions { grid-column: 1; }
