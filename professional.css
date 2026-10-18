@@ -194,6 +194,11 @@ h1 { max-width: 880px; font-size: clamp(3.4rem, 7.4vw, 7.2rem); }
 .about-lead::first-letter { color: var(--red); }
 .about-copy p { color: #abb4c1; }
 .about-copy p:first-child { color: #e0e5eb; }
+.about-youtube { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1rem 1.1rem; border: 1px solid rgba(255,255,255,.16); color: #cbd5e1; background: rgba(255,255,255,.035); text-decoration: none; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+.about-youtube span { font: 600 .58rem var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+.about-youtube strong { color: white; font-size: .76rem; }
+.about-youtube:hover { border-color: rgba(248,113,113,.72); background: rgba(248,113,113,.08); transform: translateY(-2px); }
+.about-youtube:focus-visible { outline: 2px solid #f87171; outline-offset: 3px; }
 .method-list { gap: .8rem; border-top: 0; }
 .method-list li { min-height: 210px; padding: 2rem; border: 1px solid var(--line); background: rgba(255,253,248,.72); transition: transform .2s ease, box-shadow .2s ease; }
 .method-list li + li { padding-left: 2rem; border-left: 1px solid var(--line); }
