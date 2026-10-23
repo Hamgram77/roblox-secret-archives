@@ -30,7 +30,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
     <link rel="stylesheet" href="styles.css?v=20261023" />
-    <link rel="stylesheet" href="professional.css?v=20261023-faq-roadmap" />
+    <link rel="stylesheet" href="professional.css?v=20261023-support-resources" />
     <script type="application/ld+json">
       {"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://hamgram77.github.io/roblox-secret-archives/#website","name":"Roblox Developer Archives","alternateName":"Developer Archives","url":"https://hamgram77.github.io/roblox-secret-archives/"},{"@type":"CollectionPage","name":"Roblox Developer Archives","description":"An independent, searchable archive documenting Roblox platform, moderation, publishing, and creator-economy concerns.","url":"https://hamgram77.github.io/roblox-secret-archives/","isPartOf":{"@id":"https://hamgram77.github.io/roblox-secret-archives/#website"},"about":["Roblox development","platform moderation","creator economy","publishing systems"]}]}
     </script>
@@ -38,7 +38,7 @@
       {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this website operated by Roblox?","acceptedAnswer":{"@type":"Answer","text":"No. Roblox Developer Archives is an independent research project and is not affiliated with, endorsed by, or operated by Roblox Corporation."}},{"@type":"Question","name":"What does the archive contain?","acceptedAnswer":{"@type":"Answer","text":"The archive contains creator-authored reports about publishing, moderation, appeals, technical systems, and the creator economy."}},{"@type":"Question","name":"Are the appeal templates official Roblox forms?","acceptedAnswer":{"@type":"Answer","text":"No. They are independent drafting aids and must be reviewed for accuracy before use through an official Roblox channel."}},{"@type":"Question","name":"Does the Support Lab predict what Roblox will do?","acceptedAnswer":{"@type":"Answer","text":"No. It is a local educational simulator and cannot access Roblox systems, reproduce private moderation logic, or guarantee an outcome."}}]}
     </script>
     <script src="archive-records.js?v=20261023" defer></script>
-    <script src="app.js?v=20261023" defer></script>
+    <script src="app.js?v=20261023-support-resources" defer></script>
     <script src="support-simulator.js?v=20261017-tiered-scoring" defer></script>
   </head>
   <body>
@@ -59,9 +59,7 @@
           <a href="#home" role="tab" data-site-tab aria-selected="false" aria-controls="home">Home</a>
           <a href="#archive" role="tab" data-site-tab aria-selected="false" aria-controls="archive">Archive</a>
           <a href="#about" role="tab" data-site-tab aria-selected="false" aria-controls="about">About</a>
-          <a href="#methodology" role="tab" data-site-tab aria-selected="false" aria-controls="methodology">Methodology</a>
-          <a href="#appeal-templates" role="tab" data-site-tab aria-selected="false" aria-controls="appeal-templates">Appeal templates</a>
-          <a href="#support-lab" role="tab" data-site-tab aria-selected="false" aria-controls="support-lab">Support lab</a>
+          <a href="#support-resources" role="tab" data-site-tab aria-selected="false" aria-controls="support-resources">Support resources</a>
           <a href="#faq" role="tab" data-site-tab aria-selected="false" aria-controls="faq">FAQ</a>
           <a href="#roadmap" role="tab" data-site-tab aria-selected="false" aria-controls="roadmap">Roadmap</a>
           <a href="#changelog" role="tab" data-site-tab aria-selected="false" aria-controls="changelog">Changelog</a>
@@ -349,9 +347,7 @@
             </a>
           </div>
         </div>
-      </section>
-
-      <section class="method-section site-panel" id="methodology" data-site-panel aria-labelledby="method-heading" hidden>
+        <section class="method-section about-methodology" id="methodology" aria-labelledby="method-heading">
         <div class="section-heading">
           <div>
             <p class="section-number">03 / Methodology</p>
@@ -372,9 +368,23 @@
           </div>
           <p class="editorial-disclosure">This independent archive is not affiliated with Roblox Corporation. Archive records may contain the author’s analysis, allegations, or recommendations and should be read with their cited sources.</p>
         </div>
+        </section>
       </section>
 
-      <section class="appeal-template-section site-panel" id="appeal-templates" data-site-panel aria-labelledby="appeal-templates-heading" hidden>
+      <section class="support-resources-section site-panel" id="support-resources" data-site-panel aria-labelledby="support-resources-heading" hidden>
+        <div class="support-resources-intro">
+          <div>
+            <p class="section-number">03 / Support resources</p>
+            <h2 id="support-resources-heading">Draft clearly.<br /><em>Test privately.</em></h2>
+          </div>
+          <p>Switch between ready-to-edit appeal templates and the private support-routing simulator. These independent tools never contact Roblox.</p>
+        </div>
+        <div class="resource-tab-list" role="tablist" aria-label="Support resources">
+          <button class="resource-tab is-active" id="resource-tab-templates" type="button" role="tab" data-resource-tab="appeal-templates" aria-selected="true" aria-controls="appeal-templates" tabindex="0"><span>01</span><strong>Appeal templates</strong><small>Draft structured requests</small></button>
+          <button class="resource-tab" id="resource-tab-lab" type="button" role="tab" data-resource-tab="support-lab" aria-selected="false" aria-controls="support-lab" tabindex="-1"><span>02</span><strong>Support Lab</strong><small>Estimate possible routing</small></button>
+        </div>
+
+      <section class="appeal-template-section support-resource-panel" id="appeal-templates" data-resource-panel="appeal-templates" role="tabpanel" aria-labelledby="resource-tab-templates">
         <div class="appeal-template-shell">
           <div class="appeal-template-heading">
             <div>
@@ -572,7 +582,7 @@ Respectfully,
         </div>
       </section>
 
-      <section class="discussion-section support-lab site-panel" id="support-lab" data-site-panel aria-labelledby="support-lab-heading" hidden>
+      <section class="discussion-section support-lab support-resource-panel" id="support-lab" data-resource-panel="support-lab" role="tabpanel" aria-labelledby="resource-tab-lab" hidden>
         <div class="discussion-shell">
           <div class="discussion-heading">
             <div>
@@ -689,6 +699,7 @@ Respectfully,
           </p>
         </div>
       </section>
+      </section>
 
       <section class="faq-section site-panel" id="faq" data-site-panel aria-labelledby="faq-heading" hidden>
         <div class="information-shell">
@@ -760,6 +771,10 @@ Respectfully,
           </div>
 
           <ol class="changelog-list">
+            <li>
+              <div class="changelog-date"><time datetime="2026-10-23">October 23, 2026</time><span>v1.9.0</span></div>
+              <article><h3>Navigation consolidation</h3><ul><li>Moved methodology and editorial standards into the About tab.</li><li>Combined Appeal Templates and Support Lab into a single Support Resources tab with two accessible internal tabs.</li></ul></article>
+            </li>
             <li>
               <div class="changelog-date"><time datetime="2026-10-23">October 23, 2026</time><span>v1.8.0</span></div>
               <article><h3>FAQ and public roadmap</h3><ul><li>Added dedicated, responsive FAQ and Roadmap tabs.</li><li>Documented the archive’s independence, privacy limitations, completed foundation, active priorities, and possible future improvements.</li></ul></article>
