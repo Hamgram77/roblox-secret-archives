@@ -13,4 +13,12 @@ The worker repeats PDF extension, MIME, size, signature, encryption, embedded-at
 5. Run `npm run check`, deploy to a staging Worker, and test rejected and approved PDFs.
 6. Replace the form action only after the deployed endpoint is verified.
 
+## Acceptance checks
+
+- `GET /health` returns JSON with `ok: true`; `configured` becomes true only after both relay variables exist.
+- A non-PDF, oversized PDF, image-only PDF, encrypted PDF, embedded attachment, or detected personal information receives a 4xx response and is not forwarded.
+- A clean text PDF from the production origin reaches the relay and redirects only to the configured success URL.
+- Requests from other origins are rejected, and repeated requests are limited by the configured binding.
+- Keep the public form on FormSubmit until every staging check passes. Switching the form action is a separate owner-approved deployment step.
+
 GitHub Pages cannot execute this code. Until the Worker is deployed, the public site continues to use its local browser scanner and the existing FormSubmit route.

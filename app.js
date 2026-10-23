@@ -101,6 +101,7 @@ const legacyRecords = [
 ];
 
 const records = window.archiveRecords || legacyRecords;
+const escapeHtml = (value) => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 records.forEach((record) => {
   record.slug ||= record.pdf.split("/").pop().replace(/\.pdf$/i, "");
   record.isoDate ||= "2026-10-14";
@@ -130,8 +131,12 @@ const contactPdfRemove = document.querySelector("#home-pdf-remove");
 const contactPdfPermissionWrap = document.querySelector("#home-pdf-permission-wrap");
 const contactPdfPermission = document.querySelector("#home-pdf-permission");
 const contactSubmitButton = contactForm?.querySelector('[type="submit"]');
-let activeFilter = "publishing";
-let activeSort = new URLSearchParams(window.location.search).get("sort") || "number-asc";
+const contactPdfDropZone = document.querySelector("#home-pdf-drop-zone");
+const contactReason = document.querySelector("#home-contact-reason");
+const relatedRecord = document.querySelector("#home-related-record");
+const queryParameters = new URLSearchParams(window.location.search);
+let activeFilter = queryParameters.get("topic") || "publishing";
+let activeSort = queryParameters.get("sort") || "number-asc";
 let pdfJsModulePromise;
 let contactPdfScanInProgress = false;
 
@@ -152,6 +157,7 @@ const sortLabels = {
   topic: "topic",
 };
 if (!sortLabels[activeSort]) activeSort = "number-asc";
+if (!filterLabels[activeFilter]) activeFilter = "publishing";
 sortSelect.value = activeSort;
 
 const contactPrivacyPatterns = [
@@ -234,6 +240,20 @@ function setPdfStatus(message, state = "") {
   contactPdfStatus.textContent = message;
   contactPdfStatus.classList.remove("is-scanning", "is-approved", "is-error");
   if (state) contactPdfStatus.classList.add(`is-${state}`);
+}
+
+function setPdfCheck(name, label, state = "") {
+  const item = document.querySelector(`[data-pdf-check="${name}"]`);
+  if (!item) return;
+  item.className = state ? `is-${state}` : "";
+  item.querySelector("strong").textContent = label;
+}
+
+function resetPdfChecklist(hasFile = false) {
+  setPdfCheck("file", hasFile ? "Ready" : "Waiting", hasFile ? "ready" : "");
+  setPdfCheck("readable", hasFile ? "Pending scan" : "Waiting", hasFile ? "ready" : "");
+  setPdfCheck("privacy", hasFile ? "Pending scan" : "Waiting", hasFile ? "ready" : "");
+  setPdfCheck("permission", hasFile ? "Required" : "Not needed", hasFile ? "ready" : "");
 }
 
 function pdfTextContainsPersonalInformation(value) {
@@ -337,6 +357,28 @@ function recordTemplate(record) {
     </article>`;
 }
 
+function renderLatestRecords() {
+  const container = document.querySelector("#latest-records-grid");
+  if (!container) return;
+  container.innerHTML = [...records]
+    .sort((a, b) => b.isoDate.localeCompare(a.isoDate) || Number(b.number) - Number(a.number))
+    .slice(0, 3)
+    .map((record) => `<a class="latest-record-card" href="records/${record.slug}.html">
+      <span>Record ${record.number} · ${record.date}</span>
+      <h3>${escapeHtml(record.title)}</h3>
+      <p>${escapeHtml(record.description)}</p>
+      <small>${record.tags.map(escapeHtml).join(" · ")} <b aria-hidden="true">→</b></small>
+    </a>`).join("");
+}
+
+function updateFilterCounts() {
+  filters.forEach((filter) => {
+    const count = filter.dataset.filter === "all" ? records.length : records.filter((record) => record.tags.includes(filter.dataset.filter)).length;
+    const badge = filter.querySelector("span");
+    if (badge) badge.textContent = String(count);
+  });
+}
+
 function renderRecords() {
   const query = searchInput.value.trim().toLowerCase();
   const filtered = records.filter((record) => {
@@ -361,7 +403,7 @@ function renderRecords() {
   emptyState.hidden = filtered.length !== 0;
 }
 
-function selectFilter(filter, focus = false) {
+function selectFilter(filter, focus = false, updateUrl = true) {
   activeFilter = filter.dataset.filter;
   filters.forEach((item) => {
     const selected = item === filter;
@@ -370,6 +412,12 @@ function selectFilter(filter, focus = false) {
     item.tabIndex = selected ? 0 : -1;
   });
   archiveList.setAttribute("aria-labelledby", filter.id);
+  if (updateUrl) {
+    const url = new URL(window.location.href);
+    if (activeFilter === "publishing") url.searchParams.delete("topic");
+    else url.searchParams.set("topic", activeFilter);
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  }
   renderRecords();
   if (focus) filter.focus();
 }
@@ -470,6 +518,20 @@ document.addEventListener("click", (event) => {
 
 window.addEventListener("hashchange", () => showSitePanel(panelFromHash()));
 
+document.querySelector(".site-tab-list")?.addEventListener("keydown", (event) => {
+  if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+  event.preventDefault();
+  const currentIndex = siteTabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true");
+  let nextIndex = currentIndex;
+  if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % siteTabs.length;
+  if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + siteTabs.length) % siteTabs.length;
+  if (event.key === "Home") nextIndex = 0;
+  if (event.key === "End") nextIndex = siteTabs.length - 1;
+  const tab = siteTabs[nextIndex];
+  showSitePanel(tab.getAttribute("href").slice(1), true);
+  tab.focus();
+});
+
 document.addEventListener("click", (event) => {
   if (!event.target.closest(".site-header")) closeNavigation();
 });
@@ -544,6 +606,34 @@ document.querySelectorAll("[data-copy-target]").forEach((button) => {
   button.addEventListener("click", () => copyAppealTemplate(button));
 });
 
+const appealTemplateFields = {
+  username: document.querySelector("#template-username"),
+  subject: document.querySelector("#template-subject"),
+  reference: document.querySelector("#template-reference"),
+  signer: document.querySelector("#template-signer"),
+};
+document.querySelectorAll(".appeal-template-text").forEach((textarea) => { textarea.dataset.original = textarea.value; });
+
+function applyTemplateHelper() {
+  const values = Object.fromEntries(Object.entries(appealTemplateFields).map(([key, input]) => [key, input?.value.trim() || ""]));
+  document.querySelectorAll(".appeal-template-text").forEach((textarea) => {
+    let output = textarea.dataset.original;
+    if (values.username) output = output.replaceAll("[Insert Username]", values.username).replaceAll("[Your Username]", values.username);
+    if (values.subject) output = output.replaceAll("[Insert Game/Asset Name]", values.subject).replaceAll("[Insert Game Name]", values.subject).replaceAll("[Your Game Name]", values.subject);
+    if (values.reference) output = output.replace(/\[(?:Insert Old Ticket Number if you have one, otherwise delete this line|Insert Date or Transaction Log Number|Insert Past Ticket # if applicable|Insert Game Universe ID)\]/g, values.reference);
+    if (values.signer) output = output.replaceAll("[Your Parent's Name]", values.signer).replaceAll("[Your Name]", values.signer);
+    textarea.value = output;
+  });
+  document.querySelector("#template-helper-status").textContent = "Draft placeholders updated locally.";
+}
+
+document.querySelector("#template-apply")?.addEventListener("click", applyTemplateHelper);
+document.querySelector("#template-reset")?.addEventListener("click", () => {
+  Object.values(appealTemplateFields).forEach((input) => { if (input) input.value = ""; });
+  document.querySelectorAll(".appeal-template-text").forEach((textarea) => { textarea.value = textarea.dataset.original; });
+  document.querySelector("#template-helper-status").textContent = "Draft helper reset.";
+});
+
 if (contactForm && contactPrivacyBlock) {
   contactPdfInput?.addEventListener("change", () => {
     clearContactBlock();
@@ -551,8 +641,10 @@ if (contactForm && contactPrivacyBlock) {
     syncPdfPermission();
     if (!file) {
       setPdfStatus("No PDF selected. Files are scanned locally before upload.");
+      resetPdfChecklist(false);
       return;
     }
+    resetPdfChecklist(true);
     setPdfStatus(`${file.name} · ${formatFileSize(file.size)} · Privacy scan will run before submission.`);
   });
 
@@ -562,10 +654,29 @@ if (contactForm && contactPrivacyBlock) {
     syncPdfPermission();
     clearContactBlock();
     setPdfStatus("No PDF selected. Files are scanned locally before upload.");
+    resetPdfChecklist(false);
     contactPdfInput.focus();
   });
 
   syncPdfPermission();
+  resetPdfChecklist(Boolean(contactPdfInput?.files?.length));
+
+  ["dragenter", "dragover"].forEach((type) => contactPdfDropZone?.addEventListener(type, (event) => {
+    event.preventDefault();
+    contactPdfDropZone.classList.add("is-dragging");
+  }));
+  ["dragleave", "drop"].forEach((type) => contactPdfDropZone?.addEventListener(type, (event) => {
+    event.preventDefault();
+    contactPdfDropZone.classList.remove("is-dragging");
+  }));
+  contactPdfDropZone?.addEventListener("drop", (event) => {
+    const file = event.dataTransfer?.files?.[0];
+    if (!file || !contactPdfInput) return;
+    const transfer = new DataTransfer();
+    transfer.items.add(file);
+    contactPdfInput.files = transfer.files;
+    contactPdfInput.dispatchEvent(new Event("change", { bubbles: true }));
+  });
 
   contactForm.addEventListener("submit", async (event) => {
     if (contactFormContainsPersonalInformation(contactForm)) {
@@ -587,11 +698,17 @@ if (contactForm && contactPrivacyBlock) {
     contactPdfRemove.disabled = true;
     contactSubmitButton.setAttribute("aria-busy", "true");
     setPdfStatus("Checking PDF type and content locally…", "scanning");
+    setPdfCheck("file", "Checking", "scanning");
+    setPdfCheck("readable", "Scanning", "scanning");
+    setPdfCheck("privacy", "Scanning", "scanning");
 
     try {
       const result = await scanPdfAttachment(file).catch(() => ({ approved: false, message: CONTACT_PDF_UNREADABLE_MESSAGE }));
       if (!result.approved) {
         setPdfStatus("PDF rejected. Nothing was submitted.", "error");
+        setPdfCheck("file", "Review needed", "error");
+        setPdfCheck("readable", "Not approved", "error");
+        setPdfCheck("privacy", "Not approved", "error");
         showContactBlock(result.message);
         return;
       }
@@ -609,6 +726,10 @@ if (contactForm && contactPrivacyBlock) {
 
       clearContactBlock();
       setPdfStatus("PDF scan passed. Submitting through the existing secure route…", "approved");
+      setPdfCheck("file", "Passed", "approved");
+      setPdfCheck("readable", "Passed", "approved");
+      setPdfCheck("privacy", "Passed", "approved");
+      setPdfCheck("permission", "Confirmed", "approved");
       HTMLFormElement.prototype.submit.call(contactForm);
     } finally {
       contactPdfScanInProgress = false;
@@ -619,8 +740,18 @@ if (contactForm && contactPrivacyBlock) {
   });
 }
 
-renderRecords();
+updateFilterCounts();
+renderLatestRecords();
+if (relatedRecord) records.forEach((record) => relatedRecord.add(new Option(`Record ${record.number} — ${record.title}`, record.number)));
+const initialFilter = filters.find((item) => item.dataset.filter === activeFilter) || filters[0];
+selectFilter(initialFilter, false, false);
 showSitePanel(panelFromHash());
+if (queryParameters.get("intent") === "correction") {
+  if (contactReason) contactReason.value = "Correction";
+  const recordNumber = queryParameters.get("record");
+  if (recordNumber && relatedRecord) relatedRecord.value = recordNumber;
+  showSitePanel("contact");
+}
 if (new URLSearchParams(window.location.search).get("contact") === "submitted") {
   document.querySelector("#home-contact-success").hidden = false;
   showSitePanel("contact");

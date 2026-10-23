@@ -72,6 +72,9 @@ export default {
   async fetch(request, env) {
     const origin = request.headers.get("origin") || "";
     if (request.method === "OPTIONS") return response({ ok: true }, 200, origin === ALLOWED_ORIGIN ? origin : ALLOWED_ORIGIN);
+    if (request.method === "GET" && new URL(request.url).pathname === "/health") {
+      return response({ ok: true, service: "roblox-archives-secure-upload", configured: Boolean(env.FORMSUBMIT_ENDPOINT && env.SUCCESS_URL) });
+    }
     if (request.method !== "POST") return response({ ok: false, error: "Method not allowed." }, 405);
     if (origin !== ALLOWED_ORIGIN) return response({ ok: false, error: "Origin not allowed." }, 403);
 

@@ -27,6 +27,11 @@
 .record-file-icon { width: 60px; height: 74px; display: grid; place-items: center; margin-bottom: 1.2rem; color: white; background: #b91c1c; font: 800 .68rem var(--mono); letter-spacing: .08em; clip-path: polygon(0 0, 74% 0, 100% 21%, 100% 100%, 0 100%); }
 .record-file-card h2 { margin: 0 0 .6rem; color: white; font-size: 1.05rem; }
 .record-file-card p { margin: 0 0 1.2rem; color: #8290a5; font-size: .67rem; line-height: 1.7; }
+.record-verification { display: grid; gap: 1px; margin: 0 0 1.2rem; padding: 1px; background: rgba(255,255,255,.1); }
+.record-verification div { padding: .65rem .7rem; background: #0a1321; }
+.record-verification dt { margin-bottom: .25rem; color: #64748b; font: 700 .48rem var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+.record-verification dd { margin: 0; color: #dbe4ef; font: 650 .58rem/1.5 var(--mono); }
+.record-verification code { display: block; color: #94a3b8; font-size: .48rem; overflow-wrap: anywhere; }
 .record-file-actions { display: grid; gap: .65rem; }
 .record-file-actions a { min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0 .9rem; color: #f8fafc; border: 1px solid rgba(255,255,255,.16); font: 800 .58rem var(--mono); letter-spacing: .055em; text-decoration: none; text-transform: uppercase; }
 .record-file-actions a:first-child { border-color: #ef5a54; background: linear-gradient(135deg, #df3e38, #a92521); }
@@ -52,3 +57,4 @@
   .record-back { padding: .6rem .7rem; font-size: .5rem; }
   .record-revision { grid-template-columns: 1fr; gap: .45rem; }
 }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }

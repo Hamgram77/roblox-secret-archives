@@ -14,24 +14,32 @@
     <meta property="og:title" content="Roblox Developer Archives | Independent Research Library" />
     <meta property="og:description" content="An independent, searchable archive documenting Roblox platform, moderation, publishing, and creator-economy concerns." />
     <meta property="og:url" content="https://hamgram77.github.io/roblox-secret-archives/" />
+    <meta property="og:image" content="https://hamgram77.github.io/roblox-secret-archives/assets/social-preview.png" />
+    <meta property="og:image:width" content="1734" />
+    <meta property="og:image:height" content="907" />
+    <meta property="og:image:alt" content="Roblox Developer Archives — Independent Research Library" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Roblox Developer Archives | Independent Research Library" />
+    <meta name="twitter:description" content="An independent, searchable archive documenting Roblox platform and creator concerns." />
+    <meta name="twitter:image" content="https://hamgram77.github.io/roblox-secret-archives/assets/social-preview.png" />
     <title>Roblox Developer Archives | Independent Research Library</title>
     <link rel="canonical" href="https://hamgram77.github.io/roblox-secret-archives/" />
+    <link rel="icon" type="image/png" sizes="96x96" href="https://hamgram77.github.io/roblox-secret-archives/favicon-96.png" />
     <link rel="icon" href="favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96.png" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
-    <link rel="stylesheet" href="styles.css?v=20261016-appeal-templates" />
-    <link rel="stylesheet" href="professional.css?v=20261018-youtube-card" />
+    <link rel="stylesheet" href="styles.css?v=20261023" />
+    <link rel="stylesheet" href="professional.css?v=20261023" />
     <script type="application/ld+json">
-      {"@context":"https://schema.org","@type":"CollectionPage","name":"Roblox Developer Archives","description":"An independent, searchable archive documenting Roblox platform, moderation, publishing, and creator-economy concerns.","url":"https://hamgram77.github.io/roblox-secret-archives/","isPartOf":{"@type":"WebSite","name":"Roblox Developer Archives","url":"https://hamgram77.github.io/roblox-secret-archives/"},"about":["Roblox development","platform moderation","creator economy","publishing systems"]}
+      {"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://hamgram77.github.io/roblox-secret-archives/#website","name":"Roblox Developer Archives","alternateName":"Developer Archives","url":"https://hamgram77.github.io/roblox-secret-archives/"},{"@type":"CollectionPage","name":"Roblox Developer Archives","description":"An independent, searchable archive documenting Roblox platform, moderation, publishing, and creator-economy concerns.","url":"https://hamgram77.github.io/roblox-secret-archives/","isPartOf":{"@id":"https://hamgram77.github.io/roblox-secret-archives/#website"},"about":["Roblox development","platform moderation","creator economy","publishing systems"]}]}
     </script>
-    <script src="archive-records.js?v=20261017" defer></script>
-    <script src="app.js?v=20261017-archive-upgrades" defer></script>
+    <script src="archive-records.js?v=20261023" defer></script>
+    <script src="app.js?v=20261023" defer></script>
     <script src="support-simulator.js?v=20261017-tiered-scoring" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#archive">Skip to archive</a>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <header class="site-header" id="top">
       <a class="brand" href="#home" aria-label="Roblox Developer Archives home">
@@ -58,7 +66,7 @@
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <div class="site-panel home-panel" id="home" data-site-panel>
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-grid"></div>
@@ -123,6 +131,14 @@
           </div>
         </article>
       </section>
+
+      <section class="latest-records" aria-labelledby="latest-records-heading">
+        <div class="latest-records-heading">
+          <div><p class="section-number">New in the archive</p><h2 id="latest-records-heading">Latest records</h2></div>
+          <a href="#archive">Browse all 11 records <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="latest-records-grid" id="latest-records-grid"></div>
+      </section>
       </div>
 
       <section class="contact-page site-panel" id="contact" data-site-panel aria-labelledby="home-contact-heading" hidden>
@@ -181,6 +197,21 @@
                 <input id="home-contact-website" type="text" name="_honey" tabindex="-1" autocomplete="off" />
               </div>
 
+              <div class="form-step-heading"><span>01</span><div><strong>About your message</strong><small>Choose a purpose and use a pseudonym.</small></div></div>
+
+              <label for="home-contact-reason">Contact reason <small>Required</small></label>
+              <select id="home-contact-reason" name="Contact Reason" required>
+                <option value="">Choose a reason</option>
+                <option value="Question">Question about the archive</option>
+                <option value="Concern">Concern or feedback</option>
+                <option value="Archive submission">Submit a record for review</option>
+                <option value="Correction">Report a correction or source update</option>
+                <option value="Privacy or copyright">Privacy or copyright request</option>
+              </select>
+
+              <label for="home-related-record">Related record <small>Optional</small></label>
+              <select id="home-related-record" name="Related Record"><option value="">No specific record</option></select>
+
               <label for="home-developer-pseudonym">Developer pseudonym <small>Do not enter your real name</small></label>
               <input id="home-developer-pseudonym" name="Developer Pseudonym" type="text" minlength="2" maxlength="40" autocomplete="off" spellcheck="false" placeholder="Example: BrickBuilder_27" required />
 
@@ -188,15 +219,28 @@
               <input class="contact-reply-email" id="home-reply-email" name="email" type="email" autocomplete="email" placeholder="developer@example.com" />
               <p class="contact-field-note"><em>(Optional — Only enter your email if you require a direct reply to a question. Leave blank to remain fully anonymous.)</em></p>
 
+              <div class="form-step-heading"><span>02</span><div><strong>Describe the record</strong><small>Keep personal information out of this text.</small></div></div>
+
               <label for="home-record-description">Record description <small>20–5,000 characters</small></label>
               <textarea id="home-record-description" name="Record Description" rows="10" minlength="20" maxlength="5000" placeholder="Describe the record, why it matters, and any non-sensitive context that would help review it." required></textarea>
 
+              <div class="form-step-heading"><span>03</span><div><strong>Optional document</strong><small>One text-based PDF, checked locally before submission.</small></div></div>
               <label for="home-pdf-attachment">PDF attachment <small>Optional · PDF only · Maximum 10 MB</small></label>
-              <input class="contact-file-input" id="home-pdf-attachment" name="attachment" type="file" accept=".pdf,application/pdf" />
+              <div class="contact-drop-zone" id="home-pdf-drop-zone">
+                <span class="contact-drop-icon" aria-hidden="true">PDF</span>
+                <div><strong>Drop a PDF here</strong><small>or choose a file from your device</small></div>
+                <input class="contact-file-input" id="home-pdf-attachment" name="attachment" type="file" accept=".pdf,application/pdf" aria-describedby="home-pdf-status home-pdf-checklist" />
+              </div>
               <div class="contact-file-feedback">
                 <p class="contact-file-status" id="home-pdf-status" role="status" aria-live="polite">No PDF selected. Files are scanned locally before upload.</p>
                 <button class="contact-file-remove" id="home-pdf-remove" type="button" hidden>Remove PDF</button>
               </div>
+              <ul class="pdf-scan-checklist" id="home-pdf-checklist" aria-label="PDF safety check status" aria-live="polite">
+                <li data-pdf-check="file"><span>File type and size</span><strong>Waiting</strong></li>
+                <li data-pdf-check="readable"><span>Readable text and structure</span><strong>Waiting</strong></li>
+                <li data-pdf-check="privacy"><span>Personal-information screen</span><strong>Waiting</strong></li>
+                <li data-pdf-check="permission"><span>Sharing confirmation</span><strong>Not needed</strong></li>
+              </ul>
 
               <label class="contact-age-check contact-upload-permission" id="home-pdf-permission-wrap" for="home-pdf-permission" hidden>
                 <input id="home-pdf-permission" name="Document Sharing Confirmation" type="checkbox" value="Confirmed permission to share document" />
@@ -314,6 +358,15 @@
           <li><span>02</span><div><h3>Describe</h3><p>Concise catalog summaries help readers understand each record without changing its contents.</p></div></li>
           <li><span>03</span><div><h3>Connect</h3><p>Entries include original source links when available, supporting provenance without excluding archive-authored records.</p></div></li>
         </ol>
+        <div class="editorial-policy" aria-labelledby="editorial-policy-heading">
+          <div class="editorial-policy-heading"><p class="section-number">Editorial standard</p><h3 id="editorial-policy-heading">Corrections stay visible.</h3></div>
+          <div class="editorial-policy-grid">
+            <article><span>01</span><h4>Review</h4><p>Catalog descriptions are checked for relevance, readability, source traceability, and clear separation between documented facts and creator-submitted assertions.</p></article>
+            <article><span>02</span><h4>Correct</h4><p>Material corrections are dated in the record history. Preserved PDFs are not silently rewritten; revised editions remain identifiable.</p></article>
+            <article><span>03</span><h4>Request review</h4><p>Source owners may report an error, privacy concern, copyright issue, or missing context through the Contact tab. Requests are reviewed, but removal is not automatic.</p><a href="?intent=correction#contact">Report a correction →</a></article>
+          </div>
+          <p class="editorial-disclosure">This independent archive is not affiliated with Roblox Corporation. Archive records may contain the author’s analysis, allegations, or recommendations and should be read with their cited sources.</p>
+        </div>
       </section>
 
       <section class="appeal-template-section site-panel" id="appeal-templates" data-site-panel aria-labelledby="appeal-templates-heading" hidden>
@@ -330,6 +383,18 @@
             <span aria-hidden="true">!</span>
             <p><strong>Use accurate information only.</strong> Delete lines that do not apply, and do not claim a prior ticket, transaction, parental review, security event, or other fact unless it is true. These are unofficial starting points, not Roblox forms or legal advice.</p>
           </div>
+
+          <section class="template-helper" aria-labelledby="template-helper-heading">
+            <div><p class="section-number">Optional drafting helper</p><h3 id="template-helper-heading">Fill common placeholders once.</h3><p>Values stay in this page only and are never saved or submitted. Use fictional values while testing; add sensitive details only on the official support form.</p></div>
+            <div class="template-helper-fields">
+              <label>Username or account tag<input id="template-username" type="text" maxlength="50" autocomplete="off" placeholder="ExampleUsername" /></label>
+              <label>Game or asset name<input id="template-subject" type="text" maxlength="80" autocomplete="off" placeholder="Example experience" /></label>
+              <label>Reference or case ID<input id="template-reference" type="text" maxlength="80" autocomplete="off" placeholder="CASE-0000" /></label>
+              <label>Signature name<input id="template-signer" type="text" maxlength="80" autocomplete="off" placeholder="Parent, guardian, or account holder" /></label>
+              <div class="template-helper-actions"><button id="template-apply" type="button">Apply to templates</button><button id="template-reset" type="button">Reset</button></div>
+              <p id="template-helper-status" role="status" aria-live="polite"></p>
+            </div>
+          </section>
 
           <div class="template-browser">
             <div class="template-tab-list" role="tablist" aria-label="Appeal template types">
@@ -507,7 +572,7 @@ Respectfully,
           <div class="discussion-heading">
             <div>
               <p class="section-number">05 / Support routing lab</p>
-              <h2 id="support-lab-heading">Test a support request</h2>
+              <h2 id="support-lab-heading">Estimate support routing</h2>
             </div>
             <p>Explore whether a sample request might receive automated guidance first or appear to need human review.</p>
           </div>
@@ -519,6 +584,7 @@ Respectfully,
               <p>Analysis runs entirely in your browser. Do not enter a real username, email, receipt, password, age, address, case number, or other personal information.</p>
             </div>
           </div>
+          <div class="support-model-note" role="note"><strong>Editorial model, not an inside view.</strong><p>The score is produced by transparent page rules such as topic, structure, detail, and specialist vocabulary. It is not Roblox software, does not access Roblox systems, and cannot predict an actual response.</p></div>
 
           <div class="discussion-grid support-grid">
             <form class="discussion-form support-form" id="support-simulator-form" novalidate>
@@ -579,7 +645,7 @@ Respectfully,
               <div class="feed-heading">
                 <div>
                   <span>Estimated routing</span>
-                  <h3 id="support-result-heading">Simulation result</h3>
+                  <h3 id="support-result-heading">Estimated routing outcome</h3>
                 </div>
                 <span class="privacy-chip">Local only</span>
               </div>
@@ -606,7 +672,7 @@ Respectfully,
                 </div>
 
                 <div class="result-columns">
-                  <div><h4>Signals found</h4><ul id="result-signals"></ul></div>
+                  <div><h4>Why this estimate</h4><ul id="result-signals"></ul></div>
                   <div><h4>What may happen next</h4><ul id="result-next-steps"></ul></div>
                 </div>
               </article>
@@ -630,6 +696,10 @@ Respectfully,
           </div>
 
           <ol class="changelog-list">
+            <li>
+              <div class="changelog-date"><time datetime="2026-10-23">October 23, 2026</time><span>v1.7.0</span></div>
+              <article><h3>Transparency and usability release</h3><ul><li>Added latest-record cards, shareable archive filters, source checksums, review dates, and correction links.</li><li>Upgraded contact intake, PDF scan feedback, appeal drafting tools, Support Lab explanations, keyboard navigation, and reduced-motion support.</li><li>Added editorial policy, social-sharing artwork, stable favicon metadata, and deployment documentation for the optional secure upload worker.</li></ul></article>
+            </li>
             <li>
               <div class="changelog-date"><time datetime="2026-10-17">October 17, 2026</time><span>v1.6.0</span></div>
               <article><h3>Archive navigation and submission upgrade</h3><ul><li>Added eleven permanent record-detail pages, archive sorting, structured metadata, a sitemap, and search-engine guidance.</li><li>Added attachment removal, scan progress, clearer submission requirements, and a PDF-only sharing confirmation.</li><li>Added this public changelog and a deployable server-side validation reference.</li></ul></article>

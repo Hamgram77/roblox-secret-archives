@@ -16,6 +16,9 @@ for (const record of records) {
   const page = fs.readFileSync(`records/${record.slug}.html`, "utf8");
   if (!page.includes('<link rel="canonical"')) failures.push(`Missing canonical URL for ${record.slug}.`);
   if (!page.includes('type="application/ld+json"')) failures.push(`Missing JSON-LD for ${record.slug}.`);
+  if (!page.includes('class="record-verification"')) failures.push(`Missing verification metadata for ${record.slug}.`);
+  if (!page.includes(`?intent=correction&amp;record=${record.number}#contact`)) failures.push(`Missing correction route for ${record.slug}.`);
+  if (!page.includes("SHA-256")) failures.push(`Missing checksum label for ${record.slug}.`);
 }
 
 const uniqueNumbers = new Set(records.map((record) => record.number));
@@ -27,6 +30,12 @@ const index = fs.readFileSync("index.html", "utf8");
 for (const id of ["archive-sort", "sort-summary", "home-pdf-permission-wrap", "home-pdf-permission", "home-pdf-remove", "changelog", "contact"]) {
   if (!index.includes(`id="${id}"`)) failures.push(`Missing required element #${id}.`);
 }
+for (const id of ["latest-records-grid", "home-contact-reason", "home-related-record", "home-pdf-drop-zone", "home-pdf-checklist", "template-apply"]) {
+  if (!index.includes(`id="${id}"`)) failures.push(`Missing upgraded element #${id}.`);
+}
+if (!index.includes("assets/social-preview.png")) failures.push("Social preview metadata is missing.");
+if (!index.includes("https://hamgram77.github.io/roblox-secret-archives/favicon-96.png")) failures.push("Absolute favicon URL is missing.");
+if (!fs.existsSync("assets/social-preview.png")) failures.push("Social preview image file is missing.");
 
 if (!index.includes('href="#contact" role="tab" data-site-tab')) failures.push("Contact is not configured as a site subtab.");
 if ((index.match(/https:\/\/www\.youtube\.com\/@Hamgram773/g) || []).length < 3) failures.push("Expected YouTube links on Home, About, and in the shared footer.");
