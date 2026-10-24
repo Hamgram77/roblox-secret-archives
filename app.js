@@ -120,6 +120,8 @@ const siteNav = document.querySelector("#site-nav");
 const sitePanels = [...document.querySelectorAll("[data-site-panel]")];
 const siteTabs = [...document.querySelectorAll("[data-site-tab]")];
 const sitePanelIds = new Set(sitePanels.map((panel) => panel.id));
+const resourceTabs = [...document.querySelectorAll("[data-resource-tab]")];
+const resourcePanels = [...document.querySelectorAll("[data-resource-panel]")];
 const templateTabs = [...document.querySelectorAll("[data-template-tab]")];
 const templatePanels = [...document.querySelectorAll("[data-template-panel]")];
 const contactForm = document.querySelector(".contact-form");
@@ -424,6 +426,11 @@ function selectFilter(filter, focus = false, updateUrl = true) {
 
 function panelFromHash() {
   const requested = window.location.hash.slice(1);
+  if (requested === "appeal-templates" || requested === "support-lab") {
+    const legacyTab = resourceTabs.find((tab) => tab.dataset.resourceTab === requested);
+    if (legacyTab) selectResourceTab(legacyTab);
+    return "support-resources";
+  }
   return sitePanelIds.has(requested) ? requested : "home";
 }
 
@@ -541,6 +548,36 @@ document.addEventListener("keydown", (event) => {
     closeNavigation();
     menuButton.focus();
   }
+});
+
+function selectResourceTab(tab, focus = false) {
+  const resourceId = tab.dataset.resourceTab;
+  resourceTabs.forEach((item) => {
+    const selected = item === tab;
+    item.classList.toggle("is-active", selected);
+    item.setAttribute("aria-selected", String(selected));
+    item.tabIndex = selected ? 0 : -1;
+  });
+  resourcePanels.forEach((panel) => {
+    panel.hidden = panel.dataset.resourcePanel !== resourceId;
+  });
+  if (focus) tab.focus();
+}
+
+resourceTabs.forEach((tab) => {
+  tab.addEventListener("click", () => selectResourceTab(tab));
+});
+
+document.querySelector(".resource-tab-list")?.addEventListener("keydown", (event) => {
+  if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+  event.preventDefault();
+  const currentIndex = resourceTabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true");
+  let nextIndex = currentIndex;
+  if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (currentIndex + 1) % resourceTabs.length;
+  if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (currentIndex - 1 + resourceTabs.length) % resourceTabs.length;
+  if (event.key === "Home") nextIndex = 0;
+  if (event.key === "End") nextIndex = resourceTabs.length - 1;
+  selectResourceTab(resourceTabs[nextIndex], true);
 });
 
 function selectTemplateTab(tab, focus = false) {
