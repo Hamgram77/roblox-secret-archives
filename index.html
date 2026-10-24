@@ -30,7 +30,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="https://hamgram77.github.io/roblox-secret-archives/apple-touch-icon.png?v=20261024" />
     <link rel="manifest" href="https://hamgram77.github.io/roblox-secret-archives/site.webmanifest?v=20261024" />
     <link rel="stylesheet" href="styles.css?v=20261023" />
-    <link rel="stylesheet" href="professional.css?v=20261023-support-resources" />
+    <link rel="stylesheet" href="professional.css?v=20261024-toolkit" />
     <script type="application/ld+json">
       {"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://hamgram77.github.io/roblox-secret-archives/#website","name":"Roblox Developer Archives","alternateName":"Developer Archives","url":"https://hamgram77.github.io/roblox-secret-archives/"},{"@type":"CollectionPage","name":"Roblox Developer Archives","description":"An independent, searchable archive documenting Roblox platform, moderation, publishing, and creator-economy concerns.","url":"https://hamgram77.github.io/roblox-secret-archives/","isPartOf":{"@id":"https://hamgram77.github.io/roblox-secret-archives/#website"},"about":["Roblox development","platform moderation","creator economy","publishing systems"]}]}
     </script>
@@ -40,6 +40,7 @@
     <script src="archive-records.js?v=20261023" defer></script>
     <script src="app.js?v=20261023-support-resources" defer></script>
     <script src="support-simulator.js?v=20261017-tiered-scoring" defer></script>
+    <script src="research-tools.js?v=20261024" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -60,6 +61,7 @@
           <a href="#archive" role="tab" data-site-tab aria-selected="false" aria-controls="archive">Archive</a>
           <a href="#about" role="tab" data-site-tab aria-selected="false" aria-controls="about">About</a>
           <a href="#support-resources" role="tab" data-site-tab aria-selected="false" aria-controls="support-resources">Support resources</a>
+          <a href="#research-tools" role="tab" data-site-tab aria-selected="false" aria-controls="research-tools">Research tools</a>
           <a href="#faq" role="tab" data-site-tab aria-selected="false" aria-controls="faq">FAQ</a>
           <a href="#roadmap" role="tab" data-site-tab aria-selected="false" aria-controls="roadmap">Roadmap</a>
           <a href="#changelog" role="tab" data-site-tab aria-selected="false" aria-controls="changelog">Changelog</a>
@@ -701,6 +703,102 @@ Respectfully,
       </section>
       </section>
 
+      <section class="tools-section site-panel" id="research-tools" data-site-panel aria-labelledby="tools-heading" hidden>
+        <div class="tools-shell">
+          <header class="tools-hero">
+            <div><p class="section-number">06 / Research toolkit</p><h2 id="tools-heading">Investigate clearly.<br /><em>Keep control of your data.</em></h2></div>
+            <p>Twelve independent browser tools for comparing records, organizing evidence, checking drafts, and exporting research. Unless a tool explicitly says it saves locally, its contents disappear when you leave the page.</p>
+          </header>
+
+          <div class="tools-privacy-note" role="note"><span aria-hidden="true">◆</span><p><strong>Local by design.</strong> These tools do not contact Roblox, predict official decisions, or upload your working text. Avoid entering private or identifying information.</p></div>
+
+          <div class="tool-workspace">
+            <nav class="tool-tab-list" role="tablist" aria-label="Research tools">
+              <button class="tool-tab is-active" type="button" role="tab" id="tool-tab-compare" data-tool-tab="compare" aria-controls="tool-panel-compare" aria-selected="true"><span>01</span>Compare records</button>
+              <button class="tool-tab" type="button" role="tab" id="tool-tab-redact" data-tool-tab="redact" aria-controls="tool-panel-redact" aria-selected="false" tabindex="-1"><span>02</span>Privacy check</button>
+              <button class="tool-tab" type="button" role="tab" id="tool-tab-timeline" data-tool-tab="timeline" aria-controls="tool-panel-timeline" aria-selected="false" tabindex="-1"><span>03</span>Incident timeline</button>
+              <button class="tool-tab" type="button" role="tab" id="tool-tab-evidence" data-tool-tab="evidence" aria-controls="tool-panel-evidence" aria-selected="false" tabindex="-1"><span>04</span>Evidence checklist</button>
+              <button class="tool-tab" type="button" role="tab" id="tool-tab-quality" data-tool-tab="quality" aria-controls="tool-panel-quality" aria-selected="false" tabindex="-1"><span>05</span>Draft checker</button>
+              <button class="tool-tab" type="button" role="tab" id="tool-tab-glossary" data-tool-tab="glossary" aria-controls="tool-panel-glossary" aria-selected="false" tabindex="-1"><span>06</span>Glossary</button>
+              <button class="tool-tab" type="button" role="tab" id="tool-tab-archive-timeline" data-tool-tab="archive-timeline" aria-controls="tool-panel-archive-timeline" aria-selected="false" tabindex="-1"><span>07</span>Archive timeline</button>
+              <button class="tool-tab" type="button" role="tab" id="tool-tab-pdf" data-tool-tab="pdf" aria-controls="tool-panel-pdf" aria-selected="false" tabindex="-1"><span>08</span>PDF inspector</button>
+              <button class="tool-tab" type="button" role="tab" id="tool-tab-citation" data-tool-tab="citation" aria-controls="tool-panel-citation" aria-selected="false" tabindex="-1"><span>09</span>Citation builder</button>
+              <button class="tool-tab" type="button" role="tab" id="tool-tab-corrections" data-tool-tab="corrections" aria-controls="tool-panel-corrections" aria-selected="false" tabindex="-1"><span>10</span>Correction tracker</button>
+              <button class="tool-tab" type="button" role="tab" id="tool-tab-packet" data-tool-tab="packet" aria-controls="tool-panel-packet" aria-selected="false" tabindex="-1"><span>11</span>Incident packet</button>
+              <button class="tool-tab" type="button" role="tab" id="tool-tab-stats" data-tool-tab="stats" aria-controls="tool-panel-stats" aria-selected="false" tabindex="-1"><span>12</span>Archive statistics</button>
+            </nav>
+
+            <div class="tool-panel-stack">
+              <article class="tool-panel" id="tool-panel-compare" data-tool-panel="compare" role="tabpanel" aria-labelledby="tool-tab-compare">
+                <header><span>Record comparison</span><h3>Compare two archive records</h3><p>See topics, dates, summaries, and shared tags side by side.</p></header>
+                <div class="tool-form tool-form-two"><label>First record<select id="compare-first"></select></label><label>Second record<select id="compare-second"></select></label></div>
+                <div class="compare-output" id="compare-output" aria-live="polite"></div>
+              </article>
+
+              <article class="tool-panel" id="tool-panel-redact" data-tool-panel="redact" role="tabpanel" aria-labelledby="tool-tab-redact" hidden>
+                <header><span>Privacy redaction assistant</span><h3>Check text before sharing it</h3><p>Looks for common contact details, exact-age statements, addresses, credentials, and identifiers. It is a precaution, not a guarantee.</p></header>
+                <label class="tool-field">Text to inspect<textarea id="redaction-input" rows="9" maxlength="8000" placeholder="Paste a draft here. It stays in this browser tab."></textarea></label>
+                <div class="tool-actions"><button class="tool-primary" id="redaction-scan" type="button">Run privacy check</button><button class="tool-secondary" id="redaction-clear" type="button">Clear</button></div>
+                <div class="tool-result" id="redaction-result" role="status" aria-live="polite">No text checked yet.</div>
+              </article>
+
+              <article class="tool-panel" id="tool-panel-timeline" data-tool-panel="timeline" role="tabpanel" aria-labelledby="tool-tab-timeline" hidden>
+                <header><span>Incident timeline builder</span><h3>Put events in chronological order</h3><p>Timeline entries are saved only in this browser’s local storage until you clear them.</p></header>
+                <form class="tool-form timeline-form" id="timeline-form"><label>Date and time<input id="timeline-date" type="datetime-local" required /></label><label>Event summary<input id="timeline-event" type="text" maxlength="180" required placeholder="What happened?" /></label><label>Source or reference<input id="timeline-source" type="text" maxlength="180" placeholder="Optional public URL or non-sensitive reference" /></label><button class="tool-primary" type="submit">Add event</button></form>
+                <div class="tool-actions"><button class="tool-secondary" id="timeline-copy" type="button">Copy timeline</button><button class="tool-danger" id="timeline-clear" type="button">Clear saved timeline</button></div>
+                <ol class="timeline-output" id="timeline-output" aria-live="polite"></ol>
+              </article>
+
+              <article class="tool-panel" id="tool-panel-evidence" data-tool-panel="evidence" role="tabpanel" aria-labelledby="tool-tab-evidence" hidden>
+                <header><span>Evidence checklist generator</span><h3>Prepare a focused evidence set</h3><p>Select an incident type for a practical checklist. Include only material you have permission to share.</p></header>
+                <label class="tool-field">Incident type<select id="evidence-type"><option value="moderation">Moderation or appeal</option><option value="billing">Billing or transaction</option><option value="technical">Technical or DataStore</option><option value="security">Account security</option><option value="discovery">Discovery or marketplace</option></select></label>
+                <div class="checklist-output" id="evidence-output"></div><div class="tool-actions"><button class="tool-secondary" id="evidence-copy" type="button">Copy checklist</button><button class="tool-secondary" id="evidence-reset" type="button">Reset checks</button></div>
+              </article>
+
+              <article class="tool-panel" id="tool-panel-quality" data-tool-panel="quality" role="tabpanel" aria-labelledby="tool-tab-quality" hidden>
+                <header><span>Appeal draft quality checker</span><h3>Review structure before submitting</h3><p>Checks clarity, length, action requests, chronology, and evidence references. It does not judge whether a claim is true or predict Roblox’s decision.</p></header>
+                <label class="tool-field">Draft<textarea id="quality-input" rows="9" maxlength="6000" placeholder="Use fictional or redacted information while testing."></textarea></label><button class="tool-primary" id="quality-check" type="button">Check draft</button>
+                <div class="quality-output" id="quality-output" aria-live="polite"></div>
+              </article>
+
+              <article class="tool-panel" id="tool-panel-glossary" data-tool-panel="glossary" role="tabpanel" aria-labelledby="tool-tab-glossary" hidden>
+                <header><span>Roblox system glossary</span><h3>Understand common technical terms</h3><p>Plain-language, independent explanations. Product behavior and official terminology may change.</p></header>
+                <label class="tool-field">Search terms<input id="glossary-search" type="search" placeholder="Try DataStore, Universe ID, DevEx…" /></label><div class="glossary-grid" id="glossary-output"></div>
+              </article>
+
+              <article class="tool-panel" id="tool-panel-archive-timeline" data-tool-panel="archive-timeline" role="tabpanel" aria-labelledby="tool-tab-archive-timeline" hidden>
+                <header><span>Archive timeline</span><h3>Records in publication order</h3><p>A generated view of the archive’s current record dates and topics.</p></header><div class="archive-timeline" id="archive-timeline-output"></div>
+              </article>
+
+              <article class="tool-panel" id="tool-panel-pdf" data-tool-panel="pdf" role="tabpanel" aria-labelledby="tool-tab-pdf" hidden>
+                <header><span>PDF metadata inspector</span><h3>Inspect a PDF locally</h3><p>The selected file is read in your browser and is never uploaded by this tool. Metadata can contain author names or software details.</p></header>
+                <label class="pdf-inspector-drop">Choose one PDF<input id="pdf-inspector-input" type="file" accept=".pdf,application/pdf" /></label><div class="tool-result" id="pdf-inspector-output" role="status" aria-live="polite">No PDF selected.</div>
+              </article>
+
+              <article class="tool-panel" id="tool-panel-citation" data-tool-panel="citation" role="tabpanel" aria-labelledby="tool-tab-citation" hidden>
+                <header><span>Citation and source builder</span><h3>Create a record citation</h3><p>Generate a convenient starting point, then confirm the rules required by your school or publisher.</p></header>
+                <div class="tool-form tool-form-two"><label>Archive record<select id="citation-record"></select></label><label>Style<select id="citation-style"><option value="plain">Plain web citation</option><option value="mla">MLA-style</option><option value="apa">APA-style</option></select></label></div><div class="citation-output" id="citation-output"></div><button class="tool-secondary" id="citation-copy" type="button">Copy citation</button>
+              </article>
+
+              <article class="tool-panel" id="tool-panel-corrections" data-tool-panel="corrections" role="tabpanel" aria-labelledby="tool-tab-corrections" hidden>
+                <header><span>Public correction tracker</span><h3>See the archive’s correction status</h3><p>Material corrections will remain visible here rather than silently replacing the historical record.</p></header>
+                <div class="correction-summary"><strong>0</strong><span>Material corrections currently logged</span></div><div class="tool-result"><strong>No material corrections are currently listed.</strong><p>Spelling, layout, and accessibility fixes that do not change a record’s meaning may appear in the Changelog. Use the Contact tab to report a factual concern.</p><a href="#contact">Report a correction →</a></div>
+              </article>
+
+              <article class="tool-panel" id="tool-panel-packet" data-tool-panel="packet" role="tabpanel" aria-labelledby="tool-tab-packet" hidden>
+                <header><span>Incident packet exporter</span><h3>Assemble a clean incident summary</h3><p>Creates a local text file. It does not send or save the packet online.</p></header>
+                <div class="tool-form"><label>Packet title<input id="packet-title" type="text" maxlength="100" placeholder="Example: Marketplace visibility incident" /></label><label>Summary<textarea id="packet-summary" rows="5" maxlength="3000" placeholder="Use redacted, factual language."></textarea></label><label>Archive records to reference<select id="packet-records" multiple size="6"></select></label><label>Requested resolution<input id="packet-resolution" type="text" maxlength="300" placeholder="What specific action would resolve the issue?" /></label></div>
+                <div class="tool-actions"><button class="tool-primary" id="packet-preview" type="button">Preview packet</button><button class="tool-secondary" id="packet-download" type="button">Download .txt</button><button class="tool-secondary" id="packet-copy" type="button">Copy</button></div><pre class="packet-output" id="packet-output">Complete the fields to build a packet.</pre>
+              </article>
+
+              <article class="tool-panel" id="tool-panel-stats" data-tool-panel="stats" role="tabpanel" aria-labelledby="tool-tab-stats" hidden>
+                <header><span>Archive statistics dashboard</span><h3>Explore the collection at a glance</h3><p>Counts are calculated from the live archive index in this site.</p></header><div class="stats-grid" id="stats-summary"></div><div class="stats-chart" id="stats-chart" aria-label="Records by topic"></div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="faq-section site-panel" id="faq" data-site-panel aria-labelledby="faq-heading" hidden>
         <div class="information-shell">
           <header class="information-hero">
@@ -710,6 +808,7 @@ Respectfully,
             </div>
             <p>How the archive works, what it is not, and how to use its records and tools safely.</p>
           </header>
+
           <div class="faq-layout">
             <aside class="faq-guide" aria-label="FAQ overview">
               <span class="information-kicker">Start here</span>
@@ -717,17 +816,48 @@ Respectfully,
               <p>This project preserves creator-authored research and makes it easier to browse, cite, and download.</p>
               <a class="button button-primary" href="#archive">Browse the records <span aria-hidden="true">→</span></a>
             </aside>
+
             <div class="faq-list">
-              <details open><summary>Is this website operated by Roblox?</summary><div><p>No. Roblox Developer Archives is an independent research project and is not affiliated with, endorsed by, or operated by Roblox Corporation. The Contact tab does not reach Roblox Support.</p></div></details>
-              <details><summary>What does the archive contain?</summary><div><p>The archive contains creator-authored reports about publishing, moderation, appeals, technical systems, and the creator economy. Each listed record includes a title, summary, topic labels, a permanent detail page, and PDF links.</p></div></details>
-              <details><summary>Can I download and cite a record?</summary><div><p>Yes. Use the View PDF or Download action on any archive card. A record’s detail page also provides its file size and SHA-256 checksum so you can verify the preserved copy.</p></div></details>
-              <details><summary>How do I find a specific document?</summary><div><p>Open Archive, choose a topic collection, then search by title, record number, description, or keyword. Press Control+K on Windows or Command+K on macOS to jump directly to archive search.</p></div></details>
-              <details><summary>Are the appeal templates official Roblox forms?</summary><div><p>No. They are independent drafting aids. Review every line, replace the bracketed placeholders, remove claims that do not apply, and submit only accurate information through an official Roblox channel.</p></div></details>
-              <details><summary>Does the Support Lab predict what Roblox will do?</summary><div><p>No. It is a local educational simulator based on visible rules written into this website. It cannot access Roblox systems, reproduce private moderation logic, or guarantee a response or outcome.</p></div></details>
-              <details><summary>What happens when I use the contact form?</summary><div><p>The form is intended for questions, corrections, concerns, and archive submissions. Text is screened in your browser for likely personal information before submission. If accepted, the form is routed through FormSubmit to the archive owner; it is not sent to Roblox.</p></div></details>
-              <details><summary>Can I submit a PDF?</summary><div><p>The interface can locally screen one PDF for readable text and metadata before submission. Scanning is a precaution, not a guarantee: image-only pages and unusual encodings may not be readable. Never include private or sensitive information.</p></div></details>
-              <details><summary>How can I report an error or request a correction?</summary><div><p>Open the Contact tab, select “Correction or update,” and identify the related archive record. Explain the issue and, when possible, point to a public source that supports the correction.</p></div></details>
-              <details><summary>Does the website guarantee legal or COPPA compliance?</summary><div><p>No. Privacy filters and age confirmations reduce some risks, but software checks cannot establish legal compliance. Do not submit personal data, and have a parent or legal guardian review a submission when required.</p></div></details>
+              <details open>
+                <summary>Is this website operated by Roblox?</summary>
+                <div><p>No. Roblox Developer Archives is an independent research project and is not affiliated with, endorsed by, or operated by Roblox Corporation. The Contact tab does not reach Roblox Support.</p></div>
+              </details>
+              <details>
+                <summary>What does the archive contain?</summary>
+                <div><p>The archive contains creator-authored reports about publishing, moderation, appeals, technical systems, and the creator economy. Each listed record includes a title, summary, topic labels, a permanent detail page, and PDF links.</p></div>
+              </details>
+              <details>
+                <summary>Can I download and cite a record?</summary>
+                <div><p>Yes. Use the View PDF or Download action on any archive card. A record’s detail page also provides its file size and SHA-256 checksum so you can verify the preserved copy.</p></div>
+              </details>
+              <details>
+                <summary>How do I find a specific document?</summary>
+                <div><p>Open Archive, choose a topic collection, then search by title, record number, description, or keyword. Press Control+K on Windows or Command+K on macOS to jump directly to archive search.</p></div>
+              </details>
+              <details>
+                <summary>Are the appeal templates official Roblox forms?</summary>
+                <div><p>No. They are independent drafting aids. Review every line, replace the bracketed placeholders, remove claims that do not apply, and submit only accurate information through an official Roblox channel.</p></div>
+              </details>
+              <details>
+                <summary>Does the Support Lab predict what Roblox will do?</summary>
+                <div><p>No. It is a local educational simulator based on visible rules written into this website. It cannot access Roblox systems, reproduce private moderation logic, or guarantee a response or outcome.</p></div>
+              </details>
+              <details>
+                <summary>What happens when I use the contact form?</summary>
+                <div><p>The form is intended for questions, corrections, concerns, and archive submissions. Text is screened in your browser for likely personal information before submission. If accepted, the form is routed through FormSubmit to the archive owner; it is not sent to Roblox.</p></div>
+              </details>
+              <details>
+                <summary>Can I submit a PDF?</summary>
+                <div><p>The interface can locally screen one PDF for readable text and metadata before submission. Scanning is a precaution, not a guarantee: image-only pages and unusual encodings may not be readable. Never include private or sensitive information.</p></div>
+              </details>
+              <details>
+                <summary>How can I report an error or request a correction?</summary>
+                <div><p>Open the Contact tab, select “Correction or update,” and identify the related archive record. Explain the issue and, when possible, point to a public source that supports the correction.</p></div>
+              </details>
+              <details>
+                <summary>Does the website guarantee legal or COPPA compliance?</summary>
+                <div><p>No. Privacy filters and age confirmations reduce some risks, but software checks cannot establish legal compliance. Do not submit personal data, and have a parent or legal guardian review a submission when required.</p></div>
+              </details>
             </div>
           </div>
         </div>
@@ -736,27 +866,55 @@ Respectfully,
       <section class="roadmap-section site-panel" id="roadmap" data-site-panel aria-labelledby="roadmap-heading" hidden>
         <div class="information-shell">
           <header class="information-hero roadmap-hero">
-            <div><p class="section-number">08 / Public roadmap</p><h2 id="roadmap-heading">Build in public.<br /><em>Preserve with care.</em></h2></div>
+            <div>
+              <p class="section-number">08 / Public roadmap</p>
+              <h2 id="roadmap-heading">Build in public.<br /><em>Preserve with care.</em></h2>
+            </div>
             <p>A practical view of what is complete, what is being improved, and what may come next. Future items are proposals, not deadlines.</p>
           </header>
+
           <div class="roadmap-summary" aria-label="Roadmap status summary">
-            <div><strong>11</strong><span>Records preserved</span></div><div><strong>03</strong><span>Work stages</span></div><div><strong>Public</strong><span>Progress notes</span></div>
+            <div><strong>11</strong><span>Records preserved</span></div>
+            <div><strong>03</strong><span>Work stages</span></div>
+            <div><strong>Public</strong><span>Progress notes</span></div>
           </div>
+
           <div class="roadmap-board">
             <section class="roadmap-column roadmap-complete" aria-labelledby="roadmap-complete-heading">
               <header><span>Stage 01</span><b>Complete</b><h3 id="roadmap-complete-heading">Foundation</h3></header>
-              <ol><li><strong>Searchable PDF archive</strong><p>Topic filters, keyword search, sorting, and permanent record pages.</p></li><li><strong>Transparent record details</strong><p>Review dates, source references, file sizes, and SHA-256 checksums.</p></li><li><strong>Independent support tools</strong><p>Appeal drafting templates and a clearly labeled educational Support Lab.</p></li><li><strong>Responsive navigation</strong><p>True site tabs, mobile menu behavior, and keyboard navigation.</p></li></ol>
+              <ol>
+                <li><strong>Searchable PDF archive</strong><p>Topic filters, keyword search, sorting, and permanent record pages.</p></li>
+                <li><strong>Transparent record details</strong><p>Review dates, source references, file sizes, and SHA-256 checksums.</p></li>
+                <li><strong>Independent support tools</strong><p>Appeal drafting templates and a clearly labeled educational Support Lab.</p></li>
+                <li><strong>Responsive navigation</strong><p>True site tabs, mobile menu behavior, and keyboard navigation.</p></li>
+              </ol>
             </section>
+
             <section class="roadmap-column roadmap-active" aria-labelledby="roadmap-active-heading">
               <header><span>Stage 02</span><b>In progress</b><h3 id="roadmap-active-heading">Clarity &amp; trust</h3></header>
-              <ol><li><strong>Record quality review</strong><p>Improve descriptions, source notes, status labels, and correction handling.</p></li><li><strong>Submission safeguards</strong><p>Continue testing privacy warnings and PDF screening while documenting their limits.</p></li><li><strong>Discoverability</strong><p>Maintain structured metadata, sitemap coverage, favicon signals, and accessible page titles.</p></li><li><strong>Usability testing</strong><p>Check common desktop and mobile layouts and simplify dense sections.</p></li></ol>
+              <ol>
+                <li><strong>Record quality review</strong><p>Improve descriptions, source notes, status labels, and correction handling.</p></li>
+                <li><strong>Submission safeguards</strong><p>Continue testing privacy warnings and PDF screening while documenting their limits.</p></li>
+                <li><strong>Discoverability</strong><p>Maintain structured metadata, sitemap coverage, favicon signals, and accessible page titles.</p></li>
+                <li><strong>Usability testing</strong><p>Check common desktop and mobile layouts and simplify dense sections.</p></li>
+              </ol>
             </section>
+
             <section class="roadmap-column roadmap-future" aria-labelledby="roadmap-future-heading">
               <header><span>Stage 03</span><b>Exploring</b><h3 id="roadmap-future-heading">Next possibilities</h3></header>
-              <ol><li><strong>More archive collections</strong><p>Add well-sourced records without weakening the archive’s editorial standards.</p></li><li><strong>Accessible PDF previews</strong><p>Evaluate convenient in-site viewing while retaining direct download links.</p></li><li><strong>Archive integrity manifest</strong><p>Publish a machine-readable list of record filenames, versions, and checksums.</p></li><li><strong>Safer submission infrastructure</strong><p>Consider a privacy-reviewed server workflow before expanding file intake.</p></li></ol>
+              <ol>
+                <li><strong>More archive collections</strong><p>Add well-sourced records without weakening the archive’s editorial standards.</p></li>
+                <li><strong>Accessible PDF previews</strong><p>Evaluate convenient in-site viewing while retaining direct download links.</p></li>
+                <li><strong>Archive integrity manifest</strong><p>Publish a machine-readable list of record filenames, versions, and checksums.</p></li>
+                <li><strong>Safer submission infrastructure</strong><p>Consider a privacy-reviewed server workflow before expanding file intake.</p></li>
+              </ol>
             </section>
           </div>
-          <div class="roadmap-note" role="note"><span aria-hidden="true">i</span><p><strong>Roadmap note:</strong> priorities may change as records, safety needs, and platform conditions evolve. Confirmed releases are documented in the <a href="#changelog">Changelog</a>.</p></div>
+
+          <div class="roadmap-note" role="note">
+            <span aria-hidden="true">i</span>
+            <p><strong>Roadmap note:</strong> priorities may change as records, safety needs, and platform conditions evolve. Confirmed releases are documented in the <a href="#changelog">Changelog</a>.</p>
+          </div>
         </div>
       </section>
 
@@ -771,6 +929,10 @@ Respectfully,
           </div>
 
           <ol class="changelog-list">
+            <li>
+              <div class="changelog-date"><time datetime="2026-10-24">October 24, 2026</time><span>v2.0.0</span></div>
+              <article><h3>Independent research toolkit</h3><ul><li>Added 12 browser-based tools for record comparison, privacy review, incident timelines, evidence planning, draft structure, terminology, citations, PDF metadata, correction visibility, packet export, and collection statistics.</li><li>Placed every tool in a real, keyboard-accessible subtab and kept working data local to the visitor’s browser.</li></ul></article>
+            </li>
             <li>
               <div class="changelog-date"><time datetime="2026-10-23">October 23, 2026</time><span>v1.9.0</span></div>
               <article><h3>Navigation consolidation</h3><ul><li>Moved methodology and editorial standards into the About tab.</li><li>Combined Appeal Templates and Support Lab into a single Support Resources tab with two accessible internal tabs.</li></ul></article>
@@ -903,6 +1065,7 @@ Respectfully,
         <a href="https://www.youtube.com/@Hamgram773" target="_blank" rel="me noopener">YouTube · @Hamgram773 ↗</a>
         <a href="#faq">FAQ</a>
         <a href="#roadmap">Roadmap</a>
+        <a href="#research-tools">Research tools</a>
         <a href="archive/terms-of-service-and-privacy-policy.pdf?v=20261017" target="_blank" rel="noopener">Terms of Service &amp; Privacy Policy</a>
         <a href="#home">Back to home ↑</a>
       </nav>
