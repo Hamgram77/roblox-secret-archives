@@ -18,6 +18,9 @@
 .record-content { display: grid; gap: 3rem; }
 .record-section h2 { margin: 0 0 1rem; color: #f8fafc; font-family: var(--display); font-size: clamp(1.8rem, 3.3vw, 3.3rem); letter-spacing: -.035em; }
 .record-section p { margin: 0; color: #a1afc1; font-size: .84rem; line-height: 1.85; }
+.record-notice { border-color: rgba(225, 63, 57, .55); background: rgba(225, 63, 57, .08); }
+.record-notice h2 { color: #ff6f69; }
+.record-notice p { color: #e7ebf1; }
 .record-topic-list { display: flex; flex-wrap: wrap; gap: .6rem; margin: 0; padding: 0; list-style: none; }
 .record-topic-list li { padding: .62rem .75rem; color: #fecaca; border: 1px solid rgba(248,113,113,.3); background: rgba(127,29,29,.12); font: 700 .57rem var(--mono); letter-spacing: .06em; text-transform: uppercase; }
 .record-revision { display: grid; grid-template-columns: 140px 1fr; gap: 1.25rem; padding: 1rem 0; border-top: 1px solid rgba(255,255,255,.1); }

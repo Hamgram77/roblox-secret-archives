@@ -128,4 +128,18 @@ window.archiveRecords = [
     pdf: "archive/documents/11-datastore-corruption-infrastructure-compliance.pdf",
     status: "Expanded archive edition",
   },
+  {
+    number: "12",
+    slug: "12-roblox-2026-q3-10q-legal-risk-excerpt",
+    title: "Roblox Corporation 10-Q: Legal Issues & Risk Factors Excerpt",
+    date: "November 10, 2026",
+    isoDate: "2026-11-10",
+    description: "Preserves an excerpt from Roblox Corporation's Form 10-Q for the quarterly period ended September 30, 2026, focused on legal proceedings, regulatory scrutiny, platform safety, privacy, consumer-protection, and related risk factors.",
+    tags: ["moderation", "legal", "risk factors", "sec filing"],
+    pdf: "archive/documents/12-roblox-2026-q3-10q-legal-risk-excerpt.pdf",
+    source: "https://www.sec.gov/Archives/edgar/data/1315098/000162828026068253/rblx-20260930.htm",
+    sourceLabel: "Official SEC EDGAR filing",
+    status: "Unofficial public-filing excerpt",
+    notice: "This is an unofficial excerpt preserved from a public SEC filing. It is not the complete Form 10-Q and is not endorsed by the U.S. Securities and Exchange Commission or Roblox Corporation.",
+  },
 ];

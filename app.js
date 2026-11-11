@@ -354,7 +354,7 @@ function recordTemplate(record) {
         <a class="action-primary" href="records/${record.slug}.html">Record page <span aria-hidden="true">→</span></a>
         <a href="${record.pdf}" target="_blank" rel="noopener">View PDF <span aria-hidden="true">↗</span></a>
         <a href="${record.pdf}" download>Download <span aria-hidden="true">↓</span></a>
-        ${record.source ? `<a href="${record.source}" target="_blank" rel="noopener noreferrer">Google source <span aria-hidden="true">↗</span></a>` : ""}
+        ${record.source ? `<a href="${record.source}" target="_blank" rel="noopener noreferrer">${escapeHtml(record.sourceLabel || "Original source")} <span aria-hidden="true">↗</span></a>` : ""}
       </div>
     </article>`;
 }
