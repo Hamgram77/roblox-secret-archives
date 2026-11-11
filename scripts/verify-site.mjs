@@ -9,6 +9,9 @@ const records = context.window.archiveRecords;
 if (records.length !== 12) failures.push(`Expected 12 records, found ${records.length}.`);
 
 for (const record of records) {
+  for (const field of ["documentType", "sourceType", "completeness"]) {
+    if (!record[field]) failures.push(`Missing ${field} metadata for ${record.slug}.`);
+  }
   for (const file of [record.pdf, `records/${record.slug}.html`]) {
     if (!fs.existsSync(file)) failures.push(`Missing ${file}.`);
   }
@@ -17,6 +20,9 @@ for (const record of records) {
   if (!page.includes('<link rel="canonical"')) failures.push(`Missing canonical URL for ${record.slug}.`);
   if (!page.includes('type="application/ld+json"')) failures.push(`Missing JSON-LD for ${record.slug}.`);
   if (!page.includes('class="record-verification"')) failures.push(`Missing verification metadata for ${record.slug}.`);
+  if (!page.includes('class="record-section record-source-verification"')) failures.push(`Missing source-verification panel for ${record.slug}.`);
+  if (!page.includes('class="record-page-badges"')) failures.push(`Missing record classification badges for ${record.slug}.`);
+  if (!page.includes("Related through")) failures.push(`Missing related-record explanation for ${record.slug}.`);
   if (!page.includes(`?intent=correction&amp;record=${record.number}#contact`)) failures.push(`Missing correction route for ${record.slug}.`);
   if (!page.includes("SHA-256")) failures.push(`Missing checksum label for ${record.slug}.`);
 }
@@ -27,7 +33,7 @@ if (uniqueNumbers.size !== records.length) failures.push("Record numbers are not
 if (uniqueSlugs.size !== records.length) failures.push("Record slugs are not unique.");
 
 const index = fs.readFileSync("index.html", "utf8");
-for (const id of ["archive-sort", "sort-summary", "home-pdf-permission-wrap", "home-pdf-permission", "home-pdf-remove", "changelog", "contact"]) {
+for (const id of ["archive-sort", "sort-summary", "archive-type-filter", "archive-source-filter", "archive-status-filter", "archive-date-filter", "archive-filter-reset", "featured", "featured-records-grid", "disclaimer", "home-pdf-permission-wrap", "home-pdf-permission", "home-pdf-remove", "changelog", "contact"]) {
   if (!index.includes(`id="${id}"`)) failures.push(`Missing required element #${id}.`);
 }
 for (const id of ["latest-records-grid", "home-contact-reason", "home-related-record", "home-pdf-drop-zone", "home-pdf-checklist", "template-apply"]) {
@@ -43,9 +49,18 @@ if (!index.includes("https://hamgram77.github.io/roblox-secret-archives/favicon-
 if (!fs.existsSync("assets/social-preview.png")) failures.push("Social preview image file is missing.");
 
 if (!index.includes('href="#contact" role="tab" data-site-tab')) failures.push("Contact is not configured as a site subtab.");
+if (!index.includes('href="#featured" role="tab" data-site-tab')) failures.push("Featured records is not configured as a site subtab.");
+if (!index.includes('href="#disclaimer" role="tab" data-site-tab')) failures.push("Disclaimer is not configured as a site subtab.");
 if ((index.match(/https:\/\/www\.youtube\.com\/@Hamgram773/g) || []).length < 3) failures.push("Expected YouTube links on Home, About, and in the shared footer.");
 if (!index.includes('class="home-youtube-card"')) failures.push("Home YouTube channel card is missing.");
 if (!fs.existsSync("assets/hamgram773-youtube-avatar.jpg")) failures.push("YouTube channel avatar asset is missing.");
+
+const record12 = records.find((record) => record.number === "12");
+if (!record12?.filing || record12.filing.accession !== "0001628280-26-068253") failures.push("Record 12 filing metadata is incomplete.");
+const record12Page = fs.readFileSync("records/12-roblox-2026-q3-10q-legal-risk-excerpt.html", "utf8");
+for (const detail of ["October 29, 2026", "Quarter ended September 30, 2026", "0001628280-26-068253", "Read the complete filing on SEC.gov"]) {
+  if (!record12Page.includes(detail)) failures.push(`Record 12 page is missing: ${detail}.`);
+}
 
 const ids = [...index.matchAll(/id="([^"]+)"/g)].map((match) => match[1]);
 const duplicateIds = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];

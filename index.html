@@ -30,15 +30,15 @@
     <link rel="apple-touch-icon" sizes="180x180" href="https://hamgram77.github.io/roblox-secret-archives/apple-touch-icon.png?v=20261024" />
     <link rel="manifest" href="https://hamgram77.github.io/roblox-secret-archives/site.webmanifest?v=20261024" />
     <link rel="stylesheet" href="styles.css?v=20261023" />
-    <link rel="stylesheet" href="professional.css?v=20261024-toolkit" />
+    <link rel="stylesheet" href="professional.css?v=20261110-source" />
     <script type="application/ld+json">
       {"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://hamgram77.github.io/roblox-secret-archives/#website","name":"Roblox Developer Archives","alternateName":"Developer Archives","url":"https://hamgram77.github.io/roblox-secret-archives/"},{"@type":"CollectionPage","name":"Roblox Developer Archives","description":"An independent, searchable archive documenting Roblox platform, moderation, publishing, and creator-economy concerns.","url":"https://hamgram77.github.io/roblox-secret-archives/","isPartOf":{"@id":"https://hamgram77.github.io/roblox-secret-archives/#website"},"about":["Roblox development","platform moderation","creator economy","publishing systems"]}]}
     </script>
     <script type="application/ld+json">
       {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this website operated by Roblox?","acceptedAnswer":{"@type":"Answer","text":"No. Roblox Developer Archives is an independent research project and is not affiliated with, endorsed by, or operated by Roblox Corporation."}},{"@type":"Question","name":"What does the archive contain?","acceptedAnswer":{"@type":"Answer","text":"The archive contains creator-authored reports about publishing, moderation, appeals, technical systems, and the creator economy."}},{"@type":"Question","name":"Are the appeal templates official Roblox forms?","acceptedAnswer":{"@type":"Answer","text":"No. They are independent drafting aids and must be reviewed for accuracy before use through an official Roblox channel."}},{"@type":"Question","name":"Does the Support Lab predict what Roblox will do?","acceptedAnswer":{"@type":"Answer","text":"No. It is a local educational simulator and cannot access Roblox systems, reproduce private moderation logic, or guarantee an outcome."}}]}
     </script>
-    <script src="archive-records.js?v=20261023" defer></script>
-    <script src="app.js?v=20261023-support-resources" defer></script>
+    <script src="archive-records.js?v=20261110-source" defer></script>
+    <script src="app.js?v=20261110-source" defer></script>
     <script src="support-simulator.js?v=20261017-tiered-scoring" defer></script>
     <script src="research-tools.js?v=20261024" defer></script>
   </head>
@@ -58,10 +58,12 @@
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
         <div class="site-tab-list" role="tablist" aria-label="Site sections">
           <a href="#home" role="tab" data-site-tab aria-selected="false" aria-controls="home">Home</a>
+          <a href="#featured" role="tab" data-site-tab aria-selected="false" aria-controls="featured">Featured records</a>
           <a href="#archive" role="tab" data-site-tab aria-selected="false" aria-controls="archive">Archive</a>
           <a href="#about" role="tab" data-site-tab aria-selected="false" aria-controls="about">About</a>
           <a href="#support-resources" role="tab" data-site-tab aria-selected="false" aria-controls="support-resources">Support resources</a>
           <a href="#research-tools" role="tab" data-site-tab aria-selected="false" aria-controls="research-tools">Research tools</a>
+          <a href="#disclaimer" role="tab" data-site-tab aria-selected="false" aria-controls="disclaimer">Disclaimer</a>
           <a href="#faq" role="tab" data-site-tab aria-selected="false" aria-controls="faq">FAQ</a>
           <a href="#roadmap" role="tab" data-site-tab aria-selected="false" aria-controls="roadmap">Roadmap</a>
           <a href="#changelog" role="tab" data-site-tab aria-selected="false" aria-controls="changelog">Changelog</a>
@@ -145,6 +147,23 @@
         <div class="latest-records-grid" id="latest-records-grid"></div>
       </section>
       </div>
+
+      <section class="featured-section site-panel" id="featured" data-site-panel aria-labelledby="featured-heading" hidden>
+        <div class="featured-shell">
+          <header class="featured-hero">
+            <div>
+              <p class="section-number">Featured collection</p>
+              <h2 id="featured-heading">Start with the archive’s<br /><em>most recent records.</em></h2>
+            </div>
+            <p>Four records selected for their current relevance across financial compliance, marketplace appeals, platform infrastructure, and public-company risk disclosures.</p>
+          </header>
+          <div class="featured-records-grid" id="featured-records-grid" aria-live="polite"></div>
+          <div class="featured-footer">
+            <p>Featured placement is editorial organization, not an endorsement of a record’s claims. Read the preserved PDF and linked primary sources before drawing conclusions.</p>
+            <a class="button button-primary" href="#archive">Browse all records <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </section>
 
       <section class="contact-page site-panel" id="contact" data-site-panel aria-labelledby="home-contact-heading" hidden>
         <div class="contact-layout">
@@ -298,6 +317,14 @@
           </label>
         </div>
 
+        <div class="archive-advanced-filters" aria-label="Advanced archive filters">
+          <label for="archive-type-filter"><span>Document type</span><select id="archive-type-filter"><option value="all">All document types</option><option value="Independent analysis">Independent analysis</option><option value="Technical report">Technical report</option><option value="Technical resource">Technical resource</option><option value="Public filing excerpt">Public filing excerpt</option></select></label>
+          <label for="archive-source-filter"><span>Source type</span><select id="archive-source-filter"><option value="all">All source types</option><option value="Creator-authored source">Creator-authored source</option><option value="Archive-authored record">Archive-authored record</option><option value="Primary public filing">Primary public filing</option></select></label>
+          <label for="archive-status-filter"><span>Record status</span><select id="archive-status-filter"><option value="all">All statuses</option><option value="Preserved source PDF">Preserved source PDF</option><option value="Expanded archive edition">Expanded archive edition</option><option value="Unofficial public-filing excerpt">Unofficial public-filing excerpt</option></select></label>
+          <label for="archive-date-filter"><span>Date added</span><select id="archive-date-filter"><option value="all">All dates</option><option value="2026-11-10">November 10, 2026</option><option value="2026-10-17">October 17, 2026</option><option value="2026-10-14">October 14, 2026</option></select></label>
+          <button class="archive-filter-reset" id="archive-filter-reset" type="button">Reset filters</button>
+        </div>
+
         <div class="archive-browser">
           <aside class="archive-tab-panel" aria-label="Archive collections">
             <div class="archive-tab-heading">
@@ -327,6 +354,24 @@
               <button class="button button-primary" id="clear-search" type="button">Clear search</button>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section class="disclaimer-section site-panel" id="disclaimer" data-site-panel aria-labelledby="disclaimer-heading" hidden>
+        <div class="disclaimer-shell">
+          <header class="disclaimer-hero">
+            <div><p class="section-number">Independent archive notice</p><h2 id="disclaimer-heading">Read critically.<br /><em>Verify primary sources.</em></h2></div>
+            <p>This permanent notice explains what Roblox Developer Archives is, what it is not, and how its records should be used.</p>
+          </header>
+          <div class="disclaimer-grid">
+            <article><span>01</span><h3>Independent and unaffiliated</h3><p>Roblox Developer Archives is an independent research project. It is not operated by, affiliated with, or endorsed by Roblox Corporation or the U.S. Securities and Exchange Commission.</p></article>
+            <article><span>02</span><h3>Not Roblox Support</h3><p>This website cannot access Roblox accounts, moderation systems, financial records, appeals, or support tickets. Contact submissions reach the archive owner—not Roblox Support.</p></article>
+            <article><span>03</span><h3>No legal or financial advice</h3><p>Records, templates, summaries, and tools are provided for research and educational use. They are not legal, financial, compliance, or professional advice.</p></article>
+            <article><span>04</span><h3>Claims require verification</h3><p>Some records contain creator-authored analysis, allegations, opinions, or recommendations. Inclusion does not prove a claim. Review the preserved document and its cited primary sources.</p></article>
+            <article><span>05</span><h3>Excerpts are labeled</h3><p>When the archive preserves only part of a larger source, the record is labeled as an excerpt and links to the complete public source whenever one is available.</p></article>
+            <article><span>06</span><h3>Trademarks and ownership</h3><p>Roblox and related marks belong to Roblox Corporation. Third-party documents remain attributable to their original authors or publishers.</p></article>
+          </div>
+          <aside class="disclaimer-callout" role="note"><strong>Before citing a record</strong><p>Confirm the document status, source type, completeness label, review date, and SHA-256 checksum shown on its permanent record page.</p><a href="#archive">Open the archive →</a></aside>
         </div>
       </section>
 
@@ -929,6 +974,10 @@ Respectfully,
           </div>
 
           <ol class="changelog-list">
+            <li class="changelog-item">
+              <div class="changelog-date"><time datetime="2026-11-10">November 10, 2026</time><span>v2.2.0</span></div>
+              <article><h3>Archive discovery and source transparency</h3><ul><li>Added a dedicated Featured Records subtab for Records 9–12.</li><li>Added document and source badges, combined advanced archive filters, explained related-record connections, a permanent disclaimer page, and expanded source-verification panels.</li><li>Expanded Record 12 with its Form 10-Q filing date, reporting period, SEC accession number, registrant, CIK, excerpt status, and direct complete-filing link.</li></ul></article>
+            </li>
             <li>
               <div class="changelog-date"><time datetime="2026-11-10">November 10, 2026</time><span>v2.1.0</span></div>
               <article><h3>Record 12: Roblox Corporation 10-Q excerpt</h3><ul><li>Added an unofficial excerpt from Roblox Corporation's Form 10-Q for the quarterly period ended September 30, 2026, focused on legal issues and risk factors.</li><li>Preserved the excerpt with an archive cover, an explicit SEC and Roblox non-endorsement notice, a file-integrity checksum, and a direct link to the official SEC EDGAR filing.</li></ul></article>
@@ -1070,6 +1119,7 @@ Respectfully,
         <a href="#faq">FAQ</a>
         <a href="#roadmap">Roadmap</a>
         <a href="#research-tools">Research tools</a>
+        <a href="#disclaimer">Disclaimer</a>
         <a href="archive/terms-of-service-and-privacy-policy.pdf?v=20261017" target="_blank" rel="noopener">Terms of Service &amp; Privacy Policy</a>
         <a href="#home">Back to home ↑</a>
       </nav>

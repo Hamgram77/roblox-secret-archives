@@ -105,6 +105,9 @@ const escapeHtml = (value) => String(value).replaceAll("&", "&amp;").replaceAll(
 records.forEach((record) => {
   record.slug ||= record.pdf.split("/").pop().replace(/\.pdf$/i, "");
   record.isoDate ||= "2026-10-14";
+  record.documentType ||= "Independent analysis";
+  record.sourceType ||= record.source ? "Creator-authored source" : "Archive-authored record";
+  record.completeness ||= "Complete archived document";
 });
 const archiveList = document.querySelector("#archive-list");
 const searchInput = document.querySelector("#archive-search");
@@ -113,6 +116,11 @@ const emptyState = document.querySelector("#empty-state");
 const clearSearch = document.querySelector("#clear-search");
 const sortSelect = document.querySelector("#archive-sort");
 const sortSummary = document.querySelector("#sort-summary");
+const typeFilter = document.querySelector("#archive-type-filter");
+const sourceFilter = document.querySelector("#archive-source-filter");
+const statusFilter = document.querySelector("#archive-status-filter");
+const dateFilter = document.querySelector("#archive-date-filter");
+const filterReset = document.querySelector("#archive-filter-reset");
 const filters = [...document.querySelectorAll(".filter")];
 const menuButton = document.querySelector(".menu-button");
 const menuLabel = menuButton.querySelector(".sr-only");
@@ -139,6 +147,10 @@ const relatedRecord = document.querySelector("#home-related-record");
 const queryParameters = new URLSearchParams(window.location.search);
 let activeFilter = queryParameters.get("topic") || "publishing";
 let activeSort = queryParameters.get("sort") || "number-asc";
+let activeType = queryParameters.get("type") || "all";
+let activeSource = queryParameters.get("source") || "all";
+let activeStatus = queryParameters.get("status") || "all";
+let activeDate = queryParameters.get("added") || "all";
 let pdfJsModulePromise;
 let contactPdfScanInProgress = false;
 
@@ -161,6 +173,17 @@ const sortLabels = {
 if (!sortLabels[activeSort]) activeSort = "number-asc";
 if (!filterLabels[activeFilter]) activeFilter = "publishing";
 sortSelect.value = activeSort;
+
+function setInitialSelectValue(select, requestedValue) {
+  const value = [...select.options].some((option) => option.value === requestedValue) ? requestedValue : "all";
+  select.value = value;
+  return value;
+}
+
+activeType = setInitialSelectValue(typeFilter, activeType);
+activeSource = setInitialSelectValue(sourceFilter, activeSource);
+activeStatus = setInitialSelectValue(statusFilter, activeStatus);
+activeDate = setInitialSelectValue(dateFilter, activeDate);
 
 const contactPrivacyPatterns = [
   /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}\b/i,
@@ -343,6 +366,7 @@ function recordTemplate(record) {
     <article class="archive-card">
       <span class="record-number">DOC—${record.number}</span>
       <div class="record-title">
+        <div class="record-badges"><span>${escapeHtml(record.documentType)}</span><span>${escapeHtml(record.sourceType)}</span></div>
         <h3>${record.title}</h3>
         <time datetime="${record.isoDate || "2026-10-14"}">Added ${record.date}</time>
       </div>
@@ -357,6 +381,22 @@ function recordTemplate(record) {
         ${record.source ? `<a href="${record.source}" target="_blank" rel="noopener noreferrer">${escapeHtml(record.sourceLabel || "Original source")} <span aria-hidden="true">↗</span></a>` : ""}
       </div>
     </article>`;
+}
+
+function renderFeaturedRecords() {
+  const container = document.querySelector("#featured-records-grid");
+  if (!container) return;
+  const featuredNumbers = new Set(["09", "10", "11", "12"]);
+  container.innerHTML = records
+    .filter((record) => featuredNumbers.has(record.number))
+    .sort((a, b) => Number(b.number) - Number(a.number))
+    .map((record, index) => `<article class="featured-record-card ${index === 0 ? "is-lead" : ""}">
+      <div class="featured-card-top"><span>Record ${escapeHtml(record.number)}</span><time datetime="${escapeHtml(record.isoDate)}">${escapeHtml(record.date)}</time></div>
+      <div class="record-badges"><span>${escapeHtml(record.documentType)}</span><span>${escapeHtml(record.sourceType)}</span></div>
+      <h3>${escapeHtml(record.title)}</h3>
+      <p>${escapeHtml(record.description)}</p>
+      <div class="featured-card-actions"><a href="records/${encodeURIComponent(record.slug)}.html">Open record <span aria-hidden="true">→</span></a><a href="${encodeURI(record.pdf)}" target="_blank" rel="noopener">View PDF <span aria-hidden="true">↗</span></a></div>
+    </article>`).join("");
 }
 
 function renderLatestRecords() {
@@ -384,10 +424,14 @@ function updateFilterCounts() {
 function renderRecords() {
   const query = searchInput.value.trim().toLowerCase();
   const filtered = records.filter((record) => {
-    const searchable = [record.title, record.description, ...record.tags].join(" ").toLowerCase();
+    const searchable = [record.title, record.description, record.documentType, record.sourceType, record.status, ...record.tags].join(" ").toLowerCase();
     const matchesQuery = !query || searchable.includes(query);
     const matchesFilter = activeFilter === "all" || record.tags.includes(activeFilter);
-    return matchesQuery && matchesFilter;
+    const matchesType = activeType === "all" || record.documentType === activeType;
+    const matchesSource = activeSource === "all" || record.sourceType === activeSource;
+    const matchesStatus = activeStatus === "all" || record.status === activeStatus;
+    const matchesDate = activeDate === "all" || record.isoDate === activeDate;
+    return matchesQuery && matchesFilter && matchesType && matchesSource && matchesStatus && matchesDate;
   }).sort((a, b) => {
     if (activeSort === "number-desc") return Number(b.number) - Number(a.number);
     if (activeSort === "newest") return b.isoDate.localeCompare(a.isoDate) || Number(b.number) - Number(a.number);
@@ -461,6 +505,33 @@ sortSelect.addEventListener("change", () => {
   else url.searchParams.set("sort", activeSort);
   window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
   renderRecords();
+});
+
+function updateAdvancedFilter(select, parameter, setter) {
+  setter(select.value);
+  const url = new URL(window.location.href);
+  if (select.value === "all") url.searchParams.delete(parameter);
+  else url.searchParams.set(parameter, select.value);
+  window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  renderRecords();
+}
+
+typeFilter.addEventListener("change", () => updateAdvancedFilter(typeFilter, "type", (value) => { activeType = value; }));
+sourceFilter.addEventListener("change", () => updateAdvancedFilter(sourceFilter, "source", (value) => { activeSource = value; }));
+statusFilter.addEventListener("change", () => updateAdvancedFilter(statusFilter, "status", (value) => { activeStatus = value; }));
+dateFilter.addEventListener("change", () => updateAdvancedFilter(dateFilter, "added", (value) => { activeDate = value; }));
+
+filterReset.addEventListener("click", () => {
+  searchInput.value = "";
+  [typeFilter, sourceFilter, statusFilter, dateFilter].forEach((select) => { select.value = "all"; });
+  activeType = activeSource = activeStatus = activeDate = "all";
+  activeSort = "number-asc";
+  sortSelect.value = activeSort;
+  const url = new URL(window.location.href);
+  ["topic", "type", "source", "status", "added", "sort"].forEach((parameter) => url.searchParams.delete(parameter));
+  window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  selectFilter(filters.find((item) => item.dataset.filter === "all"), false, false);
+  searchInput.focus();
 });
 filters.forEach((filter) => {
   filter.addEventListener("click", () => {
@@ -779,6 +850,7 @@ if (contactForm && contactPrivacyBlock) {
 
 updateFilterCounts();
 renderLatestRecords();
+renderFeaturedRecords();
 if (relatedRecord) records.forEach((record) => relatedRecord.add(new Option(`Record ${record.number} — ${record.title}`, record.number)));
 const initialFilter = filters.find((item) => item.dataset.filter === activeFilter) || filters[0];
 selectFilter(initialFilter, false, false);
