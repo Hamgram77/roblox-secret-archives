@@ -6,7 +6,7 @@ const context = { window: {} };
 vm.runInNewContext(fs.readFileSync("archive-records.js", "utf8"), context);
 const records = context.window.archiveRecords;
 
-if (records.length !== 11) failures.push(`Expected 11 records, found ${records.length}.`);
+if (records.length !== 12) failures.push(`Expected 12 records, found ${records.length}.`);
 
 for (const record of records) {
   for (const file of [record.pdf, `records/${record.slug}.html`]) {
@@ -33,6 +33,11 @@ for (const id of ["archive-sort", "sort-summary", "home-pdf-permission-wrap", "h
 for (const id of ["latest-records-grid", "home-contact-reason", "home-related-record", "home-pdf-drop-zone", "home-pdf-checklist", "template-apply"]) {
   if (!index.includes(`id="${id}"`)) failures.push(`Missing upgraded element #${id}.`);
 }
+for (const id of ["research-tools", "tool-panel-compare", "tool-panel-redact", "tool-panel-timeline", "tool-panel-evidence", "tool-panel-quality", "tool-panel-glossary", "tool-panel-archive-timeline", "tool-panel-pdf", "tool-panel-citation", "tool-panel-corrections", "tool-panel-packet", "tool-panel-stats"]) {
+  if (!index.includes(`id="${id}"`)) failures.push(`Missing research tool #${id}.`);
+}
+if (!index.includes('src="research-tools.js')) failures.push("Research toolkit script is missing.");
+if (!fs.existsSync("research-tools.js")) failures.push("research-tools.js is missing.");
 if (!index.includes("assets/social-preview.png")) failures.push("Social preview metadata is missing.");
 if (!index.includes("https://hamgram77.github.io/roblox-secret-archives/favicon-96.png")) failures.push("Absolute favicon URL is missing.");
 if (!fs.existsSync("assets/social-preview.png")) failures.push("Social preview image file is missing.");
